@@ -35,7 +35,8 @@ public class Blog implements Serializable {
         String date = data[0] + " lúc " + data[1];
         return date;
     }
-    public void removeLikedUser(User user){
+    public void removeLikedUser(User user)
+    {
         this.likedUsers.remove(user);
         user.getLikedBlog().remove(this);
     }
