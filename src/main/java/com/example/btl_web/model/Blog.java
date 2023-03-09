@@ -19,7 +19,7 @@ public class Blog implements Serializable {
     Set<Comment> comments = new HashSet<>();
 
 
-    
+
     public Blog(){
 
     }
