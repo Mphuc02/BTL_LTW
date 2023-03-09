@@ -17,6 +17,9 @@ public class Blog implements Serializable {
     Set<Category> categories = new HashSet<>();
     Set<User> likedUsers = new HashSet<>();
     Set<Comment> comments = new HashSet<>();
+
+
+    
     public Blog(){
 
     }
