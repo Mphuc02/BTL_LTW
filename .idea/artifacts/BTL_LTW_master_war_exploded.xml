@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="BTL_LTW-master:war exploded">
+    <output-path>$PROJECT_DIR$/../artifacts/BTL_LTW_master_war_exploded</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="BTL_LTW-master" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="BTL_LTW-master/web/Web" />
+    </root>
+  </artifact>
+</component>
