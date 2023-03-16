@@ -1,3 +1,6 @@
-# BTL_LTW
-1. Phiên bản Tomcat sử dụng 10.1.5
-- Link download https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.5/bin/apache-tomcat-10.1.5.zip
+giới thiệu về trang web đọc chuyện.
+Thiết kế trang web với đa dạng các thể loại chuyện:
++ Từng câu chuyện sẽ có thông tin chi tiết về nội dung, tranh ảnh và tác giả.
++ Trang web cũng có các chức năng cơ bản như đăng kí tài khoản, chọn thể loại truyện , tìm kiếm truyện.
++ Bên cạnh đó trang web có thêm chức năng cho người đọc tự sáng tác và viết truyện.
++ Truyện tự sáng tác sẽ được chọn lọc và phê duyệt để đưa lên trang web.
