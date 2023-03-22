@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="BTL_LTW-master:war exploded">
-    <output-path>$PROJECT_DIR$/../artifacts/BTL_LTW_master_war_exploded</output-path>
+  <artifact type="exploded-war" name="12345">
+    <output-path>$PROJECT_DIR$/out/artifacts/12345</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

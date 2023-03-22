@@ -1,7 +1,7 @@
 package com.example.btl_web.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
