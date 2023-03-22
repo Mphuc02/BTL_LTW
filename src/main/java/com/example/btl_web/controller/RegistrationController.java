@@ -53,6 +53,7 @@ public class RegistrationController extends HttpServlet {
                 req.setAttribute("bug4", "Email không đúng định dạng!");
             }
             RequestDispatcher rd = req.getRequestDispatcher("registraion.jsp");
+
             rd.forward(req, resp);
         }
     }
