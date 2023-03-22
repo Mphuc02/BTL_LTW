@@ -8,7 +8,7 @@
     <%--Bắt trình duyệt phải tải lại trang css--%>
 
     <title>Đăng nhập</title>
-    <link rel="stylesheet" href="assets/css/login/login.css">
+    <link rel="stylesheet" href="assets/css/login/login1.css">
 </head>
 <body>
 <div class="main">
