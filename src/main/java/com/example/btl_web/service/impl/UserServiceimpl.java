@@ -2,6 +2,7 @@ package com.example.btl_web.service.impl;
 
 import com.example.btl_web.dao.UserDao;
 import com.example.btl_web.dao.impl.UserDaoImpl;
+import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.model.User;
 import com.example.btl_web.service.UserService;
 
@@ -25,7 +26,7 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
-    public boolean login(String userName, String passWord) {
+    public UserDto login(String userName, String passWord) {
         User user = userDao.getUserByUserName(userName);
 
         if(user != null)
@@ -34,10 +35,11 @@ public class UserServiceimpl implements UserService {
             String passWordLogin = user.getPassWord();
 
             if(userName.equals(userNameLogin) && passWordLogin.equals(passWord))
-                return true;
+            {
+                return new UserDto(user);
+            }
         }
-
-        return false;
+        return null;
     }
 
     @Override

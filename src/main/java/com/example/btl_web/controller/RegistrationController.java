@@ -1,5 +1,6 @@
 package com.example.btl_web.controller;
 
+import com.example.btl_web.constant.Constant;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.service.impl.UserServiceimpl;
 import jakarta.servlet.RequestDispatcher;
@@ -8,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import com.example.btl_web.constant.Constant.*;
 
 import java.io.IOException;
 
@@ -16,7 +18,7 @@ public class RegistrationController extends HttpServlet {
     private UserService userService = UserServiceimpl.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher("registraion.jsp");
+        RequestDispatcher rd = req.getRequestDispatcher(Constant.REGISTRAION_JSP);
         rd.forward(req, resp);
     }
 
@@ -32,7 +34,7 @@ public class RegistrationController extends HttpServlet {
         if(errorSignUp == -1)
         {
             userService.saveUser(userName, passWord, email);
-            resp.sendRedirect(req.getContextPath() + "/login");
+            resp.sendRedirect(req.getContextPath() + User.LOGIN);
         }
         else
         {
@@ -52,7 +54,7 @@ public class RegistrationController extends HttpServlet {
             {
                 req.setAttribute("bug4", "Email không đúng định dạng!");
             }
-            RequestDispatcher rd = req.getRequestDispatcher("registraion.jsp");
+            RequestDispatcher rd = req.getRequestDispatcher(Constant.REGISTRAION_JSP);
 
             rd.forward(req, resp);
         }
