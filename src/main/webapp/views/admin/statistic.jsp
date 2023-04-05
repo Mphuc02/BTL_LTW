@@ -4,10 +4,10 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="./assets/css/header/admin_header.css">
+    <link rel="stylesheet" href="../.././assets/css/header/admin_header.css">
 </head>
 <body>
-    <%@include file=".././assets/include/admin_header.jsp"%>
+    <%@include file="../../assets/include/admin_header.jsp"%>
     <p>statistic</p>
 </body>
 </html>

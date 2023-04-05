@@ -4,7 +4,7 @@
 <head>
 
     <title>Đăng nhập</title>
-    <link rel="stylesheet" href="./assets/css/login/login.css">
+    <link rel="stylesheet" href="../.././assets/css/login/login.css">
 </head>
 <body>
 <div class="main">

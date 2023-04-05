@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="./assets/css/registraion/registraion.css">
+  <link rel="stylesheet" href="../.././assets/css/registraion/registraion.css">
   <title>Blog Truyện - Đăng kí</title>
 </head>
 <body>
@@ -42,7 +42,7 @@
                         <span class="bug">${bug4}</span>
                         <button>Đăng ký</button>
                         <div class="register">
-                            <p>Bạn đã có tài khoản rồi ? <a href="../login">Đăng nhập</a></p>
+                            <p>Bạn đã có tài khoản rồi ? <a href="../../login">Đăng nhập</a></p>
                         </div>
                     </form>
                 </div>
