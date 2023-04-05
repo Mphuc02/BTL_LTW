@@ -1,16 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Admin
-  Date: 3/29/2023
-  Time: 5:34 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" href="./assets/css/header/admin_header.css">
 </head>
 <body>
-    statistic
+    <%@include file=".././assets/include/admin_header.jsp"%>
+    <p>statistic</p>
 </body>
 </html>

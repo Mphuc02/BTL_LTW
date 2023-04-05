@@ -20,7 +20,6 @@ public class AuthorizationFilter implements Filter {
         if(url.contains("admin"))
         {
             UserDto user = (UserDto) SesstionUtils.getInstance().getValue(request,Constant.USER_MODEL);
-            System.out.println(user.getRole());
 
             if(user.getRole().equals(Constant.ADMIN))
             {

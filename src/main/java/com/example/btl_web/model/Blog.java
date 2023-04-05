@@ -18,19 +18,8 @@ public class Blog implements Serializable {
     Set<User> likedUsers = new HashSet<>();
     Set<Comment> comments = new HashSet<>();
 
-
-
     public Blog(){
 
-    }
-
-    public Blog(Long blogId, String title, String content, String imageTitle, Date createAt, User userBlog) {
-        this.blogId = blogId;
-        this.title = title;
-        this.content = content;
-        this.imageTitle = imageTitle;
-        this.createAt = createAt;
-        this.userBlog = userBlog;
     }
     public String timeConvert(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");

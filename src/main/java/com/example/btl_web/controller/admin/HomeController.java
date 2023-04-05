@@ -32,6 +32,10 @@ public class HomeController extends HttpServlet {
             urlJsp = Admin.STATISTIC_JSP;
         }
 
+        req.setAttribute("blogs", Admin.BLOGS_PAGE);
+        req.setAttribute("categories", Admin.CATEGORIES_PAGE);
+        req.setAttribute("users", Admin.USERS_PAGE);
+
         RequestDispatcher rd = req.getRequestDispatcher(urlJsp);
         rd.forward(req, resp);
     }
