@@ -5,7 +5,9 @@ import com.example.btl_web.dao.impl.UserDaoImpl;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.model.User;
 import com.example.btl_web.service.UserService;
+import com.example.btl_web.utils.ConvertUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -21,8 +23,15 @@ public class UserServiceimpl implements UserService {
         return userServiceimpl;
     }
     @Override
-    public List<User> findAll() {
-        return userDao.findAll();
+    public List<UserDto> findAll() {
+        List<User> users = userDao.findAll();
+        List<UserDto> dtos = new ArrayList<>();
+
+        for(User user: users)
+        {
+            dtos.add(ConvertUtils.convertEntityToDto(user, UserDto.class));
+        }
+        return dtos;
     }
 
     @Override
@@ -58,9 +67,8 @@ public class UserServiceimpl implements UserService {
     @Override
     public boolean saveUser(String userName, String passWord, String email) {
         Date javaDate = new Date();
-        java.sql.Date mySQLDate = new java.sql.Date(javaDate.getTime());
-
-        if(userDao.saveUser(userName,passWord, "USER", email, mySQLDate))
+        long timeStamp = javaDate.getTime();
+        if(userDao.saveUser(userName,passWord, "USER", email, timeStamp))
             return true;
         return false;
     }

@@ -24,6 +24,7 @@ public class UserDaoImpl extends GeneralDaoImpl<User> implements UserDao {
         String sql = "Select * from users where username = ?";
 
         List<User> results = select(sql, new UserMapperImpl(), userName);
+
         if(results.size() > 0)
             return results.get(0);
         else

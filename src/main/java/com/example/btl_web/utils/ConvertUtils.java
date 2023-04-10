@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.example.btl_web.constant.Constant;
 import com.example.btl_web.constant.Constant.*;
 
 public class ConvertUtils {
@@ -21,7 +22,7 @@ public class ConvertUtils {
                 for(Field dtoField: dtoFields)
                 {
                     dtoField.setAccessible(true);
-                    if(dtoField.getName().equals(entityField.getName()))
+                    if(dtoField.getName().equals(entityField.getName()) && !entityField.getName().equals(Constant.USER_NAME) && !entityField.getName().equals(Constant.PASS_WORD))
                     {
                         if(entityField.getType() == Long.class && dtoField.getType() == String.class &&
                                 entityField.getName().equals(Dto.CREATE_DATE) || entityField.getName().equals(Dto.MODIFIED_DATE) || entityField.getName().equals(Dto.REGISTRATION_AT))
