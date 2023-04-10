@@ -23,4 +23,12 @@ public class Constant {
         public static final String STATISTIC_PAGE = "statistic";
         public static final String STATISTIC_JSP = "/views/admin/statistic.jsp";
     }
+
+    public static class Dto
+    {
+        public static final String CREATE_DATE = "created_at";
+        public static final String REGISTRATION_AT = "registered_at";
+        public static final String MODIFIED_DATE = "modified_at";
+        public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
+    }
 }

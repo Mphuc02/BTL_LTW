@@ -1,6 +1,5 @@
 package com.example.btl_web.controller.user;
 
-import com.example.btl_web.constant.Constant;
 import com.example.btl_web.service.BlogService;
 import com.example.btl_web.service.impl.BlogServiceImpl;
 import jakarta.servlet.ServletException;

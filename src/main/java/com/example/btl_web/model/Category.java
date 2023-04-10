@@ -9,7 +9,7 @@ public class Category implements Serializable {
     private String name;
     private Set<Blog> blogs = new HashSet<>();
     public Category(){
-
+        
     }
 
     public Category(Long categoryId, String name, Set<Blog> blogs) {
