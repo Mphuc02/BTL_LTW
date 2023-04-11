@@ -16,11 +16,16 @@ public class BlogDaoImpl extends GeneralDaoImpl<Blog> implements BlogDao {
     }
     @Override
     public List<Blog> findAll(String sql, Object... parameters) {
-        return select(sql, new BlogMapperImpl(), parameters);
+        return selectSql(sql, new BlogMapperImpl(), parameters);
     }
 
     @Override
     public List<Blog> findBlogByName(String sql, Object... parameters) {
-        return select(sql, new BlogMapperImpl(), parameters);
+        return selectSql(sql, new BlogMapperImpl(), parameters);
+    }
+
+    @Override
+    public boolean save(String sql, Object... parameters) {
+        return updateSql(sql, parameters);
     }
 }

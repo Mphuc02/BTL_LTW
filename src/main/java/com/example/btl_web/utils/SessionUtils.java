@@ -2,12 +2,12 @@ package com.example.btl_web.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-public class SesstionUtils {
-    private static SesstionUtils sesstionUtils = null;
-    public static SesstionUtils getInstance()
+public class SessionUtils {
+    private static SessionUtils sesstionUtils = null;
+    public static SessionUtils getInstance()
     {
         if(sesstionUtils == null)
-            sesstionUtils = new SesstionUtils();
+            sesstionUtils = new SessionUtils();
         return sesstionUtils;
     }
 

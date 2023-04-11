@@ -3,7 +3,6 @@ package com.example.btl_web.model;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +11,7 @@ public class Blog implements Serializable {
     private String title;
     private String content;
     private String imageTitle;
-    private Date createAt;
+    private Long createAt;
     private User userBlog;
     Set<Category> categories = new HashSet<>();
     Set<User> likedUsers = new HashSet<>();
@@ -44,6 +43,15 @@ public class Blog implements Serializable {
         }
         return false;
     }
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
+
     public Long getBlogId() {
         return blogId;
     }
@@ -74,14 +82,6 @@ public class Blog implements Serializable {
 
     public void setImageTitle(String imageTitle) {
         this.imageTitle = imageTitle;
-    }
-
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
     }
 
     public User getUserBlog() {

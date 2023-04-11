@@ -55,84 +55,38 @@
                                 </form>
                             </div>
                             <div class="float-right">
-                                <a href="/admin/categories/creat.html" class="btn btn-outline-primary">Thêm thể loại</a>
+                                <a href="/admin/categories/edit/-1" class="btn btn-outline-primary">Thêm thể loại</a>
                             </div>
                         </div>
                         <div class="card-body">
                             <table class="table" style="border: solid 1px #000;">
                                 <thead class="thead-dark">
                                 <tr>
-                                    <th>STT</th>
+                                    <th>Id</th>
                                     <th>Tên</th>
+                                    <th>Thời gian tạo</th>
                                     <th>Số lượng Truyện</th>
+                                    <th>Người thêm</th>
                                     <th>Chỉnh sửa</th>
+                                    <th>Xoá</th>
                                 </tr>
                                 </thead>
-                                <tbody><tr>
-                                    <td>1</td>
-                                    <td>Cổ tích</td>
-                                    <td>6</td>
-                                    <td>
-                                        <a href="#" class="btn btn-edit">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Tình cảm</td>
-                                    <td>4</td>
-                                    <td>
-                                        <a href="#" class="btn btn-edit">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Gia đình</td>
-                                    <td>9</td>
-                                    <td>
-                                        <a href="#" class="btn btn-edit">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Truyện cười</td>
-                                    <td>7</td>
-                                    <td>
-                                        <a href="#" class="btn btn-edit">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Đời sống</td>
-                                    <td>13</td>
-                                    <td>
-                                        <a href="#" class="btn btn-edit">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr></tbody>
+                                <tbody>
+                                <c:forEach var="item" items="${list}">
+                                    <tr>
+                                        <td>${item.categoryId}</td>
+                                        <td>${item.name}</td>
+                                        <td>${item.createdAt}</td>
+                                        <td>1</td>
+                                        <td>${item.userId}</td>
+                                        <td>
+                                            <a href="/admin/categories/edit/${item.categoryId}">Chỉnh sửa</a>
+                                        </td>
+                                        <td>Xoá</td>
+                                    </tr>
+                                </c:forEach>
+
+                                </tbody>
                             </table>
                         </div>
                         <div class="card-footer">

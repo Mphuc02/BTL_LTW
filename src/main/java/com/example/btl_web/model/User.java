@@ -14,7 +14,7 @@ public class User implements Serializable {
     private String address;
     private String phone;
     private String fullName;
-    private Date registeredAt;
+    private Long registeredAt;
     private Set<Blog> blogs = new HashSet<>();
     private Set<Comment> comments = new HashSet<>();
     private Set<Blog> likedBlog = new HashSet<>();
@@ -24,6 +24,14 @@ public class User implements Serializable {
     public void removeLikedBlog(Blog blog) {
         this.likedBlog.remove(blog);
         blog.getLikedUsers().remove(this);
+    }
+
+    public Long getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(Long registeredAt) {
+        this.registeredAt = registeredAt;
     }
 
     public Long getUserId() {
@@ -88,14 +96,6 @@ public class User implements Serializable {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public Date getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public void setRegisteredAt(Date registeredAt) {
-        this.registeredAt = registeredAt;
     }
 
     public Set<Blog> getBlogs() {

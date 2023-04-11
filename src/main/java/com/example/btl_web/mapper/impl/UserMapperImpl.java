@@ -19,11 +19,11 @@ public class UserMapperImpl implements RowMapper<User> {
             user.setFullName(resultSet.getString("full_name"));
             user.setPassWord(resultSet.getString("password"));
             user.setPhone(resultSet.getString("phone"));
-            user.setRegisteredAt(resultSet.getDate("registered_at"));
+            user.setRegisteredAt(resultSet.getLong("registered_at"));
             user.setRole(resultSet.getString("role"));
             user.setUserName(resultSet.getString("username"));
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
         }
 
         return user;

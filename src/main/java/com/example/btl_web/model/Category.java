@@ -7,6 +7,8 @@ import java.util.Set;
 public class Category implements Serializable {
     private Long categoryId;
     private String name;
+    private Long userId;
+    private Long createdAt;
     private Set<Blog> blogs = new HashSet<>();
     public Category(){
         
@@ -40,5 +42,21 @@ public class Category implements Serializable {
 
     public void setBlogs(Set<Blog> blogs) {
         this.blogs = blogs;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserDao {
     List<User> findAll();
+    User getUserById(Long id);
     User getUserByUserName(String userName);
     boolean checkUserNameExist();
     boolean saveUser(Object... parameters);

@@ -4,7 +4,6 @@ import com.example.btl_web.model.Blog;
 import com.example.btl_web.model.Comment;
 import com.example.btl_web.model.User;
 
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,25 +16,41 @@ public class UserDto {
     private String address;
     private String phone;
     private String fullName;
-    private Date registeredAt;
+    private String registeredAt;
     private Set<Blog> blogs = new HashSet<>();
     private Set<Comment> comments = new HashSet<>();
     private Set<Blog> likedBlog = new HashSet<>();
 
-    public UserDto(User user)
-    {
-        if(user != null)
-        {
-            this.email = user.getEmail();
-            this.role = user.getRole();
-            this.address = user.getAddress();
-            this.phone = user.getPhone();
-            this.fullName = user.getFullName();
-            this.registeredAt = user.getRegisteredAt();
-            this.blogs = user.getBlogs();
-            this.comments = user.getComments();
-            this.likedBlog = user.getLikedBlog();
-        }
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassWord() {
+        return passWord;
+    }
+
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getRegisteredAt() {
+        return registeredAt;
+    }
+
+    public void setRegisteredAt(String registeredAt) {
+        this.registeredAt = registeredAt;
     }
 
     public Long getUserId() {
@@ -76,14 +91,6 @@ public class UserDto {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public Date getRegisteredAt() {
-        return registeredAt;
-    }
-
-    public void setRegisteredAt(Date registeredAt) {
-        this.registeredAt = registeredAt;
     }
 
     public Set<Blog> getBlogs() {

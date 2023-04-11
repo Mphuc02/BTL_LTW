@@ -1,7 +1,34 @@
 package com.example.btl_web.dto;
 
-import com.example.btl_web.model.Category;
-
-public class CategoryDto extends Category {
-
+public class CategoryDto {
+    private Long categoryId;
+    private String name;
+    private Long userId;
+    private String createdAt;
+    public CategoryDto()
+    {}
+    public Long getCategoryId() {
+        return categoryId;
+    }
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Long getUserId() {
+        return userId;
+    }
+    public String getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }

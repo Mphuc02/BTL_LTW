@@ -15,22 +15,35 @@ public class Constant {
     }
     public static class Admin
     {
+        public static final String EDIT = "/edit";
         public static final String ADMIN_HOME = "/admin-home";
-        public static final String CATEGORIES_PAGE = "categories";
+        public static final String CATEGORIES_PAGE = "/admin/categories";
+        public static final String CATEGORY_API = "/api-admin-category";
         public static final String CATEGORIES_JSP = "/views/admin/categories.jsp";
-        public static final String BLOGS_PAGE = "blogs";
+        public static final String CATEGORY_EDIT_JSP = "/views/admin/create/categories.jsp";
+        public static final String BLOGS_PAGE = "/admin/blogs";
+        public static final String BLOGS_API = "/api-admin-blog";
         public static final String BLOGS_JSP = "/views/admin/blogs.jsp";
-        public static final String USERS_PAGE = "users";
+        public static final String USERS_PAGE = "/admin/users";
         public static final String USERS_JSP = "/views/admin/users.jsp";
-        public static final String STATISTIC_PAGE = "statistic";
+        public static final String STATISTIC_PAGE = "/admin/statistic";
         public static final String STATISTIC_JSP = "/views/admin/statistic.jsp";
     }
 
     public static class Dto
     {
-        public static final String CREATE_DATE = "created_at";
-        public static final String REGISTRATION_AT = "registered_at";
-        public static final String MODIFIED_DATE = "modified_at";
+        public static final String CREATE_DATE = "createdAt";
+        public static final String REGISTRATION_AT = "registeredAt";
+        public static final String MODIFIED_DATE = "modifiedAt";
         public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
+    }
+
+    public static class Paging
+    {
+        public static final int MAX_ITEMS_OF_PAGE = 10;
+        public static final String PAGE_STR = "page";
+        public static final String MAX_ITEMS_OF_PAGE_STR = "max-items-page";
+        public static final String SORT_NAME = "sort-name";
+        public static final String SORT_BY = "sort-by";
     }
 }

@@ -2,7 +2,9 @@ package com.example.btl_web.utils;
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.example.btl_web.constant.Constant;
 import com.example.btl_web.constant.Constant.*;
@@ -112,5 +114,15 @@ public class ConvertUtils {
         Date date = new Date(timeStampStr);
         timeStamp = date.getTime();
         return timeStamp;
+    }
+
+    public static <E,D> List<D> convertListEntitiesToDtos(List<E> entities, Class<D> dtoClass)
+    {
+        List<D> dtos = new ArrayList<>();
+        for(E entity: entities)
+        {
+            dtos.add(convertEntityToDto(entity, dtoClass));
+        }
+        return dtos;
     }
 }

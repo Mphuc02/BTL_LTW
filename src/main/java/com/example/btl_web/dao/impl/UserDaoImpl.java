@@ -17,13 +17,22 @@ public class UserDaoImpl extends GeneralDaoImpl<User> implements UserDao {
     @Override
     public List<User> findAll() {
         String sql = "Select * from users";
-        return select(sql, new UserMapperImpl());
+        return selectSql(sql, new UserMapperImpl());
     }
+
+    @Override
+    public User getUserById(Long id) {
+        String sql = "Select * from users where id = ?";
+        List<User> users = selectSql(sql, new UserMapperImpl(), id);
+
+        return users.isEmpty() ? null : users.get(0);
+    }
+
     @Override
     public User getUserByUserName(String userName) {
         String sql = "Select * from users where username = ?";
 
-        List<User> results = select(sql, new UserMapperImpl(), userName);
+        List<User> results = selectSql(sql, new UserMapperImpl(), userName);
 
         if(results.size() > 0)
             return results.get(0);
@@ -40,7 +49,7 @@ public class UserDaoImpl extends GeneralDaoImpl<User> implements UserDao {
     public boolean saveUser(Object... parameters) {
         String sql = "Insert into users (username, password, role, email, registered_at) values(?, ?, ?, ?,? )";
 
-        boolean status = update(sql, parameters);
+        boolean status = updateSql(sql, parameters);
         if(status)
             return true;
         return false;

@@ -2,7 +2,7 @@ package com.example.btl_web.filter;
 
 import com.example.btl_web.constant.Constant;
 import com.example.btl_web.dto.UserDto;
-import com.example.btl_web.utils.SesstionUtils;
+import com.example.btl_web.utils.SessionUtils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,23 +19,24 @@ public class AuthorizationFilter implements Filter {
 
         if(url.contains("admin"))
         {
-            UserDto user = (UserDto) SesstionUtils.getInstance().getValue(request,Constant.USER_MODEL);
+            UserDto user = (UserDto) SessionUtils.getInstance().getValue(request,Constant.USER_MODEL);
 
-            if(user.getRole().equals(Constant.ADMIN))
+            if(user == null)
             {
-                filterChain.doFilter(servletRequest, servletResponse);
+                response.sendRedirect(request.getContextPath() + "/login?action=not_login");
             }
             else
             {
-                if(user == null)
+                if(user.getRole().equals(Constant.ADMIN))
                 {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    filterChain.doFilter(servletRequest, servletResponse);
                 }
                 else
                 {
-                    response.sendRedirect(request.getContextPath() + "/login?action=not_login");
+                    response.sendRedirect(request.getContextPath() + "/login?action=not_permission");
                 }
             }
+
         }
         else
         {

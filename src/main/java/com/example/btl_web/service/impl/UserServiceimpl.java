@@ -45,7 +45,7 @@ public class UserServiceimpl implements UserService {
 
             if(userName.equals(userNameLogin) && passWordLogin.equals(passWord))
             {
-                return new UserDto(user);
+                return ConvertUtils.convertEntityToDto(user, UserDto.class);
             }
         }
         return null;

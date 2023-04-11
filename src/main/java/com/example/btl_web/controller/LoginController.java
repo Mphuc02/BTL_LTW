@@ -4,14 +4,13 @@ import com.example.btl_web.constant.Constant;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.service.impl.UserServiceimpl;
-import com.example.btl_web.utils.SesstionUtils;
+import com.example.btl_web.utils.SessionUtils;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import com.example.btl_web.constant.Constant.*;
 
 import java.io.IOException;
 
@@ -25,7 +24,19 @@ public class LoginController extends HttpServlet {
         String action = req.getParameter("action");
         if(action != null)
         {
-            req.setAttribute("message", "Bạn chưa đăng nhập!");
+            if(action.equals("not_login"))
+            {
+                req.setAttribute("message", "Bạn chưa đăng nhập!");
+            }
+            else if (action.equals("not_permission"))
+            {
+                req.setAttribute("message", "Bạn không có quyền truy cập địa chỉ này!");
+            }
+            else if(action.equals("logout"))
+            {
+                req.setAttribute("message", "Đăng xuất thành công!");
+                SessionUtils.getInstance().removeValue(req, Constant.USER_MODEL);
+            }
             req.setAttribute("display_flex", "display__flex");
             req.setAttribute("message_type", "alert");
         }
@@ -42,7 +53,7 @@ public class LoginController extends HttpServlet {
 
         if(userDto != null)
         {
-            SesstionUtils session = SesstionUtils.getInstance();
+            SessionUtils session = SessionUtils.getInstance();
             session.putValue(req, Constant.USER_MODEL, userDto);
 
             if(userDto.getRole().equals(Constant.USER))
@@ -51,7 +62,7 @@ public class LoginController extends HttpServlet {
             }
             else if(userDto.getRole().equals(Constant.ADMIN))
             {
-                resp.sendRedirect(req.getContextPath() + Admin.ADMIN_HOME);
+                resp.sendRedirect(req.getContextPath() + "/");
             }
         }
         else

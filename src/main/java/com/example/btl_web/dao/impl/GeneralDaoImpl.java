@@ -20,12 +20,12 @@ public class GeneralDaoImpl<T> implements GeneralDao {
             Class.forName(bundle.getString("driverName"));
             connection = DriverManager.getConnection(url, userName, passWord);
         } catch (ClassNotFoundException | SQLException e) {
-            return null;
+            e.printStackTrace();
         }
         return connection;
     }
     @Override
-    public <T> List<T> select(String sql, RowMapper<T> rowMapper, Object... parameters) {
+    public <T> List<T> selectSql(String sql, RowMapper<T> rowMapper, Object... parameters) {
         List<T> results = new ArrayList<>();
 
         Connection connection = getConnection();
@@ -47,7 +47,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
             }
 
         } catch (SQLException e) {
-            return null;
+            e.printStackTrace();
         }
         finally {
             clossConnect(connection, statement, resultSet);
@@ -56,7 +56,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
         return results;
     }
     @Override
-    public <T> boolean update(String sql, Object... parameters)
+    public <T> boolean updateSql(String sql, Object... parameters)
     {
         Integer resultSet = null;
         PreparedStatement statement = null;
