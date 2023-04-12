@@ -8,7 +8,7 @@ import java.util.List;
 public interface CategoryService {
     List<CategoryDto> findAll(Pageable pageable);
     CategoryDto findOneById(Long id);
-    long countAllCategory();
+    long countCategories();
     boolean save(CategoryDto categoryDto);
     boolean update(CategoryDto categoryDto);
     boolean delete(Long categoryId);

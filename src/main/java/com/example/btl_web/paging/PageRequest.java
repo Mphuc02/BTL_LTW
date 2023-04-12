@@ -3,8 +3,6 @@ package com.example.btl_web.paging;
 import java.util.Map;
 
 import com.example.btl_web.constant.Constant.*;
-import com.example.btl_web.service.CategoryService;
-import com.example.btl_web.service.impl.CategoryServiceImpl;
 
 public class PageRequest implements Pageable{
     private Integer totalPages;
@@ -13,7 +11,7 @@ public class PageRequest implements Pageable{
     private Integer limit;
     private String sortName;
     private String sortBy;
-    public PageRequest(Map<String, String[]> paramters)
+    public PageRequest(Map<String, String[]> paramters, Long totalItems)
     {
         String pageStr[] = paramters.get(Paging.PAGE_STR);
         if(pageStr == null)
@@ -43,8 +41,6 @@ public class PageRequest implements Pageable{
         if(this.page != null && this.limit != null)
             offset = (this.page - 1) * this.limit;
 
-        CategoryService categoryService = CategoryServiceImpl.getInstance();
-        long totalItems = categoryService.countAllCategory();
         this.totalPages = (int) Math.ceil(1.0 * totalItems / limit);
     }
 
@@ -76,6 +72,17 @@ public class PageRequest implements Pageable{
     @Override
     public String getSortBy() {
         return sortBy;
+    }
+
+    @Override
+    public  StringBuilder addPagingation() {
+        StringBuilder sb = new StringBuilder();
+        //Thêm các tham số
+        if(sortBy != null && sortName != null)
+            sb.append("ORDER BY " + sortName + " " + sortBy);
+        if(offset != null && limit != null)
+            sb.append(" LIMIT " + offset + "," + limit);
+        return sb;
     }
 
 }

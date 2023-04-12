@@ -27,6 +27,11 @@ public class UserDaoImpl extends GeneralDaoImpl<User> implements UserDao {
     }
 
     @Override
+    public long countItems(String sql, Object... parameters) {
+        return countSql(sql, parameters);
+    }
+
+    @Override
     public boolean checkUserNameExist(String sql, Object... parameters) {
         return false;
     }

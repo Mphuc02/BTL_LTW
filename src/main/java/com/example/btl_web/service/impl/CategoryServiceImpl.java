@@ -58,8 +58,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public long countAllCategory() {
-        String sql = "Select count(*) from categories";
+    public long countCategories() {
+        String sql = "Select count(category_id) from categories";
         return categoryDao.count(sql);
     }
 
@@ -104,6 +104,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     private StringBuilder addAndClause(CategoryDto categoryDto)
     {
+        if(categoryDto == null)
+            return null;
+
         StringBuilder sb = new StringBuilder();
         if(categoryDto.getCategoryId() != null)
             sb.append(" AND category_id = ?");

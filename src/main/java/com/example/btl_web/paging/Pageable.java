@@ -7,4 +7,5 @@ public interface Pageable {
     Integer getTotalPages();
     String getSortName();
     String getSortBy();
+    StringBuilder addPagingation();
 }

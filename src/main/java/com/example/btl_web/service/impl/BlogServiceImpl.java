@@ -4,6 +4,7 @@ import com.example.btl_web.dao.BlogDao;
 import com.example.btl_web.dao.impl.BlogDaoImpl;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.model.Blog;
+import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.BlogService;
 import com.example.btl_web.utils.ConvertUtils;
 
@@ -22,10 +23,12 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public List<BlogDto> getAllBlogs() {
-        String sql = "SELECT * FROM BLOGS";
-        List<Blog> blogs = blogDao.findAll(sql);
+    public List<BlogDto> getAllBlogs(Pageable pageable, BlogDto dto) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM BLOGS WHERE (1 = 1)");
 
+        sql.append(addAndClause(pageable, dto));
+
+        List<Blog> blogs = blogDao.findAll(sql.toString());
         List<BlogDto> dtos = new ArrayList<>();
 
         for(Blog blog: blogs)
@@ -37,21 +40,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public int getTotalBlogs() {
-        String sql = "SELECT * FROM BLOGS";
-        return blogDao.findAll(sql).size();
-    }
-
-    @Override
-    public List<Blog> pagingBlogs(int index) {
-        String sql = "SELECT * FROM BLOGS LIMIT 8 OFFSET ?";
-        return blogDao.findAll(sql);
-    }
-
-    @Override
-    public List<Blog> searchBlogsByName(String search) {
-        String sql = "SELECT * FROM `blogs` WHERE `title` like ?";
-        return blogDao.findAll(sql, search);
+    public long countBlogs(BlogDto blogDto) {
+        StringBuilder sql = new StringBuilder("SELECT count(blog_id) FROM BLOGS WHERE ( 1 = 1)");
+        if(blogDto != null)
+            sql.append(addAndClause(null, blogDto));
+        return blogDao.countBlogs(sql.toString());
     }
 
     @Override
@@ -60,5 +53,34 @@ public class BlogServiceImpl implements BlogService {
         blog.setCreateAt(timeStamp.getTime());
         String sql = "INSERT INTO BLOGS (content, created_at, image_title, title, user_id)";
         return blogDao.save(sql,blog.getContent(), blog.getCreateAt(), blog.getImageTitle(), blog.getUserBlog().getUserId());
+    }
+
+    private StringBuilder addAndClause(Pageable pageable ,BlogDto dto)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        if(dto != null) {
+            Long blogId = dto.getBlogId();
+            String title = dto.getTitle();
+            String content = dto.getContent();
+            String imageTitle = dto.getImageTitle();
+            String createAt = dto.getCreateAt();
+
+            if (blogId != null)
+                sb.append(" AND WHERE blog_id = " + blogId);
+            if (title != null)
+                sb.append(" AND title like '%" + title + "%'");
+            if (content != null)
+                sb.append(" AND content like '%" + content + "%'");
+            if (imageTitle != null)
+                sb.append(" AND image_title = " + imageTitle);
+            if (createAt != null)
+                sb.append(" AND created_at = " + createAt);
+        }
+
+        if(pageable != null)
+            sb.append(pageable.addPagingation());
+
+        return sb;
     }
 }

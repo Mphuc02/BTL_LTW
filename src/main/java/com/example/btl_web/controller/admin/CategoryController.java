@@ -21,7 +21,8 @@ public class CategoryController extends HttpServlet {
     private CategoryService categoryService = CategoryServiceImpl.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Pageable pageable = new PageRequest(req.getParameterMap());
+        long totalCategories = categoryService.countCategories();
+        Pageable pageable = new PageRequest(req.getParameterMap(), totalCategories );
         req.setAttribute("pageable", pageable);
 
         List<CategoryDto> categoryDtos = categoryService.findAll(pageable);

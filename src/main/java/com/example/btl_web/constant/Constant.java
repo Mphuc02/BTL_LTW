@@ -12,6 +12,7 @@ public class Constant {
     {
         public static final String LOGIN = "/login";
         public static final String HOME_JSP = "/views/home/home.jsp";
+        public static final String SEARCH_JSP = "/views/home/search.jsp";
     }
     public static class Admin
     {

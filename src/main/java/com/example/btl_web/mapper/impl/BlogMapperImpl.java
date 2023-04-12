@@ -27,7 +27,7 @@ public class BlogMapperImpl implements RowMapper {
 
             UserDto userDto = new UserDto();
             userDto.setUserId(resultSet.getLong("user_id"));
-            List<UserDto> userDtos = userService.findByCondition(userDto);
+            List<UserDto> userDtos = userService.findAll(null, userDto);
             User user = userDtos.isEmpty() ? null: ConvertUtils.convertDtoToEntity(userDtos.get(0), User.class);
             blog.setUserBlog(user);
 

@@ -20,8 +20,13 @@ public class BlogDaoImpl extends GeneralDaoImpl<Blog> implements BlogDao {
     }
 
     @Override
-    public List<Blog> findBlogByName(String sql, Object... parameters) {
+    public List<Blog> findBlogByCondition(String sql, Object... parameters) {
         return selectSql(sql, new BlogMapperImpl(), parameters);
+    }
+
+    @Override
+    public long countBlogs(String sql, Object... parameters) {
+        return countSql(sql, parameters);
     }
 
     @Override

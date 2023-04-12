@@ -24,19 +24,11 @@ public class UserServiceimpl implements UserService {
         return userServiceimpl;
     }
     @Override
-    public List<UserDto> findAll(Pageable pageable) {
-        Integer offset = pageable.getOffset();
-        Integer limit = pageable.getLimit();
-        String sortName = pageable.getSortName();
-        String sortBy = pageable.getSortBy();
-
+    public List<UserDto> findAll(Pageable pageable, UserDto dto) {
         StringBuilder sql = new StringBuilder("SELECT * FROM USERS");
-        if(sortName != null && sortBy != null)
-            sql.append(" ORDER BY " + sortName + " " + sortBy);
-        if(offset != null && limit != null)
-            sql.append(" LIMIT ?,?");
+        sql.append(addAndClause(pageable, dto));
 
-        List<User> users = userDao.findAll(sql.toString(), offset, limit);
+        List<User> users = userDao.findAll(sql.toString());
         List<UserDto> dtos = new ArrayList<>();
 
         for(User user: users)
@@ -46,14 +38,6 @@ public class UserServiceimpl implements UserService {
         return dtos;
     }
 
-    @Override
-    public List<UserDto> findByCondition(UserDto userDto) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE (1 = 1)");
-        sql.append(addAndClause(userDto));
-        List<User> users = userDao.getUserByCondition(sql.toString());
-
-        return ConvertUtils.convertListEntitiesToDtos(users, UserDto.class);
-    }
 
     @Override
     public UserDto login(String userName, String passWord) {
@@ -62,7 +46,8 @@ public class UserServiceimpl implements UserService {
         userDto.setPassWord(passWord);
 
         StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE (1 = 1)");
-        sql.append(addAndClause(userDto));
+        if(userDto != null)
+            sql.append(addAndClause(null, userDto));
 
         List<User> users = userDao.getUserByCondition(sql.toString());
 
@@ -113,42 +98,52 @@ public class UserServiceimpl implements UserService {
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
         return Pattern.compile(regexPattern).matcher(email).matches();
     }
-
-    private StringBuilder addAndClause(UserDto userDto)
+    @Override
+    public long countUsers() {
+        String sql = "SELECT COUNT(user_id) FROM USERS";
+        return userDao.countItems(sql);
+    }
+    private StringBuilder addAndClause(Pageable pageable,UserDto userDto)
     {
         StringBuilder sb = new StringBuilder();
 
-        Long userId = userDto.getUserId();
-        Integer status = userDto.getStatus();
-        String userName = userDto.getUserName();
-        String passWord = userDto.getPassWord();
-        String email = userDto.getEmail();
-        String role = userDto.getRole();
-        String address = userDto.getAddress();
-        String phone = userDto.getPhone();
-        String fullName = userDto.getPhone();
-        String registeredAt = userDto.getRegisteredAt();
+        if(userDto != null)
+        {
+            Long userId = userDto.getUserId();
+            Integer status = userDto.getStatus();
+            String userName = userDto.getUserName();
+            String passWord = userDto.getPassWord();
+            String email = userDto.getEmail();
+            String role = userDto.getRole();
+            String address = userDto.getAddress();
+            String phone = userDto.getPhone();
+            String fullName = userDto.getPhone();
+            String registeredAt = userDto.getRegisteredAt();
 
-        if(userId != null)
-            sb.append(" AND user_id = " + userId );
-        if(status != null)
-            sb.append(" AND status = " + status);
-        if(userName != null)
-            sb.append(" AND username = '" + userName + "'");
-        if(passWord != null)
-            sb.append(" AND password = '" + passWord + "'");
-        if(email != null)
-            sb.append(" AND email = '" + email + "'");
-        if(role != null)
-            sb.append(" AND role = '" + role + "'");
-        if(address != null)
-            sb.append(" AND address = '" + address + "'");
-        if(phone != null)
-            sb.append(" AND phone = '" + phone +  "'");
-        if(fullName != null)
-            sb.append(" AND full_name = '" + fullName + "'");
-        if(registeredAt != null)
-            sb.append(" AND registered_at = " + registeredAt);
+            if(userId != null)
+                sb.append(" AND user_id = " + userId );
+            if(status != null)
+                sb.append(" AND status = " + status);
+            if(userName != null)
+                sb.append(" AND username = '" + userName + "'");
+            if(passWord != null)
+                sb.append(" AND password = '" + passWord + "'");
+            if(email != null)
+                sb.append(" AND email = '" + email + "'");
+            if(role != null)
+                sb.append(" AND role = '" + role + "'");
+            if(address != null)
+                sb.append(" AND address = '" + address + "'");
+            if(phone != null)
+                sb.append(" AND phone = '" + phone +  "'");
+            if(fullName != null)
+                sb.append(" AND full_name = '" + fullName + "'");
+            if(registeredAt != null)
+                sb.append(" AND registered_at = " + registeredAt);
+        }
+
+        if(pageable != null)
+            sb.append(pageable.addPagingation());
 
         return sb;
     }

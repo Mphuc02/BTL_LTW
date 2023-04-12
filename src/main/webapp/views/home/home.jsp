@@ -9,139 +9,163 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="css/trangchu.css">
-    <link rel="stylesheet"
-          href="font/themify-icons-font/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="/assets/css/home6.css">
+    <link rel="stylesheet" href="/assets/css/font/themify-icons-font/themify-icons/themify-icons.css">
 </head>
 
 <body>
-<div class="web">
-    <header id="tieuDe">
-        <div class="tieuDe_noiDung">
-            <div class="tieuDe__link">
-                <a class="tieuDe__button" href="">BlogTruyen.vn</a>
+    <div class="web">
+
+        <!-- tieu de -->
+        <div id="tieude">
+            <div class="tieude__link">
+                <a class="" href="">BlogTruyen.vn</a>
             </div>
 
-            <div class="tieuDe__action">
-                <a class="tieuDe__button" href=""> <i
-                        class="search-icon ti-announcement"></i> Thông báo
-                </a> <a class="tieuDe__button" href=""> <i
-                    class="search-icon ti-help-alt"></i> Trợ giúp
-            </a> <a class="tieuDe__button" href=""> <i
-                    class="search-icon ti-write"></i> Viết truyện
-            </a> <a class="tieuDe__button" href="/login">Đăng nhập</a>
+            <div class="tieude__nut">
+                <a class="tieude__nut--icon" href="">
+                    <i class="search-icon ti-announcement"></i> Thông báo</a>
+                <a class="tieuDe__nut--icon" href="">
+                    <i class="search-icon ti-help-alt"></i> Trợ giúp</a>
+                <a class="tieuDe__nut--icon" href="">
+                    <i class="search-icon ti-write"></i> Viết truyện</a>
+                <a class="tieuDe__nut--icon" href="login">Đăng nhập</a>
             </div>
         </div>
+        <!-- end  tieu de -->
 
-    </header>
-</div>
+        <!-- dieu huong -->
+        <div id="dieuhuong">
+            <ul class="dieuhuong__ctiet">
+                <li>
+                    <div>
+                        Thể loại
+                        <i class="ti-angle-down"></i>
+                    </div>
+                    <ul class="dieuhuong__ctiet--tloai">
+                        <li><a href="">Cổ tích</a></li>
+                        <li><a href="">Truyện cười</a></li>
+                        <li><a href="">Đời sống</a></li>
+                        <li><a href="">Tình cảm</a></li>
+                        <li><a href="">Ngụ ngôn</a></li>
+                    </ul>
+                </li>
 
-<div id="dieuHuong">
-    <ul id="chiTiet">
-        <li>
-            <div>
-                Thể loại <i class="ti-angle-down"></i>
-            </div>
-            <ul class="chiTiet__tLoai">
-                <li><a href="">Cổ tích</a></li>
-                <li><a href="">Truyện cười</a></li>
-                <li><a href="">Đời sống</a></li>
-                <li><a href="">Tình cảm</a></li>
-                <li><a href="">Ngụ ngôn</a></li>
+                <li><a href="">Tác giả</a></li>
             </ul>
 
-
-
-        </li>
-
-        <li><a href="">Tác giả</a></li>
-
-    </ul>
-
-    <form  action="search" method="post">
-        <div class="timkiem">
-            <input class="noiDung_timKiem" type="text"
-                   placeholder="Tìm kiếm truyện" name="keyword">
-            <button class="btn-tKiem" type="submit">Tìm kiếm</button>
+            <form action="search" method="post">
+                <div class="dieuhuong__tkiem">
+                    <input class="dieuhuong__tkiem--input" type="text" placeholder="Tìm kiếm truyện" name="keyword">
+                    <button class="dieuhuong__tkiem--nut" type="submit">Tìm kiếm</button>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
 
-<!-- start content -->
-<div id="noiDungTruyen">
-    <div class="truyen__danhSach">
-        <c:forEach items="${listA}" var="o">
-            <div class="truyen1">
-                <div class="truyen1__noiDung">
-                    <a href="" class="noidung">
-                        <div>
-                            <h1>${o.ten_truyen}</h1>
-                            <h3>sonanh2001</h3>
-                            <h3>${o.time }</h3>
+        <!-- end dieu huong -->
+
+        <!-- noi dung chinh cua truyen -->
+        <div id="ndtruyen">
+            <div class="ndtruyen__dsach">
+                <c:forEach items="${listA}" var="o">
+                    <div class="truyen1">
+                        <div class="truyen1__ndung">
+                            <a href="" class="noidung">
+                                <div>
+                                    <h1>${o.title}</h1>
+                                    <h3>sonanh2001</h3>
+                                    <h3>${o.createAt}</h3>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
 
 
-                <div class="truyen__anh">
-                    <img
-                            src="https://tse3.mm.bing.net/th?id=OIP.PqG8_JFVxNv5W1iJ6A9YaAHaFA&pid=Api&P=0"
-                            alt="">
+                        <div class="truyen1__anh">
+                            <img src="https://tse3.mm.bing.net/th?id=OIP.PqG8_JFVxNv5W1iJ6A9YaAHaFA&pid=Api&P=0" alt="">
+                        </div>
+                    </div>
+                </c:forEach>
+
+
+                <!-- trang khac -->
+                <div class="card-footer">
+                    <nav class="Page navigation">
+                        <ul class="pagination jc-center" id="pagination"></ul>
+                    </nav>
                 </div>
             </div>
-        </c:forEach>
 
-        <!-- trang khac -->
-        <div class="truyen_trangKhac">
-            <ul>
-                <c:if test="${tag>1}">
-                    <li><a href="home?index=${tag-1}">Previous</a></li>
+            <!-- Danh sach truyen -->
 
-                </c:if>
-                <c:forEach begin="1" end="${endP}" var="i">
-                    <li><a  class = "${tag == i?"active":""}" href="home?index=${i}">${i }</a></li>
-                </c:forEach>
-                <c:if test="${tag<endP}">
-                    <li><a href="home?index=${tag+1}">Next</a></li>
+            <div class="truyen__moinhat">
+                <h2 class="truyen__tieuDe">
+                    Truyện mới nhất
+                </h2>
+                <ul class="truyen__moinhat-ds">
+                    <li class="phanTu">
+                        <a href="/blog/view/28" class="truyenmoinhat__duongdan">
+                            <p class="truyen__icon">
+                                Gửi bạn từng thân của tôi
+                                <i class="ti-angle-right"></i>
+                            </p>
 
-                </c:if>
+                        </a>
+                    </li>
+                    <li class="phanTu">
+                        <a href="/blog/view/28" class="truyenmoinhat__duongdan">
+                            <p class="truyen__icon">
+                                Gửi bạn tôi
+                                <i class="ti-angle-right"></i>
+                            </p>
 
-
-            </ul>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
+        <!-- end noi dung truyen -->
+
+        <!-- start footer -->
+
+        <!-- footer -->
+        <jsp:include page="footer.jsp"></jsp:include>
+
+        <!-- end footer -->
+
+        <!-- end footer -->
+
 
     </div>
+    <script>
+        function initPagination(){
+            var ulElement = document.querySelector("#pagination");
+            var resultArr = ['1'];
+            var resultStr = ''
+            var currentPage = ${pageable.getPage()}
+            var maxPage = ${pageable.getTotalPages()}
 
-    <!-- Danh sach truyen -->
+            if(currentPage - 1 > 2)
+                resultArr.push('...')
 
-    <div class="truyen__moinhat">
-        <h2 class="truyen__tieuDe">Truyện mới nhất</h2>
-        <ul class="truyen__moinhat-ds">
-            <li class="phanTu"><a href="/blog/view/28"
-                                  class="truyenmoinhat__duongdan">
-                <p class="truyen__icon">
-                    Gửi bạn từng thân của tôi <i class="ti-angle-right"></i>
-                </p>
+            for(var i = 2; i < maxPage; i++){
+                if(Math.abs(i - currentPage) < 2 && Math.abs(i - currentPage) >= 0)
+                    resultArr.push(i+'')
+            }
 
-            </a></li>
-            <li class="phanTu"><a href="/blog/view/28"
-                                  class="truyenmoinhat__duongdan">
-                <p class="truyen__icon">
-                    Gửi bạn tôi <i class="ti-angle-right"></i>
-                </p>
+            console.log(currentPage)
 
-            </a></li>
-        </ul>
-    </div>
+            if(maxPage - currentPage > 2)
+                resultArr.push('...')
+            if(maxPage > 1)
+                resultArr.push(maxPage+'')
 
-</div>
-<!-- end content -->
+            resultArr.forEach( (e) => resultStr += '<li class="page-item active">' + '<a class="page-link" href="/?page=' + e + '">' + e + '</a>' + '</li>')
+            ulElement.innerHTML = resultStr
+        }
 
-
-<!-- footer -->
-<jsp:include page="footer.jsp"></jsp:include>
-<!-- end footer -->
-
+        //Khởi tạo phân trang
+        initPagination();
+    </script>
 </body>
 
 </html>

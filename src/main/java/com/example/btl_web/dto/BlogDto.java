@@ -5,8 +5,7 @@ public class BlogDto {
     private String title;
     private String content;
     private String imageTitle;
-    private Long createAt;
-
+    private String createAt;
     public BlogDto()
     {
 
@@ -20,16 +19,16 @@ public class BlogDto {
         this.blogId = blogId;
     }
 
-    public Long getCreateAt() {
+    public String getTitle() {
+        return title;
+    }
+
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Long createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public void setTitle(String title) {

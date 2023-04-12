@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface BlogDao {
     List<Blog> findAll(String sql, Object... parameters);
-    List<Blog> findBlogByName(String sql, Object... parameters);
+    List<Blog> findBlogByCondition(String sql, Object... parameters);
+    long countBlogs(String sql, Object... parameters);
     boolean save(String sql, Object... parameters);
 }
