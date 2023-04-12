@@ -3,8 +3,11 @@ package com.example.btl_web.paging;
 import java.util.Map;
 
 import com.example.btl_web.constant.Constant.*;
+import com.example.btl_web.service.CategoryService;
+import com.example.btl_web.service.impl.CategoryServiceImpl;
 
 public class PageRequest implements Pageable{
+    private Integer totalPages;
     private Integer page;
     private Integer offset;
     private Integer limit;
@@ -39,6 +42,10 @@ public class PageRequest implements Pageable{
         offset = 0;
         if(this.page != null && this.limit != null)
             offset = (this.page - 1) * this.limit;
+
+        CategoryService categoryService = CategoryServiceImpl.getInstance();
+        long totalItems = categoryService.countAllCategory();
+        this.totalPages = (int) Math.ceil(1.0 * totalItems / limit);
     }
 
     @Override
@@ -57,6 +64,11 @@ public class PageRequest implements Pageable{
     }
 
     @Override
+    public Integer getTotalPages() {
+        return totalPages;
+    }
+
+    @Override
     public String getSortName() {
         return sortName;
     }
@@ -65,4 +77,5 @@ public class PageRequest implements Pageable{
     public String getSortBy() {
         return sortBy;
     }
+
 }

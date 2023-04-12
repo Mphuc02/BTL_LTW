@@ -5,6 +5,7 @@ public class CategoryDto {
     private String name;
     private Long userId;
     private String createdAt;
+    private Integer status;
     public CategoryDto()
     {}
     public Long getCategoryId() {
@@ -30,5 +31,13 @@ public class CategoryDto {
     }
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -40,7 +40,7 @@ public class Constant {
 
     public static class Paging
     {
-        public static final int MAX_ITEMS_OF_PAGE = 10;
+        public static final int MAX_ITEMS_OF_PAGE = 5;
         public static final String PAGE_STR = "page";
         public static final String MAX_ITEMS_OF_PAGE_STR = "max-items-page";
         public static final String SORT_NAME = "sort-name";

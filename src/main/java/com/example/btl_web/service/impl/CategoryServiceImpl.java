@@ -58,11 +58,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public long countAllCategory() {
+        String sql = "Select count(*) from categories";
+        return categoryDao.count(sql);
+    }
+
+    @Override
     public boolean save(CategoryDto categoryDto) {
         Date timeStamp = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat(Dto.DATE_FORMAT);
         categoryDto.setCreatedAt(sdf.format(timeStamp));
-        StringBuilder sql = new StringBuilder("INSERT INTO CATEGORIES (name, user_id, created_at) values (?, ?, ?)");
+        StringBuilder sql = new StringBuilder("INSERT INTO CATEGORIES (name, user_id, created_at, status) values (?, ?, ?, 1)");
 
         Category category = ConvertUtils.convertDtoToEntity(categoryDto, Category.class);
 
@@ -80,7 +86,15 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean delete(Long categoryId) {
-        return false;
+        String sql = "DELETE FROM CATEGORIES WHERE category_id = ?";
+        return categoryDao.update(sql, categoryId);
+    }
+
+    @Override
+    public boolean hidden(Long categoryId, Integer status) {
+
+        String sql = "UPDATE CATEGORIES SET status = ? WHERE category_id = ?";
+        return categoryDao.update(sql, status, categoryId);
     }
 
     private StringBuilder addAndClause(CategoryDto categoryDto)

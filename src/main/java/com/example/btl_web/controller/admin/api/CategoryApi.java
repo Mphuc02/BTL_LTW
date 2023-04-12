@@ -59,4 +59,23 @@ public class CategoryApi extends HttpServlet {
             mapper.writeValue(resp.getOutputStream(), false);
         }
     }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        CategoryDto category = HttpUtils.of(req.getReader()).toModel(CategoryDto.class);
+
+        boolean status = categoryService.hidden(category.getCategoryId(), category.getStatus());
+        ObjectMapper mapper = new ObjectMapper();
+        if(status)
+        {
+            mapper.writeValue(resp.getOutputStream(), true);
+        }
+        else
+        {
+            mapper.writeValue(resp.getOutputStream(), false);
+        }
+    }
 }

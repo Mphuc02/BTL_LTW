@@ -2,6 +2,8 @@ package com.example.btl_web.dao.impl;
 
 import com.example.btl_web.dao.GeneralDao;
 import com.example.btl_web.mapper.RowMapper;
+import com.example.btl_web.mapper.impl.CategoryMapperImpl;
+import com.example.btl_web.model.Category;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -84,6 +86,34 @@ public class GeneralDaoImpl<T> implements GeneralDao {
         clossConnect(connection, statement, null);
         return true;
     }
+
+    @Override
+    public long countSql(String sql, Object... parameters) {
+        long result = 0;
+        Connection connection = getConnection();
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = connection.prepareStatement(sql);
+            setParameters(statement, parameters);
+
+            resultSet = statement.executeQuery();
+
+            if(resultSet.next())
+            {
+                result = resultSet.getLong(1);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            clossConnect(connection, statement, resultSet);
+        }
+        return result;
+    }
+
     private void setParameters(PreparedStatement statement, Object... parameters)
     {
         for(int i = 0 ; i < parameters.length; i++)

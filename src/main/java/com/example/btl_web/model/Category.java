@@ -9,6 +9,7 @@ public class Category implements Serializable {
     private String name;
     private Long userId;
     private Long createdAt;
+    private Integer status;
     private Set<Blog> blogs = new HashSet<>();
     public Category(){
         
@@ -58,5 +59,13 @@ public class Category implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

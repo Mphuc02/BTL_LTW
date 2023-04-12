@@ -16,6 +16,7 @@ public class CategoryMapperImpl implements RowMapper {
             category.setName(resultSet.getString("name"));
             category.setUserId(resultSet.getLong("user_id"));
             category.setCreatedAt(resultSet.getLong("created_at"));
+            category.setStatus(resultSet.getInt("status"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

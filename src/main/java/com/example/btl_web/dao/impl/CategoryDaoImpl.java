@@ -1,7 +1,6 @@
 package com.example.btl_web.dao.impl;
 
 import com.example.btl_web.dao.CategoryDao;
-import com.example.btl_web.dto.CategoryDto;
 import com.example.btl_web.mapper.impl.CategoryMapperImpl;
 import com.example.btl_web.model.Category;
 
@@ -23,5 +22,10 @@ public class CategoryDaoImpl extends GeneralDaoImpl<Category> implements Categor
     @Override
     public boolean update(String sql, Object... parameters) {
         return updateSql(sql, parameters);
+    }
+
+    @Override
+    public long count(String sql, Object... parameters) {
+        return countSql(sql, parameters);
     }
 }
