@@ -47,7 +47,7 @@ public class UserDaoImpl extends GeneralDaoImpl<User> implements UserDao {
 
     @Override
     public boolean saveUser(Object... parameters) {
-        String sql = "Insert into users (username, password, role, email, registered_at) values(?, ?, ?, ?,? )";
+        String sql = "Insert into users (username, password, role, email, registered_at, status) values(?, ?, ?, ?, ?, 1 )";
 
         boolean status = updateSql(sql, parameters);
         if(status)

@@ -65,6 +65,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean save(CategoryDto categoryDto) {
+        if(!checkValidCategory(categoryDto))
+            return false;
+
         Date timeStamp = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat(Dto.DATE_FORMAT);
         categoryDto.setCreatedAt(sdf.format(timeStamp));
@@ -77,6 +80,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean update(CategoryDto categoryDto) {
+        if(!checkValidCategory(categoryDto))
+            return false;
         String sql = "UPDATE CATEGORIES SET name = ?, user_id = ?, created_at = ? where category_id = ?";
 
         Category category = ConvertUtils.convertDtoToEntity(categoryDto, Category.class);
@@ -110,5 +115,14 @@ public class CategoryServiceImpl implements CategoryService {
             sb.append(" AND user_id = ?");
 
         return sb;
+    }
+
+    private boolean checkValidCategory(CategoryDto categoryDto)
+    {
+        String name = categoryDto.getName();
+
+        if(name == null || name.equals(""))
+            return false;
+        return true;
     }
 }

@@ -2,7 +2,6 @@ package com.example.btl_web.dto;
 
 import com.example.btl_web.model.Blog;
 import com.example.btl_web.model.Comment;
-import com.example.btl_web.model.User;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +16,7 @@ public class UserDto {
     private String phone;
     private String fullName;
     private String registeredAt;
+    private Integer status;
     private Set<Blog> blogs = new HashSet<>();
     private Set<Comment> comments = new HashSet<>();
     private Set<Blog> likedBlog = new HashSet<>();
@@ -115,5 +115,13 @@ public class UserDto {
 
     public void setLikedBlog(Set<Blog> likedBlog) {
         this.likedBlog = likedBlog;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -1,7 +1,6 @@
 package com.example.btl_web.model;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +14,7 @@ public class User implements Serializable {
     private String phone;
     private String fullName;
     private Long registeredAt;
+    private Integer status;
     private Set<Blog> blogs = new HashSet<>();
     private Set<Comment> comments = new HashSet<>();
     private Set<Blog> likedBlog = new HashSet<>();
@@ -120,5 +120,13 @@ public class User implements Serializable {
 
     public void setLikedBlog(Set<Blog> likedBlog) {
         this.likedBlog = likedBlog;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

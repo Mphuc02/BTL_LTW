@@ -27,6 +27,9 @@ public class CategoryController extends HttpServlet {
         List<CategoryDto> categoryDtos = categoryService.findAll(pageable);
         req.setAttribute("list", categoryDtos);
 
+        req.setAttribute("blogs", Admin.BLOGS_PAGE);
+        req.setAttribute("users", Admin.USERS_PAGE);
+
         RequestDispatcher rd = req.getRequestDispatcher(Admin.CATEGORIES_JSP);
         rd.forward(req, resp);
     }

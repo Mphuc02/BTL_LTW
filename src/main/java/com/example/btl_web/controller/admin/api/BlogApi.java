@@ -1,4 +1,4 @@
-package com.example.btl_web.controller;
+package com.example.btl_web.controller.admin.api;
 
 import com.example.btl_web.constant.Constant;
 import com.example.btl_web.model.Blog;

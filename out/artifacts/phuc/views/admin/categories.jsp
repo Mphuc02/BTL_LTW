@@ -27,14 +27,14 @@
                                 <a href="#" class="navbar__item--link">Quản lý thể loại</a>
                             </li>
                             <li class="navbar__item">
-                                <a href="/admin-home?page=${blogs}" class="navbar__item--link">Quản lý truyện</a>
+                                <a href="${blogs}" class="navbar__item--link">Quản lý truyện</a>
                             </li>
                             <li class="navbar__item">
-                                <a href="/admin-home?page=${users}" class="navbar__item--link">Quản lý người dùng</a>
+                                <a href="${users}" class="navbar__item--link">Quản lý người dùng</a>
                             </li>
                         </ul>
                         <button class="btn-exist">
-                            <a href="/login" class="btn-exist--link">Đăng xuất</a>
+                            <a href="/login?action=logout" class="btn-exist--link">Đăng xuất</a>
                         </button>
                     </div>
                 </div>
@@ -105,11 +105,7 @@
                             </div>
                             <div class="card-footer">
                                 <nav class="Page navigation">
-                                    <ul class="pagination jc-center" id="pagination">
-                                        <%--<li class="page-item active">--%>
-                                        <%--    <a href="#" class="page-link">First</a>--%>
-                                        <%--</li>--%>
-                                    </ul>
+                                    <ul class="pagination jc-center" id="pagination"></ul>
                                 </nav>
                             </div>
                         </div>
@@ -161,13 +157,21 @@
             var currentPage = ${pageable.getPage()}
             var maxPage = ${pageable.getTotalPages()}
 
+            if(currentPage - 1 > 2)
+                resultArr.push('...')
+
             for(var i = 2; i < maxPage; i++){
-                if(currentPage - i > 2 || i - currentPage < 2)
+                if(Math.abs(i - currentPage) < 2 && Math.abs(i - currentPage) >= 0)
                     resultArr.push(i+'')
             }
 
+            console.log(currentPage)
+
+            if(maxPage - currentPage > 2)
+                resultArr.push('...')
             if(maxPage > 1)
                 resultArr.push(maxPage+'')
+
             resultArr.forEach( (e) => resultStr += '<li class="page-item active">' + '<a class="page-link" href="/admin/categories?page=' + e + '">' + e + '</a>' + '</li>')
             ulElement.innerHTML = resultStr
         }

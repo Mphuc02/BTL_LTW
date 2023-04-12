@@ -73,6 +73,11 @@ public class UserServiceimpl implements UserService {
         return false;
     }
 
+    @Override
+    public boolean updateUser(UserDto dto) {
+        return false;
+    }
+
     private boolean checkUserNameExisted(String userName)
     {
         User user = userDao.getUserByUserName(userName);
@@ -86,5 +91,29 @@ public class UserServiceimpl implements UserService {
         String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
                 + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
         return Pattern.compile(regexPattern).matcher(email).matches();
+    }
+
+    private StringBuilder addAndClause(UserDto userDto)
+    {
+        StringBuilder sb = new StringBuilder();
+        Long userId = userDto.getUserId();
+        Integer status = userDto.getStatus();
+        String userName = userDto.getUserName();
+        String passWord = userDto.getPassWord();
+        String email = userDto.getEmail();
+        String role = userDto.getRole();
+        String address = userDto.getAddress();
+        String phone = userDto.getPhone();
+        String fullName = userDto.getPhone();
+        String registeredAt = userDto.getRegisteredAt();
+
+        if(userId != null)
+            sb.append(" AND user_id = ?");
+        if(status != null)
+            sb.append(" AND status = ?");
+        if(userName != null)
+            sb.append(" AND username = ?");
+
+        return sb;
     }
 }

@@ -27,14 +27,14 @@
                                 <a href="#" class="navbar__item--link">Quản lý thể loại</a>
                             </li>
                             <li class="navbar__item">
-                                <a href="/admin/blogs.html#" class="navbar__item--link">Quản lý truyện</a>
+                                <a href="/admin/blogs" class="navbar__item--link">Quản lý truyện</a>
                             </li>
                             <li class="navbar__item">
-                                <a href="/admin/user.html#" class="navbar__item--link">Quản lý người dùng</a>
+                                <a href="/admin/users" class="navbar__item--link">Quản lý người dùng</a>
                             </li>
                         </ul>
                         <button class="btn-exist">
-                            <a href="/login/login.html#" class="btn-exist--link">Đăng xuất</a>
+                            <a href="/login?action=logout" class="btn-exist--link">Đăng xuất</a>
                         </button>
                     </div>
                 </div>
@@ -116,10 +116,13 @@
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(this.responseText);
-                    if(!categoryId)
-                        alert("Thêm thể loại thành công!")
-                    else
-                        alert("Cập nhật thành công!")
+                    if(this.responseText)
+                    {
+                        if(!categoryId)
+                            alert("Thêm thể loại thành công!")
+                        else
+                            alert("Cập nhật thành công!")
+                    }
                 }
             };
         }
