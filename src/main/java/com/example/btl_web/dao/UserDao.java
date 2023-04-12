@@ -5,9 +5,8 @@ import com.example.btl_web.model.User;
 import java.util.List;
 
 public interface UserDao {
-    List<User> findAll();
-    User getUserById(Long id);
-    User getUserByUserName(String userName);
-    boolean checkUserNameExist();
-    boolean saveUser(Object... parameters);
+    List<User> findAll(String sql, Object... parameters);
+    List<User> getUserByCondition(String sql, Object... parameters);
+    boolean checkUserNameExist(String sql, Object... parameters);
+    boolean saveUser(String sql, Object... parameters);
 }

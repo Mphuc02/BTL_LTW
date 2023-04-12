@@ -4,6 +4,7 @@ import com.example.btl_web.dao.UserDao;
 import com.example.btl_web.dao.impl.UserDaoImpl;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.model.User;
+import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.ConvertUtils;
 
@@ -23,8 +24,19 @@ public class UserServiceimpl implements UserService {
         return userServiceimpl;
     }
     @Override
-    public List<UserDto> findAll() {
-        List<User> users = userDao.findAll();
+    public List<UserDto> findAll(Pageable pageable) {
+        Integer offset = pageable.getOffset();
+        Integer limit = pageable.getLimit();
+        String sortName = pageable.getSortName();
+        String sortBy = pageable.getSortBy();
+
+        StringBuilder sql = new StringBuilder("SELECT * FROM USERS");
+        if(sortName != null && sortBy != null)
+            sql.append(" ORDER BY " + sortName + " " + sortBy);
+        if(offset != null && limit != null)
+            sql.append(" LIMIT ?,?");
+
+        List<User> users = userDao.findAll(sql.toString(), offset, limit);
         List<UserDto> dtos = new ArrayList<>();
 
         for(User user: users)
@@ -35,20 +47,27 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
+    public List<UserDto> findByCondition(UserDto userDto) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE (1 = 1)");
+        sql.append(addAndClause(userDto));
+        List<User> users = userDao.getUserByCondition(sql.toString());
+
+        return ConvertUtils.convertListEntitiesToDtos(users, UserDto.class);
+    }
+
+    @Override
     public UserDto login(String userName, String passWord) {
-        User user = userDao.getUserByUserName(userName);
+        UserDto userDto = new UserDto();
+        userDto.setUserName(userName);
+        userDto.setPassWord(passWord);
 
-        if(user != null)
-        {
-            String userNameLogin = user.getUserName();
-            String passWordLogin = user.getPassWord();
+        StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE (1 = 1)");
+        sql.append(addAndClause(userDto));
 
-            if(userName.equals(userNameLogin) && passWordLogin.equals(passWord))
-            {
-                return ConvertUtils.convertEntityToDto(user, UserDto.class);
-            }
-        }
-        return null;
+        List<User> users = userDao.getUserByCondition(sql.toString());
+
+        return users.isEmpty() ? null : ConvertUtils.convertEntityToDto(users.get(0), UserDto.class);
+
     }
 
     @Override
@@ -65,12 +84,10 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
-    public boolean saveUser(String userName, String passWord, String email) {
-        Date javaDate = new Date();
-        long timeStamp = javaDate.getTime();
-        if(userDao.saveUser(userName,passWord, "USER", email, timeStamp))
-            return true;
-        return false;
+    public boolean saveUser(UserDto userDto) {
+        Date timeStamp = new Date();
+        String sql = "INSERT INTO USERS (email, password, registered_at, role, username, status) VALUES (?, ?, ?, ?, ?, 1)";
+        return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), "USER", userDto.getUserName());
     }
 
     @Override
@@ -80,7 +97,11 @@ public class UserServiceimpl implements UserService {
 
     private boolean checkUserNameExisted(String userName)
     {
-        User user = userDao.getUserByUserName(userName);
+        String sql = "SELECT * FROM USERS WHERE username = ?";
+        List<User> users = userDao.getUserByCondition(sql.toString(), userName);
+
+        User user = users.isEmpty() ? null: users.get(0);
+
         if(user == null)
             return false;
         return true;
@@ -96,6 +117,7 @@ public class UserServiceimpl implements UserService {
     private StringBuilder addAndClause(UserDto userDto)
     {
         StringBuilder sb = new StringBuilder();
+
         Long userId = userDto.getUserId();
         Integer status = userDto.getStatus();
         String userName = userDto.getUserName();
@@ -108,11 +130,25 @@ public class UserServiceimpl implements UserService {
         String registeredAt = userDto.getRegisteredAt();
 
         if(userId != null)
-            sb.append(" AND user_id = ?");
+            sb.append(" AND user_id = " + userId );
         if(status != null)
-            sb.append(" AND status = ?");
+            sb.append(" AND status = " + status);
         if(userName != null)
-            sb.append(" AND username = ?");
+            sb.append(" AND username = '" + userName + "'");
+        if(passWord != null)
+            sb.append(" AND password = '" + passWord + "'");
+        if(email != null)
+            sb.append(" AND email = '" + email + "'");
+        if(role != null)
+            sb.append(" AND role = '" + role + "'");
+        if(address != null)
+            sb.append(" AND address = '" + address + "'");
+        if(phone != null)
+            sb.append(" AND phone = '" + phone +  "'");
+        if(fullName != null)
+            sb.append(" AND full_name = '" + fullName + "'");
+        if(registeredAt != null)
+            sb.append(" AND registered_at = " + registeredAt);
 
         return sb;
     }

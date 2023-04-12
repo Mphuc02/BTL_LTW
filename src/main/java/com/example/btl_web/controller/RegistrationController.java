@@ -1,6 +1,7 @@
 package com.example.btl_web.controller;
 
 import com.example.btl_web.constant.Constant;
+import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.service.impl.UserServiceimpl;
 import jakarta.servlet.RequestDispatcher;
@@ -33,7 +34,12 @@ public class RegistrationController extends HttpServlet {
 
         if(errorSignUp == -1)
         {
-            userService.saveUser(userName, passWord, email);
+            UserDto userDto = new UserDto();
+            userDto.setUserName(userName);
+            userDto.setPassWord(passWord);
+            userDto.setEmail(email);
+
+            userService.saveUser(userDto);
             resp.sendRedirect(req.getContextPath() + User.LOGIN);
         }
         else

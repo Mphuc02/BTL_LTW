@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="phuc">
-    <output-path>$PROJECT_DIR$/out/artifacts/phuc</output-path>
+  <artifact type="exploded-war" name="fix_login">
+    <output-path>$PROJECT_DIR$/out/artifacts/fix_login</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

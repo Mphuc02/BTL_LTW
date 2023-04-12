@@ -1,17 +1,19 @@
 package com.example.btl_web.mapper.impl;
 
-import com.example.btl_web.dao.UserDao;
-import com.example.btl_web.dao.impl.UserDaoImpl;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.mapper.RowMapper;
 import com.example.btl_web.model.Blog;
 import com.example.btl_web.model.User;
+import com.example.btl_web.service.UserService;
+import com.example.btl_web.service.impl.UserServiceimpl;
+import com.example.btl_web.utils.ConvertUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class BlogMapperImpl implements RowMapper {
-    private UserDao userDao = UserDaoImpl.getInstance();
+    private UserService userService = UserServiceimpl.getInstance();
     @Override
     public Object mapper(ResultSet resultSet) {
         Blog blog = new Blog();
@@ -23,7 +25,11 @@ public class BlogMapperImpl implements RowMapper {
             blog.setImageTitle(resultSet.getString("image_title"));
             blog.setCreateAt(resultSet.getLong("created_at"));
 
-            User user = userDao.getUserById(resultSet.getLong("user_id"));
+            UserDto userDto = new UserDto();
+            userDto.setUserId(resultSet.getLong("user_id"));
+            List<UserDto> userDtos = userService.findByCondition(userDto);
+            User user = userDtos.isEmpty() ? null: ConvertUtils.convertDtoToEntity(userDtos.get(0), User.class);
+            blog.setUserBlog(user);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
