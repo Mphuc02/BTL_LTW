@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="./assets/css/style1.css">
     <link rel="stylesheet" href="./assets/font/themify-icons-font/themify-icons/themify-icons.css">
 </head>
+
 <body>
 
     <div class="web">
@@ -19,44 +21,90 @@
             </div>
 
             <div class="tieude__nut">
-                <a class="tieude__nut--icon" href="">
-                    <i class="search-icon ti-announcement"></i>
-                    Thông báo</a>
-                <a class="tieuDe__nut--icon" href="">
-                    <i class="search-icon ti-help-alt"></i>
-                    Trợ giúp</a>
-                <a class="tieuDe__nut--icon" href="">
-                    <i class="search-icon ti-write"></i>
-                    Viết truyện</a>
-                <a class="tieuDe__nut--icon" href="">Đăng nhập</a>
+                <div class="tieude__nut">
+                    <div>
+                        <a class="tieude__nut--icon" href="">
+                            <i class="search-icon ti-announcement"></i>
+                            Thông báo</a>
+                    </div>
+                    <div>
+                        <a class="tieuDe__nut--icon" href="">
+                            <i class="search-icon ti-help-alt"></i>
+                            Trợ giúp</a>
+                    </div>
+                    <div>
+                        <a class="tieuDe__nut--icon" href="">
+                            <i class="search-icon ti-write"></i>
+                            Viết truyện</a>
+                    </div>
+                    <div>
+                        <a class="tieuDe__nut--icon" href="">
+                            <i class="ti-layout-grid2-alt"></i>
+                            Đăng nhập</a>
+                    </div>
+                </div>
+
+                <div class="avatar">
+                    <img src="https://tse3.mm.bing.net/th?id=OIP.2qeEPUZpvbhuqtsQ_XVRKwHaJN&pid=Api&P=0" alt="Avatar"
+                        class="avatar_anh" onclick="showMenu()">
+                    <div class="avatar_ndung">
+                        <ul class="avatar_menu" id="menu">
+                            <li><a href="#">
+                                    <i class="avatar_icon ti-user"></i>
+                                    Cá nhân</a></li>
+                            <li><a href="#">
+                                    <i class=" avatar_icon ti-settings"></i>
+                                    Cài đặt</a></li>
+                            <li><a href="#">
+                                    <i class="avatar_icon ti-help-alt"></i>
+                                    Trợ giúp</a></li>
+                            <li><a href="#">
+                                    <i class="avatar_icon ti-info-alt"></i>
+                                    Phản hồi</a></li>
+                            <li><a href="#">
+                                    <i class="avatar_icon ti-drupal"></i>
+                                    Đăng xuất</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+
             </div>
         </div>
         <!-- end  tieu de -->
 
         <!-- dieu huong -->
         <div id="dieuhuong">
+
             <ul class="dieuhuong__ctiet">
                 <li>
                     <div>
                         Thể loại
                         <i class="ti-angle-down"></i>
                     </div>
-                    <ul class="dieuhuong__ctiet--tloai">
-                        <li><a href="">Cổ tích</a></li>
-                        <li><a href="">Truyện cười</a></li>
-                        <li><a href="">Đời sống</a></li>
-                        <li><a href="">Tình cảm</a></li>
-                        <li><a href="">Ngụ ngôn</a></li>
-                    </ul>
+                    <div class="dieuhuong__theloai">
+                        <ul class="dieuhuong__ctiet--tloai">
+                            <li><a href="">Cổ tích</a></li>
+                            <li><a href="">Truyện cười</a></li>
+                            <li><a href="">Đời sống</a></li>
+                            <li><a href="">Tình cảm</a></li>
+                            <li><a href="">Ngụ ngôn</a></li>
+                        </ul>
+                    </div>
                 </li>
-    
+
+
                 <li><a href="">Tác giả</a></li>
             </ul>
+          
 
-            <div class="dieuhuong__tkiem">
-                <input class="dieuhuong__tkiem--input" type="text" placeholder="Tìm kiếm truyện" name="keyword">
-                <button class="dieuhuong__tkiem--nut" type="submit">Tìm kiếm</button>
-            </div>
+
+            <form  action="search" method="post">
+                <div class="dieuhuong__tkiem">
+                    <input class="dieuhuong__tkiem--input" type="text" placeholder="Tìm kiếm truyện" name="keyword">
+                    <button class="dieuhuong__tkiem--nut" type="submit">Tìm kiếm</button>
+                </div>
+            </form>
         </div>
 
         <!-- end dieu huong -->
@@ -74,13 +122,13 @@
                             </div>
                         </a>
                     </div>
-    
-    
+
+
                     <div class="truyen1__anh">
                         <img src="https://tse3.mm.bing.net/th?id=OIP.PqG8_JFVxNv5W1iJ6A9YaAHaFA&pid=Api&P=0" alt="">
                     </div>
                 </div>
-    
+
                 <!-- themmm -->
                 <div class="truyen1">
                     <div class="truyen1__ndung">
@@ -92,13 +140,13 @@
                             </div>
                         </a>
                     </div>
-    
-    
+
+
                     <div class="truyen1__anh">
                         <img src="https://tse3.mm.bing.net/th?id=OIP.PqG8_JFVxNv5W1iJ6A9YaAHaFA&pid=Api&P=0" alt="">
                     </div>
                 </div>
-    
+
                 <div class="truyen1">
                     <div class="truyen1__ndung">
                         <a href="" class="noidung">
@@ -109,98 +157,103 @@
                             </div>
                         </a>
                     </div>
-    
-    
+
+
                     <div class="truyen1__anh">
                         <img src="https://tse3.mm.bing.net/th?id=OIP.PqG8_JFVxNv5W1iJ6A9YaAHaFA&pid=Api&P=0" alt="">
                     </div>
                 </div>
-    
+
                 <!-- themmmm -->
-    
-                <!-- trang khac -->
-                <div class="truyen_trangkhac">
-                    <ul>
-                        <li><a href="">Frist 1</a></li>
-            
-                        <li><a href="">2</a></li>
-                        <li><a href="">3</a></li>
-                        <li><a href="">4</a></li>
-                    </ul>
-                </div>
-    
+
+      
+
             </div>
 
             <!-- Danh sach truyen -->
 
-        <div class="truyen__moinhat">
-            <h2 class="truyen__tieuDe">
-                Truyện mới nhất
-            </h2>
-            <ul class="truyen__moinhat-ds">
-                <li class="phanTu">
-                    <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-                        <p class="truyen__icon"> 
-                            Gửi bạn từng thân của tôi
-                            <i class="ti-angle-right"></i>
-                        </p>
-                        
-                    </a>
-                </li>
-                <li class="phanTu">
-                    <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-                        <p class="truyen__icon">
-                             Gửi bạn  tôi
-                             <i class="ti-angle-right"></i>
+            <div class="truyen__moinhat">
+                <h2 class="truyen__tieuDe">
+                    Truyện mới nhất
+                </h2>
+                <ul class="truyen__moinhat-ds">
+                    <li class="phanTu">
+                        <a href="/blog/view/28" class="truyenmoinhat__duongdan">
+                            <p class="truyen__icon">
+                                Gửi bạn từng thân của tôi
+                                <i class="ti-angle-right"></i>
                             </p>
-                        
-                    </a>
-                </li>
+
+                        </a>
+                    </li>
+                    <li class="phanTu">
+                        <a href="/blog/view/28" class="truyenmoinhat__duongdan">
+                            <p class="truyen__icon">
+                                Gửi bạn tôi
+                                <i class="ti-angle-right"></i>
+                            </p>
+
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="truyen_trangkhac">
+            <ul>
+                <li><a href="">Frist 1</a></li>
+
+                <li><a href="">2</a></li>
+                <li><a href="">3</a></li>
+                <li><a href="">4</a></li>
+                <li><a href="">Previous</a></li>
             </ul>
         </div>
-    </div>
+
         <!-- end noi dung truyen -->
 
         <!-- start footer -->
 
-         <!-- footer -->
-    <div id="cuoitrang">
-        <div class="cuoitrang_ndung">
-  
-            <div class="cuoitrang_ndung--chitiet">
-                <h3>Trang chủ</h3>
-                <h3>Video</h3>
-                <h3>Podcasts</h3>
-                <h3>Infographics</h3>
-            </div>
-  
-            <div class="cuoitrang_ndung--chitiet">
-                <h3>Liên hệ</h3>
-                <ul>
-                    <li>Email: info@mywebsite.com</li>
-                    <li>Phone: 78325534546</li>
-                    <li>Address: 123 Main St, Anytown,Viet nam</li>
-              </ul>
-            </div>
-  
-            <div class="cuoitrang_ndung--chitiet">
-                <h3>Địa chỉ</h3>
-                <ul class="social-icons">
-                    <li>Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch</li>
-                    <li>Vọng, Cầu Giấy, Hà Nội</li>
-                    <li>Điện thoại: 024 7300 8899 - máy lẻ 4500</li>
-                </ul>
-            </div>
-        </div>
-  
-      </div>
+        <!-- footer -->
+        <div id="cuoitrang">
+            <div class="cuoitrang_ndung">
 
-<!-- end footer -->
+                <div class="cuoitrang_ndung--chitiet">
+                    <h3>Trang chủ</h3>
+                    <h3>Video</h3>
+                    <h3>Podcasts</h3>
+                    <h3>Infographics</h3>
+                </div>
+
+                <div class="cuoitrang_ndung--chitiet">
+                    <h3>Liên hệ</h3>
+                    <ul>
+                        <li>Email: info@mywebsite.com</li>
+                        <li>Phone: 78325534546</li>
+                        <li>Address: 123 Main St, Anytown,Viet nam</li>
+                    </ul>
+                </div>
+
+                <div class="cuoitrang_ndung--chitiet">
+                    <h3>Địa chỉ</h3>
+                    <ul class="social-icons">
+                        <li>Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch</li>
+                        <li>Vọng, Cầu Giấy, Hà Nội</li>
+                        <li>Điện thoại: 024 7300 8899 - máy lẻ 4500</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- end footer -->
 
         <!-- end footer -->
 
 
     </div>
-    
+
+    <script src="./main.js"></script>
 </body>
+
 </html>
