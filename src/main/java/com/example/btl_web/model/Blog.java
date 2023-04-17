@@ -11,7 +11,7 @@ public class Blog implements Serializable {
     private String title;
     private String content;
     private String imageTitle;
-    private Long createAt;
+    private Long createdAt;
     private User userBlog;
     Set<Category> categories = new HashSet<>();
     Set<User> likedUsers = new HashSet<>();
@@ -22,7 +22,7 @@ public class Blog implements Serializable {
     }
     public String timeConvert(){
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String data[] =  dateFormat.format(createAt).split("\\s+");
+        String data[] =  dateFormat.format(createdAt).split("\\s+");
         String date = data[0] + " lúc " + data[1];
         return date;
     }
@@ -44,12 +44,12 @@ public class Blog implements Serializable {
         return false;
     }
 
-    public Long getCreateAt() {
-        return createAt;
+    public Long getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreateAt(Long createAt) {
-        this.createAt = createAt;
+    public void setCreatedAt(Long createAt) {
+        this.createdAt = createAt;
     }
 
     public Long getBlogId() {

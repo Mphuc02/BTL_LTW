@@ -25,11 +25,12 @@ public class CategoryController extends HttpServlet {
         Pageable pageable = new PageRequest(req.getParameterMap(), totalCategories );
         req.setAttribute("pageable", pageable);
 
-        List<CategoryDto> categoryDtos = categoryService.findAll(pageable);
+        List<CategoryDto> categoryDtos = categoryService.findAll(pageable, null);
         req.setAttribute("list", categoryDtos);
 
         req.setAttribute("blogs", Admin.BLOGS_PAGE);
         req.setAttribute("users", Admin.USERS_PAGE);
+        req.setAttribute("categories", Admin.CATEGORIES_PAGE);
 
         RequestDispatcher rd = req.getRequestDispatcher(Admin.CATEGORIES_JSP);
         rd.forward(req, resp);

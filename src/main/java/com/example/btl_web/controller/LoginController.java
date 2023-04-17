@@ -1,6 +1,7 @@
 package com.example.btl_web.controller;
 
 import com.example.btl_web.constant.Constant;
+import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.service.impl.UserServiceimpl;
@@ -19,20 +20,20 @@ public class LoginController extends HttpServlet {
     private UserService userService = UserServiceimpl.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher( Constant.LOGIN_JSP);
+        RequestDispatcher rd = req.getRequestDispatcher(Constant.LOGIN_JSP);
 
-        String action = req.getParameter("action");
+        String action = req.getParameter(User.ACTION);
         if(action != null)
         {
-            if(action.equals("not_login"))
+            if(action.equals(User.ACTION_NOT_LOGIN))
             {
                 req.setAttribute("message", "Bạn chưa đăng nhập!");
             }
-            else if (action.equals("not_permission"))
+            else if (action.equals(User.ACTION_NOT_PERMISSION))
             {
                 req.setAttribute("message", "Bạn không có quyền truy cập địa chỉ này!");
             }
-            else if(action.equals("logout"))
+            else if(action.equals(User.ACTION_LOG_OUT))
             {
                 req.setAttribute("message", "Đăng xuất thành công!");
                 SessionUtils.getInstance().removeValue(req, Constant.USER_MODEL);

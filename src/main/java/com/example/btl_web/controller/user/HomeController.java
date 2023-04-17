@@ -25,6 +25,7 @@ public class HomeController extends HttpServlet {
 
         List<BlogDto> blogDtos = blogService.getAllBlogs(pageable,null);
         request.setAttribute("listA", blogDtos);
+        request.setAttribute("home", User.HOME_PAGE);
 
         request.getRequestDispatcher(User.HOME_JSP).forward(request, response);
     }

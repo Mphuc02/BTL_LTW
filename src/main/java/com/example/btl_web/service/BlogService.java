@@ -9,5 +9,5 @@ import java.util.List;
 public interface BlogService {
     List<BlogDto> getAllBlogs(Pageable pageable, BlogDto dto);
     long countBlogs(BlogDto blogDto);
-    Boolean save(Blog blog);
+    Long save(BlogDto blog);
 }

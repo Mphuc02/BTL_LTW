@@ -22,6 +22,7 @@ public class UserMapperImpl implements RowMapper<User> {
             user.setRegisteredAt(resultSet.getLong("registered_at"));
             user.setRole(resultSet.getString("role"));
             user.setUserName(resultSet.getString("username"));
+            user.setStatus(resultSet.getInt("status"));
         } catch (SQLException e) {
             e.printStackTrace();
         }

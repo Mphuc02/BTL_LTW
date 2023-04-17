@@ -6,11 +6,10 @@ import com.example.btl_web.paging.Pageable;
 import java.util.List;
 
 public interface CategoryService {
-    List<CategoryDto> findAll(Pageable pageable);
-    CategoryDto findOneById(Long id);
+    List<CategoryDto> findAll(Pageable pageable, CategoryDto dto);
+    CategoryDto findOneBy(CategoryDto dto);
     long countCategories();
-    boolean save(CategoryDto categoryDto);
-    boolean update(CategoryDto categoryDto);
-    boolean delete(Long categoryId);
-    boolean hidden(Long categoryId, Integer status);
+    Long save(CategoryDto categoryDto);
+    Long update(CategoryDto categoryDto);
+    Long delete(Long categoryId);
 }

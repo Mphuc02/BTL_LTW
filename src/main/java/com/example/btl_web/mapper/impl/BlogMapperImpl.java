@@ -23,7 +23,7 @@ public class BlogMapperImpl implements RowMapper {
             blog.setTitle(resultSet.getString("title"));
             blog.setContent(resultSet.getString("content"));
             blog.setImageTitle(resultSet.getString("image_title"));
-            blog.setCreateAt(resultSet.getLong("created_at"));
+            blog.setCreatedAt(resultSet.getLong("created_at"));
 
             UserDto userDto = new UserDto();
             userDto.setUserId(resultSet.getLong("user_id"));

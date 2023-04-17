@@ -48,11 +48,10 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Boolean save(Blog blog) {
+    public Long save(BlogDto blog) {
         Date timeStamp = new Date();
-        blog.setCreateAt(timeStamp.getTime());
-        String sql = "INSERT INTO BLOGS (content, created_at, image_title, title, user_id)";
-        return blogDao.save(sql,blog.getContent(), blog.getCreateAt(), blog.getImageTitle(), blog.getUserBlog().getUserId());
+        String sql = "INSERT INTO BLOGS (content, created_at, title, user_id, status) values (?, ?, ?, ?, 1)";
+        return blogDao.save(sql, blog.getContent(), timeStamp.getTime(), blog.getTitle(), blog.getUser().getUserId());
     }
 
     private StringBuilder addAndClause(Pageable pageable ,BlogDto dto)
@@ -64,7 +63,7 @@ public class BlogServiceImpl implements BlogService {
             String title = dto.getTitle();
             String content = dto.getContent();
             String imageTitle = dto.getImageTitle();
-            String createAt = dto.getCreateAt();
+            String createAt = dto.getCreatedAt();
 
             if (blogId != null)
                 sb.append(" AND WHERE blog_id = " + blogId);

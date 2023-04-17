@@ -27,7 +27,7 @@ public class ConvertUtils {
                     if(dtoField.getName().equals(entityField.getName()) && !entityField.getName().equals(Constant.USER_NAME) && !entityField.getName().equals(Constant.PASS_WORD))
                     {
                         if(entityField.getType() == Long.class && dtoField.getType() == String.class &&
-                                entityField.getName().equals(Dto.CREATE_DATE) || entityField.getName().equals(Dto.MODIFIED_DATE) || entityField.getName().equals(Dto.REGISTRATION_AT))
+                                (entityField.getName().equals(Dto.CREATE_DATE) || entityField.getName().equals(Dto.MODIFIED_DATE) || entityField.getName().equals(Dto.REGISTRATION_AT)))
                         {
                             String timeStamp = convertTimeEntiTyToDto(entity, entityField);
                             dtoField.set(dto, timeStamp);
@@ -41,16 +41,18 @@ public class ConvertUtils {
                 }
             }
          } catch (InstantiationException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return dto;
     }
 
-    private static <E> String convertTimeEntiTyToDto(E entity, Field entityField)
+    public static <E> String convertTimeEntiTyToDto(E entity, Field entityField)
     {
+        if(entityField == null)
+            return null;
         String time = null;
         try {
             long timeStamp = (long) entityField.get(entity);
@@ -58,7 +60,7 @@ public class ConvertUtils {
             SimpleDateFormat sdf = new SimpleDateFormat(Dto.DATE_FORMAT);
             time = sdf.format(dateTime);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return time;
     }
@@ -82,7 +84,7 @@ public class ConvertUtils {
                         if(entityField.getType() == Long.class && dtoField.getType() == String.class &&
                                 entityField.getName().equals(Dto.CREATE_DATE) || entityField.getName().equals(Dto.MODIFIED_DATE) || entityField.getName().equals(Dto.REGISTRATION_AT))
                         {
-                            long timeStamp = convertTimeDtoToEntity(dto, dtoField);
+                            Long timeStamp = convertTimeDtoToEntity(dto, dtoField);
                             entityField.set(entity, timeStamp);
                         }
                         else
@@ -94,9 +96,9 @@ public class ConvertUtils {
                 }
             }
         } catch (InstantiationException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return entity;
@@ -106,10 +108,12 @@ public class ConvertUtils {
     {
         long timeStamp = 0;
         String timeStampStr = null;
-        try {
+
+        try
+        {
             timeStampStr = dtoField.get(dto).toString();
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         Date date = new Date(timeStampStr);
         timeStamp = date.getTime();
@@ -124,5 +128,12 @@ public class ConvertUtils {
             dtos.add(convertEntityToDto(entity, dtoClass));
         }
         return dtos;
+    }
+
+    public static Long convertStringDateToLong(String dateStr)
+    {
+        Date date = new Date(dateStr);
+
+        return date.getTime();
     }
 }

@@ -77,6 +77,8 @@ public class PageRequest implements Pageable{
     @Override
     public  StringBuilder addPagingation() {
         StringBuilder sb = new StringBuilder();
+        if(this == null)
+            return sb;
         //Thêm các tham số
         if(sortBy != null && sortName != null)
             sb.append("ORDER BY " + sortName + " " + sortBy);

@@ -17,10 +17,10 @@ public class AuthorizationFilter implements Filter {
 
         String url = request.getRequestURI();
 
+        UserDto user = (UserDto) SessionUtils.getInstance().getValue(request,Constant.USER_MODEL);
+
         if(url.contains("admin"))
         {
-            UserDto user = (UserDto) SessionUtils.getInstance().getValue(request,Constant.USER_MODEL);
-
             if(user == null)
             {
                 response.sendRedirect(request.getContextPath() + "/login?action=not_login");
@@ -36,7 +36,17 @@ public class AuthorizationFilter implements Filter {
                     response.sendRedirect(request.getContextPath() + "/login?action=not_permission");
                 }
             }
-
+        }
+        else if(url.contains("api"))
+        {
+            if(user == null)
+            {
+                response.sendRedirect(request.getContextPath() + "/login?action=not_login");
+            }
+            else
+            {
+                filterChain.doFilter(servletRequest, servletResponse);
+            }
         }
         else
         {

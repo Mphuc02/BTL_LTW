@@ -32,15 +32,7 @@ public class UserDaoImpl extends GeneralDaoImpl<User> implements UserDao {
     }
 
     @Override
-    public boolean checkUserNameExist(String sql, Object... parameters) {
-        return false;
-    }
-
-    @Override
-    public boolean saveUser(String sql, Object... parameters) {
-        boolean status = updateSql(sql, parameters);
-        if(status)
-            return true;
-        return false;
+    public Long saveUser(String sql, Object... parameters) {
+        return updateSql(sql, parameters);
     }
 }

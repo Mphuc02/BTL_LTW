@@ -8,6 +8,7 @@ import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.ConvertUtils;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +26,7 @@ public class UserServiceimpl implements UserService {
     }
     @Override
     public List<UserDto> findAll(Pageable pageable, UserDto dto) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM USERS");
+        StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE ( 1 = 1)");
         sql.append(addAndClause(pageable, dto));
 
         List<User> users = userDao.findAll(sql.toString());
@@ -46,8 +47,7 @@ public class UserServiceimpl implements UserService {
         userDto.setPassWord(passWord);
 
         StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE (1 = 1)");
-        if(userDto != null)
-            sql.append(addAndClause(null, userDto));
+        sql.append(addAndClause(null, userDto));
 
         List<User> users = userDao.getUserByCondition(sql.toString());
 
@@ -69,15 +69,17 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
-    public boolean saveUser(UserDto userDto) {
+    public Long saveUser(UserDto userDto) {
         Date timeStamp = new Date();
         String sql = "INSERT INTO USERS (email, password, registered_at, role, username, status) VALUES (?, ?, ?, ?, ?, 1)";
         return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), "USER", userDto.getUserName());
     }
 
     @Override
-    public boolean updateUser(UserDto dto) {
-        return false;
+    public Long updateUser(UserDto dto) {
+        StringBuilder sql = new StringBuilder("UPDATE USERS SET user_id = " + dto.getUserId()) ;
+        sql.append(addUpdateClause(dto));
+        return userDao.saveUser(sql.toString());
     }
 
     private boolean checkUserNameExisted(String userName)
@@ -91,13 +93,6 @@ public class UserServiceimpl implements UserService {
             return false;
         return true;
     }
-
-    private boolean checkEmailValid(String email)
-    {
-        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
-                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
-        return Pattern.compile(regexPattern).matcher(email).matches();
-    }
     @Override
     public long countUsers() {
         String sql = "SELECT COUNT(user_id) FROM USERS";
@@ -106,7 +101,6 @@ public class UserServiceimpl implements UserService {
     private StringBuilder addAndClause(Pageable pageable,UserDto userDto)
     {
         StringBuilder sb = new StringBuilder();
-
         if(userDto != null)
         {
             Long userId = userDto.getUserId();
@@ -146,5 +140,48 @@ public class UserServiceimpl implements UserService {
             sb.append(pageable.addPagingation());
 
         return sb;
+    }
+    private StringBuilder addUpdateClause(UserDto dto)
+    {
+        StringBuilder sb = new StringBuilder();
+        String userName = dto.getUserName();
+        String passWord = dto.getPassWord();
+        String email = dto.getEmail();
+        String role = dto.getRole();
+        String address = dto.getAddress();
+        String phone = dto.getPhone();
+        String fullName = dto.getFullName();
+        Long timeStamp = null;
+
+        if(dto.getRegisteredAt() != null)
+            timeStamp = ConvertUtils.convertStringDateToLong(dto.getRegisteredAt());
+        Integer status = dto.getStatus();
+
+        if(userName != null)
+            sb.append(", username = '" + userName + "'");
+        if(passWord != null)
+            sb.append(", password = '" + passWord + "'");
+        if(email != null)
+            sb.append(", email = '" + email + "'");
+        if(role != null)
+            sb.append(", role = '" + role + "'");
+        if(address != null)
+            sb.append(", address = '" + address + "'");
+        if(phone != null)
+            sb.append(", phone = '" + phone + "'");
+        if(fullName != null)
+            sb.append(", full_name = '" + fullName + "'");
+        if(timeStamp != null)
+            sb.append(", registered_at = " + timeStamp);
+        if(status != null)
+            sb.append(", status = " + status);
+        sb.append(" WHERE user_id = " + dto.getUserId());
+        return sb;
+    }
+    private boolean checkEmailValid(String email)
+    {
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        return Pattern.compile(regexPattern).matcher(email).matches();
     }
 }

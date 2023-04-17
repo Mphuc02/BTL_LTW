@@ -4,6 +4,7 @@ import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.service.impl.UserServiceimpl;
 import com.example.btl_web.utils.HttpUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,15 +23,33 @@ public class UserApi extends HttpServlet {
         resp.setContentType("application/json");
 
         UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
+        Long status = userService.saveUser(user);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(resp.getOutputStream(), status);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
+        Long status = userService.updateUser(user);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(resp.getOutputStream(), status);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
+        Long status = userService.updateUser(user);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(resp.getOutputStream(), status);
     }
 }

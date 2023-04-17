@@ -58,33 +58,40 @@ public class GeneralDaoImpl<T> implements GeneralDao {
         return results;
     }
     @Override
-    public <T> boolean updateSql(String sql, Object... parameters)
+    public <T> Long updateSql(String sql, Object... parameters)
     {
-        Integer resultSet = null;
+        Long idRow = null;
+        ResultSet resultSet = null;
         PreparedStatement statement = null;
         Connection connection = getConnection();
 
         try {
             connection.setAutoCommit(false);
-            statement = connection.prepareStatement(sql);
+            statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             //Truyền các tham số
             setParameters(statement, parameters);
             //Thực thi sql
             statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
+
+            if(resultSet.next())
+            {
+                idRow = resultSet.getLong(1);
+            }
 
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
             try {
                 connection.rollback();
-                return false;
+                return null;
             } catch (SQLException ex) {
-                throw new RuntimeException(ex);
+                e.printStackTrace();
             }
         }
 
-        clossConnect(connection, statement, null);
-        return true;
+        clossConnect(connection, statement, resultSet);
+        return idRow;
     }
 
     @Override

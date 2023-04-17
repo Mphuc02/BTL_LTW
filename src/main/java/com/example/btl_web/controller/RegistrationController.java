@@ -40,7 +40,7 @@ public class RegistrationController extends HttpServlet {
             userDto.setEmail(email);
 
             userService.saveUser(userDto);
-            resp.sendRedirect(req.getContextPath() + User.LOGIN);
+            resp.sendRedirect(req.getContextPath() + User.LOGIN_PAGE);
         }
         else
         {

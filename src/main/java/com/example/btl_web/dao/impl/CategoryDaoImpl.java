@@ -20,7 +20,7 @@ public class CategoryDaoImpl extends GeneralDaoImpl<Category> implements Categor
     }
 
     @Override
-    public boolean update(String sql, Object... parameters) {
+    public Long update(String sql, Object... parameters) {
         return updateSql(sql, parameters);
     }
 

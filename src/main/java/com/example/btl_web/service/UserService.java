@@ -10,6 +10,6 @@ public interface UserService{
     long countUsers();
     UserDto login(String userName, String passWord);
     int signUp(String userName, String passWord, String passWord_2, String email);
-    boolean saveUser(UserDto userDto);
-    boolean updateUser(UserDto dto);
+    Long saveUser(UserDto userDto);
+    Long updateUser(UserDto dto);
 }

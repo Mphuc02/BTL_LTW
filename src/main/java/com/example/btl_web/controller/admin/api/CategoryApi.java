@@ -29,16 +29,9 @@ public class CategoryApi extends HttpServlet {
         UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
         category.setUserId(user.getUserId());
 
-        boolean status = categoryService.save(category);
+        Long status = categoryService.save(category);
         ObjectMapper mapper = new ObjectMapper();
-        if(status)
-        {
-            mapper.writeValue(resp.getOutputStream(), true);
-        }
-        else
-        {
-            mapper.writeValue(resp.getOutputStream(), false);
-        }
+        mapper.writeValue(resp.getOutputStream(), status);
     }
 
     @Override
@@ -48,16 +41,10 @@ public class CategoryApi extends HttpServlet {
 
         CategoryDto category = HttpUtils.of(req.getReader()).toModel(CategoryDto.class);
 
-        boolean status = categoryService.update(category);
+        Long status = categoryService.update(category);
+
         ObjectMapper mapper = new ObjectMapper();
-        if(status)
-        {
-            mapper.writeValue(resp.getOutputStream(), true);
-        }
-        else
-        {
-            mapper.writeValue(resp.getOutputStream(), false);
-        }
+        mapper.writeValue(resp.getOutputStream(), status);
     }
 
     @Override
@@ -67,15 +54,9 @@ public class CategoryApi extends HttpServlet {
 
         CategoryDto category = HttpUtils.of(req.getReader()).toModel(CategoryDto.class);
 
-        boolean status = categoryService.hidden(category.getCategoryId(), category.getStatus());
+        Long status = categoryService.update(category);
+
         ObjectMapper mapper = new ObjectMapper();
-        if(status)
-        {
-            mapper.writeValue(resp.getOutputStream(), true);
-        }
-        else
-        {
-            mapper.writeValue(resp.getOutputStream(), false);
-        }
+        mapper.writeValue(resp.getOutputStream(), status);
     }
 }

@@ -24,18 +24,10 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryService;
     }
     @Override
-    public List<CategoryDto> findAll(Pageable pageable) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM CATEGORIES");
+    public List<CategoryDto> findAll(Pageable pageable, CategoryDto dto) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM CATEGORIES WHERE (1 = 1)");
 
-        String sortName = pageable.getSortName();
-        String sortBy = pageable.getSortBy();
-        if(sortName != null && sortBy != null)
-            sql.append(" ORDER BY " + sortName + " " + sortBy) ;
-
-        Integer offset = pageable.getOffset();
-        Integer limit = pageable.getLimit();
-        if(offset != null && limit != null)
-            sql.append(" LIMIT " + offset + "," + limit);
+        sql.append(addAndClause(pageable, dto));
 
         List<Category> categories = categoryDao.select(sql.toString());
         List<CategoryDto> dtos = new ArrayList<>();
@@ -48,13 +40,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto findOneById(Long id) {
-        String sql = "SELECT * FROM CATEGORIES WHERE category_id = ?";
-        List<Category> categories = categoryDao.select(sql, id);
+    public CategoryDto findOneBy(CategoryDto dto) {
+        List<CategoryDto> dtos = findAll(null, dto);
 
-        List<CategoryDto> dtos = ConvertUtils.convertListEntitiesToDtos(categories, CategoryDto.class);
-
-        return dtos.isEmpty() ? null : dtos.get(0);
+        return dtos.isEmpty()? null: dtos.get(0);
     }
 
     @Override
@@ -64,58 +53,72 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public boolean save(CategoryDto categoryDto) {
+    public Long save(CategoryDto categoryDto) {
         if(!checkValidCategory(categoryDto))
-            return false;
+            return null;
 
         Date timeStamp = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(Dto.DATE_FORMAT);
-        categoryDto.setCreatedAt(sdf.format(timeStamp));
         StringBuilder sql = new StringBuilder("INSERT INTO CATEGORIES (name, user_id, created_at, status) values (?, ?, ?, 1)");
 
-        Category category = ConvertUtils.convertDtoToEntity(categoryDto, Category.class);
-
-        return categoryDao.update(sql.toString(),category.getName(), category.getUserId(), category.getCreatedAt());
+        return categoryDao.update(sql.toString(),categoryDto.getName(), categoryDto.getUserId(), timeStamp.getTime());
     }
 
     @Override
-    public boolean update(CategoryDto categoryDto) {
-        if(!checkValidCategory(categoryDto))
-            return false;
-        String sql = "UPDATE CATEGORIES SET name = ?, user_id = ?, created_at = ? where category_id = ?";
+    public Long update(CategoryDto categoryDto) {
+        StringBuilder sql = new StringBuilder("UPDATE CATEGORIES SET category_id = ?");
+        sql.append(addClauseUpdate(categoryDto));
 
-        Category category = ConvertUtils.convertDtoToEntity(categoryDto, Category.class);
-
-        return categoryDao.update(sql, categoryDto.getName(), category.getUserId(), category.getCreatedAt(), category.getCategoryId());
+        return categoryDao.update(sql.toString(), categoryDto.getCategoryId());
     }
 
     @Override
-    public boolean delete(Long categoryId) {
+    public Long delete(Long categoryId) {
         String sql = "DELETE FROM CATEGORIES WHERE category_id = ?";
         return categoryDao.update(sql, categoryId);
     }
 
-    @Override
-    public boolean hidden(Long categoryId, Integer status) {
+    private StringBuilder addAndClause(Pageable pageable,CategoryDto categoryDto)
+    {
+        StringBuilder sb = new StringBuilder();
+        if(categoryDto != null)
+        {
+            if(categoryDto.getCategoryId() != null)
+                sb.append(" AND category_id = " + categoryDto.getCategoryId());
+            if(categoryDto.getName() != null)
+                sb.append(" AND NAME lower(like) lower(%" + categoryDto.getName() + "%)");
+            if(categoryDto.getCreatedAt() != null)
+                sb.append(" AND created_at = " + categoryDto.getCreatedAt());
+            if(categoryDto.getUserId() != null)
+                sb.append(" AND user_id = " + categoryDto.getUserId());
+        }
 
-        String sql = "UPDATE CATEGORIES SET status = ? WHERE category_id = ?";
-        return categoryDao.update(sql, status, categoryId);
+        if(pageable != null)
+            sb.append(pageable.addPagingation());
+
+        return sb;
     }
 
-    private StringBuilder addAndClause(CategoryDto categoryDto)
+    private StringBuilder addClauseUpdate(CategoryDto dto)
     {
-        if(categoryDto == null)
-            return null;
-
         StringBuilder sb = new StringBuilder();
-        if(categoryDto.getCategoryId() != null)
-            sb.append(" AND category_id = ?");
-        if(categoryDto.getName() != null)
-            sb.append(" AND NAME = ?");
-        if(categoryDto.getCreatedAt() != null)
-            sb.append(" AND created_at = ?");
-        if(categoryDto.getUserId() != null)
-            sb.append(" AND user_id = ?");
+        Long id = dto.getCategoryId();
+        String name = dto.getName();
+        Long userId = dto.getUserId();
+
+        String createAt = dto.getCreatedAt();
+
+        Integer status = dto.getStatus();
+
+        if(name != null)
+            sb.append(", name = '" + name + "'");
+        if(userId != null)
+            sb.append(", user_id = " + userId);
+        if(createAt != null)
+            sb.append(", created_at = ?");
+        if(status != null)
+            sb.append(", status = " + status);
+
+        sb.append(" WHERE category_id = " + id);
 
         return sb;
     }

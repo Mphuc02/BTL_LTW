@@ -30,7 +30,7 @@ public class BlogDaoImpl extends GeneralDaoImpl<Blog> implements BlogDao {
     }
 
     @Override
-    public boolean save(String sql, Object... parameters) {
+    public Long save(String sql, Object... parameters) {
         return updateSql(sql, parameters);
     }
 }
