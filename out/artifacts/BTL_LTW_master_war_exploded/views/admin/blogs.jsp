@@ -10,32 +10,20 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/assets/css/admin/admin1.css">
+    <link rel="stylesheet" href="/assets/css/home6.css">
     <title>Admin</title>
 </head>
 <body>
 <div id="Admin">
     <div id="main">
+        <div class="navbar-main">
+            <jsp:include page="/views/common/header.jsp" />
+        </div>
         <!-- MAIN -->
         <div class="container">
             <div class="navbar">
                 <div class="icon--link">
                     <i class="icon fa-solid fa-book-open"></i>
-                </div>
-                <div class="navbar-main">
-                    <ul class="navbar__list">
-                        <li class="navbar__item">
-                            <a href="/admin-home?page=${categories}" class="navbar__item--link">Quản lý thể loại</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a href="#" class="navbar__item--link">Quản lý truyện</a>
-                        </li>
-                        <li class="navbar__item">
-                            <a href="/admin-home?page=${users}" class="navbar__item--link">Quản lý người dùng</a>
-                        </li>
-                    </ul>
-                    <button class="btn-exist">
-                        <a href="/login" class="btn-exist--link">Đăng xuất</a>
-                    </button>
                 </div>
             </div>
         </div>

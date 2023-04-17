@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption;
 public class FileUtils {
     public static void saveImageToServer(Part filePart, Long blogId,String projectLocation)
     {
-        File file = new File(projectLocation + "/images/blog/" + blogId + "_title.jpg");
+        File file = new File(projectLocation + "/" + blogId + "/" + blogId + "_title.jpg");
         //file.getParentFile().mkdirs(); // Will create parent directories if not exists
         try {
             file.createNewFile();

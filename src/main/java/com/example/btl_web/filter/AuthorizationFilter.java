@@ -29,6 +29,7 @@ public class AuthorizationFilter implements Filter {
             {
                 if(user.getRole().equals(Constant.ADMIN))
                 {
+                    request.setAttribute(Constant.USER_MODEL, user);
                     filterChain.doFilter(servletRequest, servletResponse);
                 }
                 else
@@ -50,6 +51,7 @@ public class AuthorizationFilter implements Filter {
         }
         else
         {
+            request.setAttribute(Constant.USER_MODEL, user);
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }

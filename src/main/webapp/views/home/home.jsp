@@ -17,7 +17,7 @@
 
 <body>
     <div class="web">
-        <jsp:include page="/views/home/header.jsp" />
+        <jsp:include page="/views/common/header.jsp" />
 
         <!-- dieu huong -->
         <div id="dieuhuong">
@@ -112,7 +112,7 @@
         <!-- start footer -->
 
         <!-- footer -->
-        <jsp:include page="footer.jsp"></jsp:include>
+        <jsp:include page="../common/footer.jsp"></jsp:include>
 
         <!-- end footer -->
 

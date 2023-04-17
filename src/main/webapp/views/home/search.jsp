@@ -16,24 +16,7 @@
 <body>
 
     <div class="web">
-
-        <!-- tieu de -->
-        <div id="tieude">
-            <div class="tieude__link">
-                <a class="" href="#">BlogTruyen.vn</a>
-            </div>
-
-            <div class="tieude__nut">
-                <a class="tieude__nut--icon" href="">
-                    <i class="search-icon ti-announcement"></i> Thông báo</a>
-                <a class="tieuDe__nut--icon" href="">
-                    <i class="search-icon ti-help-alt"></i> Trợ giúp</a>
-                <a class="tieuDe__nut--icon" href="">
-                    <i class="search-icon ti-write"></i> Viết truyện</a>
-                <a class="tieuDe__nut--icon" href="">Đăng nhập</a>
-            </div>
-        </div>
-        <!-- end  tieu de -->
+        <jsp:include page="/views/common/header.jsp" />
 
         <!-- dieu huong -->
         <div id="dieuhuong">
@@ -136,7 +119,7 @@
         <!-- end noi dung truyen -->
         <!-- start footer -->
         <!-- footer -->
-        <jsp:include page="footer.jsp"></jsp:include>
+        <jsp:include page="../common/footer.jsp"></jsp:include>
         <!-- end footer -->
         <!-- end footer -->
     </div>

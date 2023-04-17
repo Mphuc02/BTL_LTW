@@ -1,11 +1,26 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!-- tieu de -->
 <div id="tieude">
     <div class="tieude__link">
-        <a class="" href="">BlogTruyen.vn</a>
+        <a class="" href="/">BlogTruyen.vn</a>
     </div>
+
+    <c:set var="role" value="${USER_MODEL.role}" />
+    <c:if test="${role eq 'ADMIN'}" >
+        <ul>
+            <li>
+                <a href="/admin/categories">Quản lý thể loại</a>
+            </li>
+            <li>
+                <a href="/admin/blogs">Quản lý bải viết</a>
+            </li>
+            <li>
+                <a href="/admin/users">Quản lý người dùng</a>
+            </li>
+        </ul>
+    </c:if>
 
     <div class="tieude__nut">
         <a class="tieude__nut--icon" href="">

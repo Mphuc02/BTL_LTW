@@ -32,7 +32,7 @@ public class BlogApi extends HttpServlet {
         Long blogId = blogService.save(blog);
         if(blogId != null)
         {
-            String relativeWebPath = "/images/blog/test.txt";
+            String relativeWebPath = "/images/blog/";
             String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
             FileUtils.saveImageToServer(blog.getImageTitleData(), blogId, absoluteDiskPath);
         }

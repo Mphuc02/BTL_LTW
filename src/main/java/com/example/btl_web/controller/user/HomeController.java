@@ -1,10 +1,12 @@
 package com.example.btl_web.controller.user;
 
+import com.example.btl_web.constant.Constant;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.paging.PageRequest;
 import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.BlogService;
 import com.example.btl_web.service.impl.BlogServiceImpl;
+import com.example.btl_web.utils.SessionUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -26,6 +28,7 @@ public class HomeController extends HttpServlet {
         List<BlogDto> blogDtos = blogService.getAllBlogs(pageable,null);
         request.setAttribute("listA", blogDtos);
         request.setAttribute("home", User.HOME_PAGE);
+        request.setAttribute(Constant.USER_MODEL, SessionUtils.getInstance().getValue(request, Constant.USER_MODEL));
 
         request.getRequestDispatcher(User.HOME_JSP).forward(request, response);
     }
