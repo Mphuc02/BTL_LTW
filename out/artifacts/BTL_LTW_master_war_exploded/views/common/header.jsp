@@ -11,13 +11,13 @@
     <c:if test="${role eq 'ADMIN'}" >
         <ul>
             <li>
-                <a href="/admin/categories">Quản lý thể loại</a>
+                <a href="${categories_page}">Quản lý thể loại</a>
             </li>
             <li>
-                <a href="/admin/blogs">Quản lý bải viết</a>
+                <a href="${blogs_page}">Quản lý bải viết</a>
             </li>
             <li>
-                <a href="/admin/users">Quản lý người dùng</a>
+                <a href="${users_page}">Quản lý người dùng</a>
             </li>
         </ul>
     </c:if>

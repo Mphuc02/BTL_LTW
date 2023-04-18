@@ -19,6 +19,7 @@ public class BlogDto {
     private String createdAt;
     private UserDto user;
     private Part imageTitleData;
+    private Integer status;
     Set<CategoryDto> categories = new HashSet<>();
     Set<UserDto> likedUsers = new HashSet<>();
     Set<Comment> comments = new HashSet<>();
@@ -113,5 +114,17 @@ public class BlogDto {
         byte[] imageData = Base64.getDecoder().decode(base64Image);
 
         this.imageTitleData = new BytePartUtils(imageData, "1");
+    }
+
+    public void setImageTitleData(Part imageTitleData) {
+        this.imageTitleData = imageTitleData;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

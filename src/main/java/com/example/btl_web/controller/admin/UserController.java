@@ -28,9 +28,9 @@ public class UserController extends HttpServlet {
 
         req.setAttribute("users_list", dtos);
         req.setAttribute("pageable", pageable);
-        req.setAttribute("users", Admin.USERS_PAGE);
-        req.setAttribute("categories",Admin.CATEGORIES_PAGE);
-        req.setAttribute("blos",Admin.BLOGS_PAGE);
+        req.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
+        req.setAttribute("blogs_page", Admin.BLOGS_PAGE);
+        req.setAttribute("users_page", Admin.USERS_PAGE);
 
         RequestDispatcher rd = req.getRequestDispatcher(Admin.USERS_JSP);
         rd.forward(req,resp);

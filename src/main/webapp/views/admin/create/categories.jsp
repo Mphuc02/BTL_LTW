@@ -15,15 +15,15 @@
 </head>
 <body>
     <div id="Admin">
+        <div class="navbar-main">
+            <jsp:include page="/views/common/header.jsp" />
+        </div>
         <div id="main">
             <!-- MAIN -->
             <div class="container">
                 <div class="navbar">
                     <div class="icon--link">
                         <i class="icon fa-solid fa-book-open"></i>
-                    </div>
-                    <div class="navbar-main">
-                        <jsp:include page="/views/common/header.jsp" />
                     </div>
                 </div>
             </div>

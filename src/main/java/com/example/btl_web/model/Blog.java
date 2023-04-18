@@ -1,5 +1,7 @@
 package com.example.btl_web.model;
 
+import com.example.btl_web.dto.UserDto;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,7 +14,8 @@ public class Blog implements Serializable {
     private String content;
     private String imageTitle;
     private Long createdAt;
-    private User userBlog;
+    private UserDto user;
+    private Integer status;
     Set<Category> categories = new HashSet<>();
     Set<User> likedUsers = new HashSet<>();
     Set<Comment> comments = new HashSet<>();
@@ -84,14 +87,6 @@ public class Blog implements Serializable {
         this.imageTitle = imageTitle;
     }
 
-    public User getUserBlog() {
-        return userBlog;
-    }
-
-    public void setUserBlog(User userBlog) {
-        this.userBlog = userBlog;
-    }
-
     public Set<Category> getCategories() {
         return categories;
     }
@@ -114,5 +109,21 @@ public class Blog implements Serializable {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }

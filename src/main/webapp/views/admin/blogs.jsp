@@ -14,151 +14,91 @@
     <title>Admin</title>
 </head>
 <body>
-<div id="Admin">
-    <div id="main">
+    <div id="Admin">
         <div class="navbar-main">
             <jsp:include page="/views/common/header.jsp" />
         </div>
-        <!-- MAIN -->
-        <div class="container">
-            <div class="navbar">
-                <div class="icon--link">
-                    <i class="icon fa-solid fa-book-open"></i>
-                </div>
-            </div>
-        </div>
-        <!-- Content -->
-        <section class="content">
-            <div class="row mt-5">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="float-left">
-                                <form action="#">
-                                    <div class="tim-kiem">
-                                        <input type="text" placeholder="Tìm Kiếm" class="search">
-                                        <button class="btn btn-search">
-                                            <a href="#" class="title">Tìm Kiếm</a>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <table class="table" style="border: solid 1px #000;">
-                                <thead class="thead-dark">
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên</th>
-                                    <th>Tác giả</th>
-                                    <th>Lượt thích</th>
-                                    <th>Chỉnh sửa</th>
-                                </tr>
-                                </thead>
-                                <tbody><tr>
-                                    <td>1</td>
-                                    <td>Cây tre trăm đốt</td>
-                                    <td>sonanh2001</td>
-                                    <td>2</td>
-                                    <td>
-                                        <a href="#" class="btn btn-eye">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Sự tích cây vú sữa</td>
-                                    <td>sonanh2001</td>
-                                    <td>2</td>
-                                    <td>
-                                        <a href="#" class="btn btn-eye">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Tấm cám</td>
-                                    <td>sonanh2001</td>
-                                    <td>1</td>
-                                    <td>
-                                        <a href="#" class="btn btn-eye">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>Sự tích bông hoa cúc trắng</td>
-                                    <td>sonanh2001</td>
-                                    <td>1</td>
-                                    <td>
-                                        <a href="#" class="btn btn-eye">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>Sọ dừa</td>
-                                    <td>sonanh2001</td>
-                                    <td>1</td>
-                                    <td>
-                                        <a href="#" class="btn btn-eye">
-                                            <i class="fa-solid fa-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-erase">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
-                                </tr></tbody>
-                            </table>
-                        </div>
-                        <div class="card-footer">
-                            <nav class="Page navigation">
-                                <ul class="pagination jc-center">
-                                    <li class="page-item active">
-                                        <a href="#" class="page-link">First</a>
-                                    </li>
-                                    <li class="page-item active">
-                                        <a href="#" class="page-link">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">2</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">3</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">4</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">5</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">Last</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
+        <div id="main">
+            <!-- MAIN -->
+            <div class="container">
+                <div class="navbar">
+                    <div class="icon--link">
+                        <i class="icon fa-solid fa-book-open"></i>
                     </div>
                 </div>
             </div>
-        </section>
+            <!-- Content -->
+            <section class="content">
+                <div class="row mt-5">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="float-left">
+                                    <form action="#">
+                                        <div class="tim-kiem">
+                                            <input type="text" placeholder="Tìm Kiếm" class="search">
+                                            <button class="btn btn-search">
+                                                <a href="#" class="title">Tìm Kiếm</a>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table" style="border: solid 1px #000;">
+                                    <thead class="thead-dark">
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên</th>
+                                        <th>Người đăng</th>
+                                        <th>Thời gian đăng</th>
+                                        <th>Lượt thích</th>
+                                        <th>Trạng thái</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach var="blog" items="${blogList}" varStatus="loop">
+                                            <tr>
+                                                <a href="/blogs/${blog.blogId}">
+                                                    <td>${loop.index + 1}</td>
+                                                    <td>${blog.title}</td>
+                                                    <td>${blog.user.fullName}</td>
+                                                    <td>${blog.createdAt}</td>
+                                                    <td>0</td>
+                                                    <td>
+                                                        <c:if test="${blog.status == 0}"><p>Đã bị ẩn</p></c:if>
+                                                        <c:if test="${blog.status == 1}"><p>Đã đã đuyệt</p></c:if>
+                                                        <c:if test="${blog.status == 2}"><p>Đang chờ xét duyệt</p></c:if>
+                                                    </td>
+                                                    <td>
+                                                        <select>
+
+                                                        </select>
+                                                    </td>
+                                                </a>
+                                            </tr>
+                                        </c:forEach>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer">
+                                <nav class="Page navigation">
+                                    <ul class="pagination jc-center" id="pagination"></ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </div>
-</div>
+
+    <jsp:include page="/assets/javascript/hide_or_public_api.jsp" />
+    <jsp:include page="/assets/javascript/pagination.jsp" />
+
+    <script>
+        initPagination(${blogs_page});
+    </script>
 </body>
 </html>

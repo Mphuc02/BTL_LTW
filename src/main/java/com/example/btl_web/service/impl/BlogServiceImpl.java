@@ -50,7 +50,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public Long save(BlogDto blog) {
         Date timeStamp = new Date();
-        String sql = "INSERT INTO BLOGS (content, created_at, title, user_id, status) values (?, ?, ?, ?, 1)";
+        String sql = "INSERT INTO BLOGS (content, created_at, title, user_id, status) values (?, ?, ?, ?, 2)";
         return blogDao.save(sql, blog.getContent(), timeStamp.getTime(), blog.getTitle(), blog.getUser().getUserId());
     }
 

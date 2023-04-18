@@ -1,6 +1,7 @@
 package com.example.btl_web.controller.admin.api;
 
 import com.example.btl_web.constant.Constant;
+import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.BlogService;
@@ -17,7 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/api-blog")
+@WebServlet(urlPatterns = Admin.BLOGS_API)
 public class BlogApi extends HttpServlet {
     BlogService blogService = BlogServiceImpl.getInstance();
     @Override
