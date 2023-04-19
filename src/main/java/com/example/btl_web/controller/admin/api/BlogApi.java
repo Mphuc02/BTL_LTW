@@ -10,6 +10,7 @@ import com.example.btl_web.utils.FileUtils;
 import com.example.btl_web.utils.HttpUtils;
 import com.example.btl_web.utils.SessionUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -25,30 +26,80 @@ public class BlogApi extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
-
         BlogDto blog = HttpUtils.of(req.getReader()).toModel(BlogDto.class);
-        UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
-        blog.setUser(user);
+        String[] errors = new String[4];
+        boolean valid = blogService.validateBlog(errors, blog);
 
-        Long blogId = blogService.save(blog);
-        if(blogId != null)
+        if(valid)
         {
-            String relativeWebPath = "/images/blog/";
-            String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
-            FileUtils.saveImageToServer(blog.getImageTitleData(), blogId, absoluteDiskPath);
-        }
+            UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
+            blog.setUser(user);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(resp.getOutputStream(), true);
+            Long blogId = blogService.save(blog);
+            if(blogId != null)
+            {
+                String relativeWebPath = "/images/blog/";
+                String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
+                FileUtils.saveImageToServer(blog.getImageTitleData(), blogId, absoluteDiskPath);
+
+                resp.sendError(HttpServletResponse.SC_OK);
+            }
+            else
+            {
+                resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            }
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Lỗi" );
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.writeValue(resp.getOutputStream(), errors);
+        }
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
+        if(!user.getRole().equals(Constant.ADMIN))
+        {
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        BlogDto blog = HttpUtils.of(req.getReader()).toModel(BlogDto.class);
+        Long blogId = blogService.update(blog);
+
+        if(blogId != null)
+        {
+            resp.sendError(HttpServletResponse.SC_OK);
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
+        if(!user.getRole().equals(Constant.ADMIN))
+        {
+            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        BlogDto blog = HttpUtils.of(req.getReader()).toModel(BlogDto.class);
+        Long blogId = blogService.update(blog);
+
+        if(blogId != null)
+        {
+            resp.sendError(HttpServletResponse.SC_OK);
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
     }
 }

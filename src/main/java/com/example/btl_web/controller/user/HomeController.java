@@ -25,7 +25,7 @@ public class HomeController extends HttpServlet {
         BlogDto blogApproved = new BlogDto();
         blogApproved.setStatus(1);
 
-        long totalBlogs = blogService.countBlogs(null);
+        long totalBlogs = blogService.countBlogs(blogApproved);
         Pageable pageable = new PageRequest(request.getParameterMap(), totalBlogs);
         request.setAttribute("pageable", pageable);
 

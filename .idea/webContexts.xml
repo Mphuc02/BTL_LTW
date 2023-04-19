@@ -7,6 +7,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin/categories.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/assets/include/admin_header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/assets/include" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/assets/javascript/create_or_update_api.jsp" value="file://$PROJECT_DIR$/src/main/webapp/assets/javascript" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/blogs.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/categories.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/create/categories.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/create" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/users.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin" />

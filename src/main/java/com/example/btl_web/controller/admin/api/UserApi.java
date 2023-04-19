@@ -25,8 +25,14 @@ public class UserApi extends HttpServlet {
         UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
         Long status = userService.saveUser(user);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(resp.getOutputStream(), status);
+        if(status != null)
+        {
+            resp.sendError(HttpServletResponse.SC_OK);
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
     }
 
     @Override
@@ -37,8 +43,14 @@ public class UserApi extends HttpServlet {
         UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
         Long status = userService.updateUser(user);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(resp.getOutputStream(), status);
+        if(status != null)
+        {
+            resp.sendError(HttpServletResponse.SC_OK);
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
     }
 
     @Override
@@ -49,7 +61,13 @@ public class UserApi extends HttpServlet {
         UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
         Long status = userService.updateUser(user);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(resp.getOutputStream(), status);
+        if(status != null)
+        {
+            resp.sendError(HttpServletResponse.SC_OK);
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
     }
 }

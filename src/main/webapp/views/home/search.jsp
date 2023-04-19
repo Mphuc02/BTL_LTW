@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/home6.css">
+    <link rel="stylesheet" href="/assets/css/home2.css">
     <link rel="stylesheet" href="/assets/css/font/themify-icons-font/themify-icons/themify-icons.css">
 </head>
 

@@ -52,7 +52,7 @@ public class LoginController extends HttpServlet {
 
         UserDto userDto = userService.login(userName, passWord);
 
-        if(userDto != null)
+        if(userDto != null && userDto.getStatus() == 1)
         {
             SessionUtils session = SessionUtils.getInstance();
             session.putValue(req, Constant.USER_MODEL, userDto);
@@ -69,7 +69,10 @@ public class LoginController extends HttpServlet {
         else
         {
             RequestDispatcher rd = req.getRequestDispatcher(Constant.LOGIN_JSP);
-            req.setAttribute("message", "Tài khoản mật khẩu không chính xác!");
+            if(userDto.getStatus() == 0)
+                req.setAttribute("message", "Tài khoản này đã bị khoá! Vui lòng liên hệ admin");
+            else
+                req.setAttribute("message", "Tài khoản mật khẩu không chính xác!");
             req.setAttribute("display_flex", "display__flex");
             req.setAttribute("message_type", "alert");
             rd.forward(req, resp);

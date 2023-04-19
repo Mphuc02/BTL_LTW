@@ -1,3 +1,5 @@
+<%@page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+
 <script>
     function hideOrPublic(statusInt, data, api_url){
         // Tạo XMLHttpRequest
@@ -13,12 +15,14 @@
 
         // Xử lý response nếu cần
         xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                if(statusInt == 1)
-                    alert("Đã công khai thể loại này!")
-                else
-                    alert("Đã ẩn thể loại này!")
-                location.reload();//Tải lại trang
+            if(this.readyState == XMLHttpRequest.DONE){
+                if (this.status == 200) {
+                    alert("Cập nhật trạng thái thành công!")
+                    location.reload();//Tải lại trang
+                }
+                else{
+                    alert("Không thể cập nhật trạng thái!");
+                }
             }
         };
     }

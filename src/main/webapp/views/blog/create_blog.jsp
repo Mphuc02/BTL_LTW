@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/assets/css/text_editor/image.css">
     <link rel="stylesheet" href="/assets/css/text_editor/table.css">
     <link rel="stylesheet" href="/assets/css/text_editor/video.css">
-    <link rel="stylesheet" href="/assets/css/home6.css">
+    <link rel="stylesheet" href="/assets/css/home2.css">
 
     <style>
         body {
@@ -36,9 +36,11 @@
                 <form action="" enctype="multipart/form-data">
                     <input type="hidden" id="blogId" value="${blog.blogId}">
                     <label>Tiêu đề</label>
+                    <p>${message1}</p>
                     <input type="text" id="blogTitle" value="${blog.title}"> <br>
 
                     <label>Chọn ảnh cho tiêu đề</label>
+                    <p>${message2}</p>
                     <input type="file" id="imageTitleFile"> <br>
                     <%--    <script>--%>
                     <%--        function chooseFile() {--%>
@@ -53,6 +55,7 @@
                     <%--        }--%>
                     <%--    </script>--%>
 
+                    <p>${message3}</p>
                     <label>Chọn thể loại:</label>
                     <c:forEach var="category" items="${categories}" varStatus="loop">
                         <label>${category.name}</label>
@@ -62,6 +65,7 @@
 
                     </select>
 
+                    <p>${message4}</p>
                     <textarea id='edit' style="margin-top: 30px;" placeholder="Type some text">
                     </textarea>
 
@@ -112,48 +116,50 @@
         })()
 
         async function setupData(content){
+            var categories_list = []
+            var blog_id = document.querySelector("#blogId").value
+            var blog_title = document.querySelector("#blogTitle").value
+
+            for(var i = 0 ; i < ${categories.size()}; i++){
+                var idSelector = "#category-" + i
+                var checked = document.querySelector(idSelector).checked
+                if(checked)
+                    categories_list.push(document.querySelector(idSelector).value)
+            }
+
+            var data = {
+                blogId: blog_id,
+                title: blog_title,
+                content: content,
+                categories: categories_list
+            }
+
+            if(!blog_id){
+                var method = 'POST'
+            }
+            else{
+                var method = 'PUT'
+            }
+
             // Đọc file ảnh và mã hóa thành base64
             var fileInput = document.getElementById('imageTitleFile');
             var file = fileInput.files[0];
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function () {
-                var blog_image_title = reader.result.split(',')[1];
-                var categories_list = []
-                var blog_id = document.querySelector("#blogId").value
-                var blog_title = document.querySelector("#blogTitle").value
 
-                for(var i = 0 ; i < ${categories.size()}; i++){
-                    var idSelector = "#category-" + i
-                    var checked = document.querySelector(idSelector).checked
-                    if(checked)
-                        categories_list.push(document.querySelector(idSelector).value)
-                }
+            if(file)
+            {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+                    var blog_image_title = reader.result.split(',')[1];
 
-                if(!blog_id){
-                    var data = {
-                        blogId: blog_id,
-                        title: blog_title,
-                        content: content,
-                        categories: categories_list,
-                        imageTitleData: blog_image_title
-                    }
-                    var method = 'POST'
+                    data.imageTitleData = blog_image_title
                 }
-                else{
-                    var data = {
-                        blogId: blog_id,
-                        title: blog_title,
-                        content: content,
-                        categories: categories_list,
-                        imageTitleData: blog_image_title
-                    }
-                    var method = 'PUT'
-                }
-
-                console.log(data)
-                formSubmit(data, '${api_url}' , method)
             }
+
+            console.log(data)
+            var message1 = 'Đăng truyện thành công! Vui lòng đợi Admin phê duyệt'
+            var message2 = 'Cập nhật truyện thành công! Vui lòng đợi Admin phê duyệt'
+            formSubmit(data, '${api_url}' , method, message1, message2)
         }
 
     </script>

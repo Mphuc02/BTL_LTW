@@ -2,9 +2,6 @@ package com.example.btl_web.dao.impl;
 
 import com.example.btl_web.dao.GeneralDao;
 import com.example.btl_web.mapper.RowMapper;
-import com.example.btl_web.mapper.impl.CategoryMapperImpl;
-import com.example.btl_web.model.Category;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +57,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
     @Override
     public <T> Long updateSql(String sql, Object... parameters)
     {
-        Long idRow = null;
+        Long idRow = 2L;
         ResultSet resultSet = null;
         PreparedStatement statement = null;
         Connection connection = getConnection();

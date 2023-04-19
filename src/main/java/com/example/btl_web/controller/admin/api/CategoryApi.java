@@ -30,8 +30,14 @@ public class CategoryApi extends HttpServlet {
         category.setUserId(user.getUserId());
 
         Long status = categoryService.save(category);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(resp.getOutputStream(), status);
+        if(status != null)
+        {
+            resp.sendError(HttpServletResponse.SC_OK);
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
     }
 
     @Override
@@ -43,8 +49,14 @@ public class CategoryApi extends HttpServlet {
 
         Long status = categoryService.update(category);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(resp.getOutputStream(), status);
+        if(status != null)
+        {
+            resp.sendError(HttpServletResponse.SC_OK);
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
     }
 
     @Override
@@ -56,7 +68,13 @@ public class CategoryApi extends HttpServlet {
 
         Long status = categoryService.update(category);
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(resp.getOutputStream(), status);
+        if(status != null)
+        {
+            resp.sendError(HttpServletResponse.SC_OK);
+        }
+        else
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        }
     }
 }

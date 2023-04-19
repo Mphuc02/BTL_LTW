@@ -114,10 +114,7 @@ public class BlogDto {
         byte[] imageData = Base64.getDecoder().decode(base64Image);
 
         this.imageTitleData = new BytePartUtils(imageData, "1");
-    }
-
-    public void setImageTitleData(Part imageTitleData) {
-        this.imageTitleData = imageTitleData;
+        System.out.println("parsed");
     }
 
     public Integer getStatus() {

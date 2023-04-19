@@ -1,6 +1,7 @@
 <%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="api_url" value="/api-blog"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/assets/css/admin/admin1.css">
-    <link rel="stylesheet" href="/assets/css/home6.css">
+    <link rel="stylesheet" href="/assets/css/home2.css">
     <title>Admin</title>
 </head>
 <body>
@@ -63,17 +64,29 @@
                                                 <a href="/blogs/${blog.blogId}">
                                                     <td>${loop.index + 1}</td>
                                                     <td>${blog.title}</td>
-                                                    <td>${blog.user.fullName}</td>
+                                                    <td>${blog.user.userId}</td>
                                                     <td>${blog.createdAt}</td>
                                                     <td>0</td>
                                                     <td>
-                                                        <c:if test="${blog.status == 0}"><p>Đã bị ẩn</p></c:if>
-                                                        <c:if test="${blog.status == 1}"><p>Đã đã đuyệt</p></c:if>
-                                                        <c:if test="${blog.status == 2}"><p>Đang chờ xét duyệt</p></c:if>
+                                                        <c:if test="${blog.status == 0}"><p id="blog-status">Đã bị ẩn</p></c:if>
+                                                        <c:if test="${blog.status == 1}"><p id="blog-status">Đã được đuyệt</p></c:if>
+                                                        <c:if test="${blog.status == 2}"><p id="blog-status">Đang chờ xét duyệt</p></c:if>
                                                     </td>
                                                     <td>
-                                                        <select>
-
+                                                        <select onchange="setupData(${blog.blogId}, this.value)">
+                                                            <c:if test="${blog.status==0}">
+                                                                <option value="0" >Ẩn truyện này</option>
+                                                                <option value="1" >Công khai truyện này</option>
+                                                            </c:if>
+                                                            <c:if test="${blog.status==1}" >
+                                                                <option value="0" >Ẩn truyện này</option>
+                                                                <option value="1" selected>Công khai truyện này</option>
+                                                            </c:if>
+                                                            <c:if test="${blog.status==2}" >
+                                                                <option value="-1" ></option>
+                                                                <option value="0" >Ẩn truyện này</option>
+                                                                <option value="1">Công khai truyện này</option>
+                                                            </c:if>
                                                         </select>
                                                     </td>
                                                 </a>
@@ -98,7 +111,23 @@
     <jsp:include page="/assets/javascript/pagination.jsp" />
 
     <script>
-        initPagination(${blogs_page});
+        initPagination('${blogs_page}');
+
+        function setupData(blogId, status){
+            if(status == -1)
+                return
+            var data = {
+                blogId: blogId,
+                status: status
+            }
+            hideOrPublic(status, data, '${api_url}')
+
+            var blogStatus = document.querySelector("#blog-status")
+            if(status == 0)
+                blogStatus.innerHTML = 'Đã bị ẩn'
+            else if(status == 1)
+                blogStatus.innerHTML = 'Đã được duyệt'
+        }
     </script>
 </body>
 </html>

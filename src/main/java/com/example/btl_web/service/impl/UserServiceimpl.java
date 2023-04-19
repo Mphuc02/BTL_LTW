@@ -52,7 +52,6 @@ public class UserServiceimpl implements UserService {
         List<User> users = userDao.getUserByCondition(sql.toString());
 
         return users.isEmpty() ? null : ConvertUtils.convertEntityToDto(users.get(0), UserDto.class);
-
     }
 
     @Override
