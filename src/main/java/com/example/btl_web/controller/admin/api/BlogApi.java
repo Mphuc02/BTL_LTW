@@ -27,6 +27,7 @@ public class BlogApi extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         BlogDto blog = HttpUtils.of(req.getReader()).toModel(BlogDto.class);
+        System.out.println(blog.getImageTitleData());
         String[] errors = new String[4];
         boolean valid = blogService.validateBlog(errors, blog);
 
@@ -51,9 +52,7 @@ public class BlogApi extends HttpServlet {
         }
         else
         {
-            resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Lỗi" );
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(resp.getOutputStream(), errors);
+            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
         }
     }
 

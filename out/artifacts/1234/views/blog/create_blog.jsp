@@ -36,11 +36,11 @@
                 <form action="" enctype="multipart/form-data">
                     <input type="hidden" id="blogId" value="${blog.blogId}">
                     <label>Tiêu đề</label>
-                    <p>${message1}</p>
+                    <p id="title-error"></p>
                     <input type="text" id="blogTitle" value="${blog.title}"> <br>
 
                     <label>Chọn ảnh cho tiêu đề</label>
-                    <p>${message2}</p>
+                    <p id="image-title-error"></p>
                     <input type="file" id="imageTitleFile"> <br>
                     <%--    <script>--%>
                     <%--        function chooseFile() {--%>
@@ -55,7 +55,7 @@
                     <%--        }--%>
                     <%--    </script>--%>
 
-                    <p>${message3}</p>
+                    <p id="categories-error"></p>
                     <label>Chọn thể loại:</label>
                     <c:forEach var="category" items="${categories}" varStatus="loop">
                         <label>${category.name}</label>
@@ -65,7 +65,7 @@
 
                     </select>
 
-                    <p>${message4}</p>
+                    <p id="content-error"></p>
                     <textarea id='edit' style="margin-top: 30px;" placeholder="Type some text">
                     </textarea>
 
@@ -96,7 +96,7 @@
     <script type="text/javascript" src="/assets/javascript/text_editor/entities.min.js"></script>
 
     <script>
-        var blog_Id = ${blog.blogId}
+        var content = '';
 
         (function () {
             const editorInstance = new FroalaEditor('#edit', {
@@ -107,6 +107,7 @@
                         const editor = this
                         this.el.closest('form').addEventListener('submit', function (e) {
                             //console.log(editor.$oel.val())
+                            content = editor.$oel.val()
                             setupData(editor.$oel.val());
                             e.preventDefault()
                         })
@@ -115,8 +116,10 @@
             })
         })()
 
+        var categories_list = []
+
         async function setupData(content){
-            var categories_list = []
+
             var blog_id = document.querySelector("#blogId").value
             var blog_title = document.querySelector("#blogTitle").value
 
@@ -125,13 +128,6 @@
                 var checked = document.querySelector(idSelector).checked
                 if(checked)
                     categories_list.push(document.querySelector(idSelector).value)
-            }
-
-            var data = {
-                blogId: blog_id,
-                title: blog_title,
-                content: content,
-                categories: categories_list
             }
 
             if(!blog_id){
@@ -143,23 +139,60 @@
 
             // Đọc file ảnh và mã hóa thành base64
             var fileInput = document.getElementById('imageTitleFile');
+
             var file = fileInput.files[0];
 
-            if(file)
-            {
-                var reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function () {
-                    var blog_image_title = reader.result.split(',')[1];
+            if(!initProblems())
+                return
 
-                    data.imageTitleData = blog_image_title
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                var blog_image_title = reader.result.split(',')[1];
+
+                var data = {
+                    blogId: blog_id,
+                    title: blog_title,
+                    content: content,
+                    categories: categories_list,
+                    imageTitleData: blog_image_title
                 }
+
+                console.log(data)
+                var message1 = 'Đăng truyện thành công! Vui lòng đợi Admin phê duyệt'
+                var message2 = 'Cập nhật truyện thành công! Vui lòng đợi Admin phê duyệt'
+                formSubmit(data, '${api_url}' , method, message1, message2)
+            }
+        }
+
+        function initProblems(){
+            check = true
+
+            var blogTitle = document.querySelector("#blogTitle").value
+            if(!blogTitle || length(blogTitle) < 5)
+            {
+                document.querySelector("#title-error").innerHTML = 'Tiêu đề phải có ít nhất 5 ký tự'
+                check = false
             }
 
-            console.log(data)
-            var message1 = 'Đăng truyện thành công! Vui lòng đợi Admin phê duyệt'
-            var message2 = 'Cập nhật truyện thành công! Vui lòng đợi Admin phê duyệt'
-            formSubmit(data, '${api_url}' , method, message1, message2)
+            var imageTitle = document.querySelector("#imageTitleFile").value
+            if(!imageTitle)
+            {
+                document.querySelector("#image-title-error").innerHTML = "Ảnh tiêu đề không được để trống"
+                check = false
+            }
+
+            if(categories_list.length == 0)
+            {
+                document.querySelector("#categories-error").innerHTML = 'Phải có ít nhất 1 thể loại'
+                check = false
+            }
+
+            if(!content || content.length < 5)
+            {
+                document.querySelector("#content-error").innerHTML = 'Nội dung truyện phải có ít nhất 5 ký tự'
+                check = false
+            }
         }
 
     </script>

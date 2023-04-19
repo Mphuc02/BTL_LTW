@@ -94,7 +94,15 @@
             } else {
                 menu.style.display = "block";
             }
+
+            document.addEventListener("click", (event) => {
+                    if (!event.target.closest(".avatar")) {
+                        menu.style.display = "none";
+                    }
+                }
+            );
         }
+
     </script>
 </div>
 <!-- end  tieu de -->

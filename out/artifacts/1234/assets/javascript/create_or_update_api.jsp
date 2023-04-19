@@ -15,18 +15,18 @@
         xhr.onreadystatechange = function() {
             if(this.readyState == XMLHttpRequest.DONE){
                 if (this.status == 200) {
+                    console.log(this.responseType)
                     if(method === 'POST')
                         alert(message1)
                     else if(method === 'PUT')
                         alert(message2)
-                    //location.reload();//Tải lại trang
-                    alert(this.responseText)
+                    location.reload();//Tải lại trang
                 }
                 else if(this.status == 406){
-                    alert("Không thể cập nhật trạng thái!")
+                    initProblems()
                 }
-                else if(this.status == 403){
-                    alert(xhr.responseText)
+                else if(this.status == 406){
+                    initProblems()
                 }
             }
         };
