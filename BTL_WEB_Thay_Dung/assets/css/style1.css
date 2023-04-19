@@ -213,6 +213,12 @@ a {
 
 
 /* start content */
+
+.ket_qua_tim_kiem {
+    color: rgb(243, 173, 44);
+    margin-left: 8%;
+}
+
 #ndtruyen {
     width: 90%;
     margin: 25px auto;
