@@ -1,8 +1,6 @@
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="com.example.btl_web.dto.CategoryDto" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<c:set var="parameter" value="" />
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +14,8 @@
 </head>
 
 <body>
+    <input type="hidden" id="key-word-search" value="${key}">
+    <input type="hidden" id="category-search" value="${category_search}">
     <div class="web">
         <jsp:include page="/views/common/header.jsp" />
 
@@ -28,30 +28,40 @@
                         <i class="ti-angle-down"></i>
                     </div>
                     <ul class="dieuhuong__ctiet--tloai">
-                        <li><a href="">Cổ tích</a></li>
-                        <li><a href="">Truyện cười</a></li>
-                        <li><a href="">Đời sống</a></li>
-                        <li><a href="">Tình cảm</a></li>
-                        <li><a href="">Ngụ ngôn</a></li>
+                        <c:forEach var="category" items="${categories}">
+                            <li><a class="category-search-url" href="/?categorySearch=${category.categoryId}">${category.name}</a></li>
+                        </c:forEach>
                     </ul>
                 </li>
 
                 <li><a href="">Tác giả</a></li>
             </ul>
 
-            <form action="search" method="post">
+            <form id="search-blog" action="/" method="post">
                 <div class="dieuhuong__tkiem">
-                    <input class="dieuhuong__tkiem--input" type="text" placeholder="Tìm kiếm truyện" name="keyword">
+                    <input type="hidden" name="categorySearch" value="${category_search}">
+                    <input class="dieuhuong__tkiem--input" type="text" placeholder="Tìm kiếm truyện" name="sortName">
                     <button class="dieuhuong__tkiem--nut" type="submit">Tìm kiếm</button>
                 </div>
             </form>
         </div>
 
         <!-- end dieu huong -->
-
         <!-- noi dung chinh cua truyen -->
         <div id="ndtruyen">
             <div class="ndtruyen__dsach">
+                <c:if test="${not empty category_search}" >
+                    <h1 class="ket_qua_tim_kiem">
+                        <span class="tieu_de_tim_kiem">Danh sách truyện có thể loại: </span>
+                        <span class="nd_tim_kiem">${123}</span>
+                    </h1>
+                </c:if>
+                <c:if test="${not empty key}">
+                    <h1 class="ket_qua_tim_kiem">
+                        <span class="tieu_de_tim_kiem">Kết quả tìm kiếm: </span>
+                        <span class="nd_tim_kiem">${key}</span>
+                    </h1>
+                </c:if>
                 <c:forEach items="${listA}" var="o">
                     <div class="truyen1">
                         <div class="truyen1__ndung">
@@ -80,7 +90,6 @@
             </div>
 
             <!-- Danh sach truyen -->
-
             <div class="truyen__moinhat">
                 <h2 class="truyen__tieuDe">
                     Truyện mới nhất
@@ -122,7 +131,28 @@
     </div>
     <jsp:include page="/assets/javascript/pagination.jsp" />
     <script>
+        var keyWordSearch = document.querySelector("#key-word-search").value
+        var categorySearch = document.querySelector("#category-search").value
+
+        if(keyWordSearch)
+        {
+            var categoryUrls = document.querySelectorAll(".category-search-url")
+            for(var i = 0 ; i < categoryUrls.length; i++)
+            {
+                categoryUrls[i].setAttribute('href', categoryUrls[i].href + "&sortName=" + keyWordSearch)
+            }
+        }
+
         initPagination('${home}')
+        var pagingAtags = document.querySelectorAll(".page-link")
+        for(var i = 0 ; i < pagingAtags.length; i++){
+            iUrl = pagingAtags[i].href
+            if(keyWordSearch)
+                iUrl += "&sortName=" + keyWordSearch
+            if(categorySearch)
+                iUrl += "&categorySearch=" + categorySearch
+            pagingAtags[i].setAttribute('href', iUrl)
+        }
     </script>
 </body>
 

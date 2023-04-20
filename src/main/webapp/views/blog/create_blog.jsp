@@ -41,19 +41,20 @@
 
                     <label>Chọn ảnh cho tiêu đề</label>
                     <p id="image-title-error"></p>
-                    <input type="file" id="imageTitleFile"> <br>
-                    <%--    <script>--%>
-                    <%--        function chooseFile() {--%>
-                    <%--            var fileInput = document.querySelector("imageTitleFile").value--%>
-                    <%--            if (fileInput.files && fileInput.files[0]) {--%>
-                    <%--                var reader = new FileReader();--%>
-                    <%--                reader.onload = function (e) {--%>
-                    <%--                    $('#image').attr('src', e.target.result)--%>
-                    <%--                }--%>
-                    <%--                reader.readAsDataURL(fileInput.files[0]);--%>
-                    <%--            }--%>
-                    <%--        }--%>
-                    <%--    </script>--%>
+                    <img id="image" src="">
+                    <input type="file" id="imageTitleFile" onchange="chooseFile(this)"> <br>
+                        <script>
+                            function chooseFile(fileInput) {
+                                if (fileInput.files && fileInput.files[0]) {
+                                    var reader = new FileReader();
+                                    reader.onload = function (e) {
+                                        var image = document.getElementById('image');
+                                        image.setAttribute('src', e.target.result);
+                                    };
+                                    reader.readAsDataURL(fileInput.files[0]);
+                                }
+                            }
+                        </script>
 
                     <p id="categories-error"></p>
                     <label>Chọn thể loại:</label>
@@ -66,7 +67,7 @@
                     </select>
 
                     <p id="content-error"></p>
-                    <textarea id='edit' style="margin-top: 30px;" placeholder="Type some text">
+                    <textarea class="content-length" id='edit' style="margin-top: 30px;" placeholder="Type some text">
                     </textarea>
 
                     <button>
@@ -96,7 +97,6 @@
     <script type="text/javascript" src="/assets/javascript/text_editor/entities.min.js"></script>
 
     <script>
-        var content = '';
 
         (function () {
             const editorInstance = new FroalaEditor('#edit', {
@@ -169,10 +169,14 @@
             check = true
 
             var blogTitle = document.querySelector("#blogTitle").value
-            if(!blogTitle || length(blogTitle) < 5)
+            if(!blogTitle || blogTitle.length < 5)
             {
                 document.querySelector("#title-error").innerHTML = 'Tiêu đề phải có ít nhất 5 ký tự'
                 check = false
+            }
+            else
+            {
+                document.querySelector("#title-error").innerHTML = ''
             }
 
             var imageTitle = document.querySelector("#imageTitleFile").value
@@ -181,18 +185,28 @@
                 document.querySelector("#image-title-error").innerHTML = "Ảnh tiêu đề không được để trống"
                 check = false
             }
+            else
+                document.querySelector("#image-title-error").innerHTML = ''
 
             if(categories_list.length == 0)
             {
                 document.querySelector("#categories-error").innerHTML = 'Phải có ít nhất 1 thể loại'
                 check = false
             }
+            else
+                document.querySelector("#categories-error").innerHTML = ''
 
-            if(!content || content.length < 5)
+            var contentLength = document.querySelector('.content-length').value
+            console.log(contentLength)
+            if(!contentLength)
             {
-                document.querySelector("#content-error").innerHTML = 'Nội dung truyện phải có ít nhất 5 ký tự'
+                document.querySelector("#content-error").innerHTML = 'Nội dung truyện không được để trống' +
+                    ''
                 check = false
             }
+            else
+                document.querySelector("#content-error").innerHTML = ''
+            return check
         }
 
     </script>

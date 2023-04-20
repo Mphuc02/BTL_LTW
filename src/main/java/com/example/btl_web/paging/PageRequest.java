@@ -30,12 +30,16 @@ public class PageRequest implements Pageable{
 
         if(sortNameStr != null)
             sortName = sortNameStr[0];
+        else
+            sortName = "created_at";
         if(sortByStr != null)
         {
             sortBy = sortByStr[0];
             if(!sortBy.equals("asc") || !sortBy.equals("desc"))
-                sortBy = "asc";
+                sortBy = "desc";
         }
+        else
+            sortBy = "desc";
 
         offset = 0;
         if(this.page != null && this.limit != null)
@@ -81,10 +85,20 @@ public class PageRequest implements Pageable{
             return sb;
         //Thêm các tham số
         if(sortBy != null && sortName != null)
-            sb.append("ORDER BY " + sortName + " " + sortBy);
+            sb.append(" ORDER BY " + sortName + " " + sortBy);
         if(offset != null && limit != null)
             sb.append(" LIMIT " + offset + "," + limit);
         return sb;
+    }
+
+    @Override
+    public void setSortBy(String sortBy) {
+        this.sortBy = sortBy;
+    }
+
+    @Override
+    public void setSortName(String sortName) {
+        this.sortName = sortName;
     }
 
 }

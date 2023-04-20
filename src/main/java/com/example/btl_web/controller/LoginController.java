@@ -52,30 +52,36 @@ public class LoginController extends HttpServlet {
 
         UserDto userDto = userService.login(userName, passWord);
 
-        if(userDto != null && userDto.getStatus() == 1)
+        if(userDto != null )
         {
-            SessionUtils session = SessionUtils.getInstance();
-            session.putValue(req, Constant.USER_MODEL, userDto);
+            if(userDto.getStatus() == 1)
+            {
+                SessionUtils session = SessionUtils.getInstance();
+                session.putValue(req, Constant.USER_MODEL, userDto);
 
-            if(userDto.getRole().equals(Constant.USER))
-            {
-                resp.sendRedirect(req.getContextPath() + "/");
+                if(userDto.getRole().equals(Constant.USER))
+                {
+                    resp.sendRedirect(req.getContextPath() + "/");
+                    return;
+                }
+                else if(userDto.getRole().equals(Constant.ADMIN))
+                {
+                    resp.sendRedirect(req.getContextPath() + "/");
+                    return;
+                }
             }
-            else if(userDto.getRole().equals(Constant.ADMIN))
+            else
             {
-                resp.sendRedirect(req.getContextPath() + "/");
+                req.setAttribute("message", "Tài khoản này đã bị khoá! Vui lòng liên hệ admin");
             }
         }
         else
         {
-            RequestDispatcher rd = req.getRequestDispatcher(Constant.LOGIN_JSP);
-            if(userDto.getStatus() == 0)
-                req.setAttribute("message", "Tài khoản này đã bị khoá! Vui lòng liên hệ admin");
-            else
-                req.setAttribute("message", "Tài khoản mật khẩu không chính xác!");
-            req.setAttribute("display_flex", "display__flex");
-            req.setAttribute("message_type", "alert");
-            rd.forward(req, resp);
+            req.setAttribute("message", "Tài khoản mật khẩu không chính xác!");
         }
+        RequestDispatcher rd = req.getRequestDispatcher(Constant.LOGIN_JSP);
+        req.setAttribute("display_flex", "display__flex");
+        req.setAttribute("message_type", "alert");
+        rd.forward(req, resp);
     }
 }

@@ -8,4 +8,6 @@ public interface Pageable {
     String getSortName();
     String getSortBy();
     StringBuilder addPagingation();
+    void setSortBy(String sortBy);
+    void setSortName(String sortName);
 }

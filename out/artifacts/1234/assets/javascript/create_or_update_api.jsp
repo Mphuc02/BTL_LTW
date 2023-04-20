@@ -22,12 +22,8 @@
                         alert(message2)
                     location.reload();//Tải lại trang
                 }
-                else if(this.status == 406){
+                else
                     initProblems()
-                }
-                else if(this.status == 406){
-                    initProblems()
-                }
             }
         };
     }

@@ -28,7 +28,6 @@ public class BlogServiceImpl implements BlogService {
         StringBuilder sql = new StringBuilder("SELECT * FROM BLOGS WHERE (1 = 1)");
 
         sql.append(addAndClause(pageable, dto));
-
         List<Blog> blogs = blogDao.findAll(sql.toString());
         List<BlogDto> dtos = new ArrayList<>();
 

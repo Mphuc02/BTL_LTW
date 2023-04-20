@@ -12,6 +12,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/create/categories.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin/create" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/admin/users.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/admin" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/blog/create_blog.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/blog" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/blog/read_blog.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/blog" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/home/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/home" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/home/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/home" />
       </map>

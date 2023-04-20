@@ -44,6 +44,7 @@
                                         <input type="hidden" id="createdAt" value="${category.createdAt}">
 
                                         <label>Thể loại</label>
+                                        <p id="name-error"></p>
                                         <input type="text" class="form-control" name="name" id="name" placeholder="Tên thể loại" value="${category.name}">
 
                                         <button type="button" onclick="setupData()" class="btn btn-success mr-2">
@@ -97,6 +98,15 @@
             var message1 = 'Tạo thể loại thành công!'
             var message2 = 'Không thể tạo thể loại này, vui lòng thử lại!'
             formSubmit(data, '${api_url}', method, message1, message2)
+        }
+
+        function initProblems(){
+            var nameError = document.querySelector("#name-error")
+            var nameInput = document.querySelector("#id").value
+            if(!nameInput)
+                nameError.innerHTML = 'Tên thể loại không đuợc để trống'
+            else
+                nameError.innerHTML = 'Tên thể loại này đã được tạo'
         }
     </script>
 </body>

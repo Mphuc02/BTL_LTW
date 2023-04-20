@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 public class BlogDto {
+    //Các thuộc tính của model
     private Long blogId;
     private String title;
     private String content;
@@ -23,6 +24,9 @@ public class BlogDto {
     Set<CategoryDto> categories = new HashSet<>();
     Set<UserDto> likedUsers = new HashSet<>();
     Set<Comment> comments = new HashSet<>();
+    //Thuộc tính dùng để tìm kiếm
+    private String categorySearch;
+    //Các hàm
     public BlogDto()
     {
 
@@ -122,5 +126,17 @@ public class BlogDto {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public void setImageTitleData(Part imageTitleData) {
+        this.imageTitleData = imageTitleData;
+    }
+
+    public String getCategorySearch() {
+        return categorySearch;
+    }
+
+    public void setCategorySearch(String categorySearch) {
+        this.categorySearch = categorySearch;
     }
 }
