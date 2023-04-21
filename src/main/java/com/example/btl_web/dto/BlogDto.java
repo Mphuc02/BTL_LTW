@@ -1,15 +1,11 @@
 package com.example.btl_web.dto;
-
 import com.example.btl_web.model.Comment;
 import com.example.btl_web.service.CategoryService;
 import com.example.btl_web.service.impl.CategoryServiceImpl;
 import com.example.btl_web.utils.BytePartUtils;
 import jakarta.servlet.http.Part;
 
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class BlogDto {
     //Các thuộc tính của model
@@ -21,9 +17,9 @@ public class BlogDto {
     private UserDto user;
     private Part imageTitleData;
     private Integer status;
-    Set<CategoryDto> categories = new HashSet<>();
-    Set<UserDto> likedUsers = new HashSet<>();
-    Set<Comment> comments = new HashSet<>();
+    List<CategoryDto> categories;
+    List<UserDto> likedUsers;
+    List<Comment> comments;
     //Thuộc tính dùng để tìm kiếm
     private String categorySearch;
     //Các hàm
@@ -80,12 +76,8 @@ public class BlogDto {
         this.user = user;
     }
 
-    public Set<CategoryDto> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Long> categoryIds) {
-        this.categories = new HashSet<>();
+    public void setCategories(Long[] categoryIds) {
+        this.categories = new ArrayList<>();
         CategoryService categoryService = CategoryServiceImpl.getInstance();
         for(Long categoryId: categoryIds)
         {
@@ -94,22 +86,13 @@ public class BlogDto {
             this.categories.add(categoryService.findOneBy(categoryDto));
         }
     }
-
-    public Set<UserDto> getLikedUsers() {
-        return likedUsers;
+    public void addACategory(CategoryDto categoryDto)
+    {
+        if(this.categories == null)
+            this.categories = new ArrayList<>();
+        this.categories.add(categoryDto);
     }
 
-    public void setLikedUsers(Set<UserDto> likedUsers) {
-        this.likedUsers = likedUsers;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
     public Part getImageTitleData() {
         return imageTitleData;
     }
@@ -138,5 +121,29 @@ public class BlogDto {
 
     public void setCategorySearch(String categorySearch) {
         this.categorySearch = categorySearch;
+    }
+
+    public List<CategoryDto> getCategories() {
+        return categories;
+    }
+
+    public List<UserDto> getLikedUsers() {
+        return likedUsers;
+    }
+
+    public void setLikedUsers(List<UserDto> likedUsers) {
+        this.likedUsers = likedUsers;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void setCategoriesList(List<CategoryDto> categories) {
+        this.categories = categories;
     }
 }

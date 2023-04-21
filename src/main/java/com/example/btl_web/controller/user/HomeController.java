@@ -39,12 +39,17 @@ public class HomeController extends HttpServlet {
         List<BlogDto> blogDtos = blogService.getAllBlogs(pageable,blogApproved);
         List<CategoryDto> categoryDtos = categoryService.findAll(null, null);
 
-        String homeUrl = User.HOME_PAGE;
+        StringBuilder homeUrl = new StringBuilder(User.HOME_PAGE + "?" );
+        if(categorySearch != null)
+            homeUrl.append("categorySearch=" + categorySearch+"&");
+        if(keyWord != null)
+            homeUrl.append("sortName=" + keyWord + "&");
+        homeUrl.append("page=");
 
         request.setAttribute("pageable", pageable);
         request.setAttribute("key", keyWord);
         request.setAttribute("listA", blogDtos);
-        request.setAttribute("home", homeUrl);
+        request.setAttribute("home", homeUrl.toString());
         request.setAttribute("categories", categoryDtos);
         request.setAttribute("category_search", categorySearch);
 

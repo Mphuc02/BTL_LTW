@@ -26,9 +26,12 @@ public class CategoryController extends HttpServlet {
         req.setAttribute("pageable", pageable);
 
         List<CategoryDto> categoryDtos = categoryService.findAll(pageable, null);
-        req.setAttribute("list", categoryDtos);
 
-        req.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
+        StringBuilder pageUrl = new StringBuilder(Admin.CATEGORIES_PAGE);
+        pageUrl.append("?page=");
+
+        req.setAttribute("list", categoryDtos);
+        req.setAttribute("categories_page", pageUrl.toString());
         req.setAttribute("blogs_page", Admin.BLOGS_PAGE);
         req.setAttribute("users_page", Admin.USERS_PAGE);
 

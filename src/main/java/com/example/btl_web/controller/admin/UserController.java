@@ -26,11 +26,14 @@ public class UserController extends HttpServlet {
 
         List<UserDto> dtos = userService.findAll(pageable, null);
 
+        StringBuilder pageUrl = new StringBuilder(Admin.USERS_PAGE);
+        pageUrl.append("?page=");
+
         req.setAttribute("users_list", dtos);
         req.setAttribute("pageable", pageable);
         req.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
         req.setAttribute("blogs_page", Admin.BLOGS_PAGE);
-        req.setAttribute("users_page", Admin.USERS_PAGE);
+        req.setAttribute("users_page", pageUrl.toString());
 
         RequestDispatcher rd = req.getRequestDispatcher(Admin.USERS_JSP);
         rd.forward(req,resp);

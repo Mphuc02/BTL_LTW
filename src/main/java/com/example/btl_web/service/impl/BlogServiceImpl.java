@@ -6,8 +6,8 @@ import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.model.Blog;
 import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.BlogService;
+import com.example.btl_web.service.CategoryService;
 import com.example.btl_web.utils.ConvertUtils;
-import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,6 +16,7 @@ import java.util.List;
 public class BlogServiceImpl implements BlogService {
     private BlogDao blogDao = BlogDaoImpl.getInstance();
     private static BlogServiceImpl blogService;
+    private static CategoryService categoryService = CategoryServiceImpl.getInstance();
     public static BlogServiceImpl getInstance()
     {
         if(blogService == null)
@@ -38,6 +39,19 @@ public class BlogServiceImpl implements BlogService {
 
         return dtos;
     }
+    @Override
+    public BlogDto getOneById(Long blogId) {
+        BlogDto blog = new BlogDto();
+        blog.setBlogId(blogId);
+
+        List<BlogDto> blogDtos = getAllBlogs(null, blog);
+        if(blogDtos == null)
+            return null;
+        blog = blogDtos.get(0);
+        blog.setCategoriesList(categoryService.findAllCategoryOfBlog(blogId, 1));
+
+        return blog;
+    }
 
     @Override
     public long countBlogs(BlogDto blogDto) {
@@ -51,7 +65,15 @@ public class BlogServiceImpl implements BlogService {
     public Long save(BlogDto blog) {
         Date timeStamp = new Date();
         String sql = "INSERT INTO BLOGS (content, created_at, title, user_id, status) values (?, ?, ?, ?, 2)";
-        return blogDao.save(sql, blog.getContent(), timeStamp.getTime(), blog.getTitle(), blog.getUser().getUserId());
+
+        Long saveBlog = blogDao.save(sql, blog.getContent(), timeStamp.getTime(), blog.getTitle(), blog.getUser().getUserId());
+        if(saveBlog == null)
+            return null;
+        //Lưu các thể loại của truyện này
+        Long saveCategories = categoryService.saveCategoriesOfBlog(saveBlog, blog.getCategories());
+        if(saveCategories == null)
+            return null;
+        return saveBlog;
     }
 
     @Override

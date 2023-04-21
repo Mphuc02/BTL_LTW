@@ -26,10 +26,13 @@ public class BlogController extends HttpServlet {
 
         List<BlogDto> blogList = blogService.getAllBlogs(pageable, null);
 
+        StringBuilder pageUrl = new StringBuilder(Admin.BLOGS_PAGE);
+        pageUrl.append("?page=");
+
         req.setAttribute("pageable", pageable);
         req.setAttribute("blogList", blogList);
         req.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
-        req.setAttribute("blogs_page", Admin.BLOGS_PAGE);
+        req.setAttribute("blogs_page", pageUrl.toString());
         req.setAttribute("users_page", Admin.USERS_PAGE);
         RequestDispatcher rd = req.getRequestDispatcher(Admin.BLOGS_JSP);
         rd.forward(req, resp);

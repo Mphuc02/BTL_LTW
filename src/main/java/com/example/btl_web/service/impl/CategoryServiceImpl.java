@@ -1,6 +1,5 @@
 package com.example.btl_web.service.impl;
 
-import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dao.CategoryDao;
 import com.example.btl_web.dao.impl.CategoryDaoImpl;
 import com.example.btl_web.dto.CategoryDto;
@@ -9,7 +8,6 @@ import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.CategoryService;
 import com.example.btl_web.utils.ConvertUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,6 +35,21 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return dtos;
+    }
+
+    @Override
+    public List<CategoryDto> findAllCategoryOfBlog(Long blogCategoryId, Integer status) {
+        StringBuilder sql = new StringBuilder("Select c.* from categories c, blogs_categories b_c, blogs b where " +
+                                              "b.blog_id = ? and " +
+                                              "b_c.category_id = c.category_id and" +
+                                              "b_c.category_id = b.blog_id");
+        List<Category> categories = categoryDao.select(sql.toString(), blogCategoryId);
+        if(categories == null)
+            return null;
+        List<CategoryDto> result = new ArrayList<>();
+        categories.forEach( category -> {result.add(ConvertUtils.convertEntityToDto(category, CategoryDto.class));});
+
+        return result;
     }
 
     @Override
@@ -69,6 +82,19 @@ public class CategoryServiceImpl implements CategoryService {
         sql.append(addClauseUpdate(categoryDto));
 
         return categoryDao.update(sql.toString(), categoryDto.getCategoryId());
+    }
+
+    @Override
+    public Long saveCategoriesOfBlog(Long blogId, List<CategoryDto> categories) {
+        String sql = "INSERT INTO blogs_categories (blog_id, category_id) values (?, ?)";
+
+        for(CategoryDto category: categories)
+        {
+            Long status = categoryDao.update(sql, blogId ,category.getCategoryId());
+            if(status == null)
+                return null;
+        }
+        return 1L;
     }
 
     @Override

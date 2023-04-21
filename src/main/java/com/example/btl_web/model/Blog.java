@@ -5,8 +5,7 @@ import com.example.btl_web.dto.UserDto;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class Blog implements Serializable {
     private Long blogId;
@@ -16,9 +15,9 @@ public class Blog implements Serializable {
     private Long createdAt;
     private UserDto user;
     private Integer status;
-    Set<Category> categories = new HashSet<>();
-    Set<User> likedUsers = new HashSet<>();
-    Set<Comment> comments = new HashSet<>();
+    List<Category> categories;
+    List<User> likedUsers;
+    List<Comment> comments;
 
     public Blog(){
 
@@ -29,24 +28,6 @@ public class Blog implements Serializable {
         String date = data[0] + " lúc " + data[1];
         return date;
     }
-    public void removeLikedUser(User user)
-    {
-        this.likedUsers.remove(user);
-        user.getLikedBlog().remove(this);
-    }
-    public void addLikedUser(User user){
-        this.likedUsers.add(user);
-        user.getLikedBlog().add(this);
-    }
-    public Boolean checkLike(String name){
-        for(User user: likedUsers){
-            if(user.getUserName().equals(name)){
-                return true;
-            }
-        }
-        return false;
-    }
-
     public Long getCreatedAt() {
         return createdAt;
     }
@@ -87,30 +68,6 @@ public class Blog implements Serializable {
         this.imageTitle = imageTitle;
     }
 
-    public Set<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<Category> categories) {
-        this.categories = categories;
-    }
-
-    public Set<User> getLikedUsers() {
-        return likedUsers;
-    }
-
-    public void setLikedUsers(Set<User> likedUsers) {
-        this.likedUsers = likedUsers;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -125,5 +82,29 @@ public class Blog implements Serializable {
 
     public void setUser(UserDto user) {
         this.user = user;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public List<User> getLikedUsers() {
+        return likedUsers;
+    }
+
+    public void setLikedUsers(List<User> likedUsers) {
+        this.likedUsers = likedUsers;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
