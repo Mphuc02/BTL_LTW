@@ -12,4 +12,5 @@ public interface UserService{
     int signUp(String userName, String passWord, String passWord_2, String email);
     Long saveUser(UserDto userDto);
     Long updateUser(UserDto dto);
+    boolean validateSignUp(UserDto user, String[] errors);
 }

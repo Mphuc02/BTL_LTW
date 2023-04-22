@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.USER_API)
 public class UserApi extends HttpServlet {
@@ -23,15 +24,18 @@ public class UserApi extends HttpServlet {
         resp.setContentType("application/json");
 
         UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
-        Long status = userService.saveUser(user);
 
-        if(status != null)
+        String[] errors = new String[4];
+        boolean valid = userService.validateSignUp(user, errors);
+        if(!valid)
         {
-            resp.sendError(HttpServletResponse.SC_OK);
+            ObjectMapper mapper = new ObjectMapper();
+            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         else
         {
-            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            Long status = userService.saveUser(user);
         }
     }
 

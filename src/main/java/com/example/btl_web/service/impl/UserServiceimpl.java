@@ -81,6 +81,47 @@ public class UserServiceimpl implements UserService {
         return userDao.saveUser(sql.toString());
     }
 
+    @Override
+    public boolean validateSignUp(UserDto user, String[] errors) {
+        boolean check = true;
+
+        UserDto checkUserNameExisted = new UserDto();
+        checkUserNameExisted.setUserName(user.getUserName());
+        if(!findAll(null, checkUserNameExisted).isEmpty())
+        {
+            errors[0] = "Tên đăng nhập này đã tồn tại!";
+            check = false;
+        }
+
+        String passWord = user.getPassWord();
+        if(passWord.length() < 6)
+        {
+            check = false;
+            errors[1] = "Mật khẩu phải có độ dài ít nhất 6 ký tự";
+        }
+
+        if(!user.getPassWord().equals(user.getRe_password()))
+        {
+            check = false;
+            errors[2] = "Mật khẩu nhập lại không khớp";
+        }
+
+        if(!checkEmailValid(user.getEmail()))
+        {
+            check = false;
+            errors[3] = "Email không đúng định dạng";
+        }
+        UserDto checkEmailExisted = new UserDto();
+        checkEmailExisted.setEmail(user.getEmail());
+        if(!findAll(null, checkEmailExisted).isEmpty())
+        {
+            check = false;
+            errors[3] = "Email này đã được đăng ký, vui lòng chọn email khác";
+        }
+
+        return check;
+    }
+
     private boolean checkUserNameExisted(String userName)
     {
         String sql = "SELECT * FROM USERS WHERE username = ?";

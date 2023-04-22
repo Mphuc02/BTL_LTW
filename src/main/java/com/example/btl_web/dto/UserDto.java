@@ -10,6 +10,7 @@ public class UserDto {
     private Long userId;
     private String userName;
     private String passWord;
+    private String re_password;
     private String email;
     private String role;
     private String address;
@@ -123,5 +124,13 @@ public class UserDto {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getRe_password() {
+        return re_password;
+    }
+
+    public void setRe_password(String re_password) {
+        this.re_password = re_password;
     }
 }
