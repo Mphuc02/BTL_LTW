@@ -85,6 +85,11 @@ public class UserServiceimpl implements UserService {
     public boolean validateSignUp(UserDto user, String[] errors) {
         boolean check = true;
 
+        if(user.getUserName() == null)
+        {
+            errors[0] = "Tên đăng nhập không được bỏ trống!";
+            check = false;
+        }
         UserDto checkUserNameExisted = new UserDto();
         checkUserNameExisted.setUserName(user.getUserName());
         if(!findAll(null, checkUserNameExisted).isEmpty())
@@ -93,13 +98,23 @@ public class UserServiceimpl implements UserService {
             check = false;
         }
 
+        if(user.getPassWord() == null)
+        {
+            check = false;
+            errors[1] = "Mật khẩu không được để trống!";
+        }
         String passWord = user.getPassWord();
         if(passWord.length() < 6)
         {
             check = false;
-            errors[1] = "Mật khẩu phải có độ dài ít nhất 6 ký tự";
+            errors[1] = "Mật khẩu phải có độ dài ít nhất 6 ký tự!";
         }
 
+        if(user.getRe_password() == null)
+        {
+            check = false;
+            errors[2] = "Mật khẩu nhập lại không được để trống!";
+        }
         if(!user.getPassWord().equals(user.getRe_password()))
         {
             check = false;

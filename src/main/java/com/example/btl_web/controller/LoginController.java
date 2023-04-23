@@ -21,6 +21,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher rd = req.getRequestDispatcher(Constant.LOGIN_JSP);
+        String messageType = "alert";
 
         String action = req.getParameter(User.ACTION);
         if(action != null)
@@ -38,8 +39,13 @@ public class LoginController extends HttpServlet {
                 req.setAttribute("message", "Đăng xuất thành công!");
                 SessionUtils.getInstance().removeValue(req, Constant.USER_MODEL);
             }
+            if(action.equals("sign-up-success"))
+            {
+                req.setAttribute("message", "Đăng ký thành công, vui lòng đăng nhập để tiếp tục");
+                messageType = "notice";
+            }
             req.setAttribute("display_flex", "display__flex");
-            req.setAttribute("message_type", "alert");
+            req.setAttribute("message_type", messageType);
         }
 
         rd.forward(req, resp);
@@ -49,6 +55,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("userName");
         String passWord = req.getParameter("passWord");
+
 
         UserDto userDto = userService.login(userName, passWord);
 

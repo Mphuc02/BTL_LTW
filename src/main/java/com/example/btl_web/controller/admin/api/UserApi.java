@@ -14,30 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.Collections;
-
 @WebServlet(urlPatterns = Admin.USER_API)
 public class UserApi extends HttpServlet {
     private UserService userService = UserServiceimpl.getInstance();
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json");
-
-        UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
-
-        String[] errors = new String[4];
-        boolean valid = userService.validateSignUp(user, errors);
-        if(!valid)
-        {
-            ObjectMapper mapper = new ObjectMapper();
-            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        else
-        {
-            Long status = userService.saveUser(user);
-        }
-    }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

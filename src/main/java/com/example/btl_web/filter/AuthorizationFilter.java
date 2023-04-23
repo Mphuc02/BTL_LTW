@@ -38,15 +38,22 @@ public class AuthorizationFilter implements Filter {
                 }
             }
         }
-        else if(url.contains("api"))
+        else if(url.startsWith("/api"))
         {
-            if(user == null)
+            if(url.equals(Constant.User.USER_CREATE_API))
             {
-                response.sendRedirect(request.getContextPath() + "/login?action=not_login");
+                filterChain.doFilter(servletRequest, servletResponse);
             }
             else
             {
-                filterChain.doFilter(servletRequest, servletResponse);
+                if(user == null)
+                {
+                    response.sendRedirect(request.getContextPath() + "/login?action=not_login");
+                }
+                else
+                {
+                    filterChain.doFilter(servletRequest, servletResponse);
+                }
             }
         }
         else
