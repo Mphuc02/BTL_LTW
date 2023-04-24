@@ -21,6 +21,8 @@ public class ConvertUtils {
             for(Field entityField: entityFields)
             {
                 entityField.setAccessible(true);
+                if(entityField.get(entity) == null)
+                    continue;
                 for(Field dtoField: dtoFields)
                 {
                     dtoField.setAccessible(true);

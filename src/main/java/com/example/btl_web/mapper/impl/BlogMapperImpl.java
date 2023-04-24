@@ -33,7 +33,7 @@ public class BlogMapperImpl implements RowMapper {
             UserDto user = userDtos.isEmpty() ? null: userDtos.get(0);
             blog.setUser(user);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         return blog;
     }

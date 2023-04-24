@@ -45,7 +45,7 @@ public class BlogServiceImpl implements BlogService {
         blog.setBlogId(blogId);
 
         List<BlogDto> blogDtos = getAllBlogs(null, blog);
-        if(blogDtos == null)
+        if(blogDtos.isEmpty())
             return null;
         blog = blogDtos.get(0);
         blog.setCategoriesList(categoryService.findAllCategoryOfBlog(blogId, 1));
@@ -96,7 +96,7 @@ public class BlogServiceImpl implements BlogService {
             Integer status = dto.getStatus();
 
             if (blogId != null)
-                sb.append(" AND WHERE blog_id = " + blogId);
+                sb.append(" AND blog_id = " + blogId);
             if (title != null)
                 sb.append(" AND title like '%" + title + "%'");
             if (content != null)

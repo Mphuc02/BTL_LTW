@@ -53,18 +53,6 @@ public class HomeController extends HttpServlet {
         request.setAttribute("categories", categoryDtos);
         request.setAttribute("category_search", categorySearch);
 
-        UserDto user = (UserDto) SessionUtils.getInstance().getValue(request, Constant.USER_MODEL);
-        if(user != null)
-        {
-            request.setAttribute(Constant.USER_MODEL, user);
-            if(user.getRole().equals(Constant.ADMIN))
-            {
-                request.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
-                request.setAttribute("blogs_page", Admin.BLOGS_PAGE);
-                request.setAttribute("users_page", Admin.USERS_PAGE);
-            }
-        }
-
         request.getRequestDispatcher(User.HOME_JSP).forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -10,7 +10,6 @@ import com.example.btl_web.utils.FileUtils;
 import com.example.btl_web.utils.HttpUtils;
 import com.example.btl_web.utils.SessionUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -18,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.BLOGS_API)
 public class BlogApi extends HttpServlet {
@@ -30,7 +30,7 @@ public class BlogApi extends HttpServlet {
         System.out.println(blog.getImageTitleData());
         String[] errors = new String[4];
         boolean valid = blogService.validateBlog(errors, blog);
-
+        ObjectMapper mapper = new ObjectMapper();
         if(valid)
         {
             UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
@@ -43,7 +43,7 @@ public class BlogApi extends HttpServlet {
                 String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
                 FileUtils.saveImageToServer(blog.getImageTitleData(), blogId, absoluteDiskPath);
 
-                resp.sendError(HttpServletResponse.SC_OK);
+                resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("messages", blogId)));
             }
             else
             {
@@ -52,7 +52,8 @@ public class BlogApi extends HttpServlet {
         }
         else
         {
-            resp.sendError(HttpServletResponse.SC_NOT_ACCEPTABLE);
+            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 

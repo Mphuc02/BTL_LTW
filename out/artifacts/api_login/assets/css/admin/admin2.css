@@ -206,11 +206,23 @@ li{
 .card-body{
     padding: 1.25rem;
     flex : 1 1 auto;
+    overflow-x: scroll;
 }
 .table{
     width: 100%;
     margin-bottom: 1rem;
     color: #212529;
+    white-space: nowrap;
+}
+::-webkit-scrollbar {
+    height: 8px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
 }
 table{
     border-collapse: collapse;

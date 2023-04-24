@@ -38,13 +38,6 @@ public class CreateBlogController extends HttpServlet {
 
             req.setAttribute("blog", blogDto);
             req.setAttribute("categories", categories);
-            if(user.getRole().equals(Constant.ADMIN))
-            {
-                req.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
-                req.setAttribute("blogs_page", Admin.BLOGS_PAGE);
-                req.setAttribute("users_page", Admin.USERS_PAGE);
-            }
-
             RequestDispatcher rd = req.getRequestDispatcher(User.CREATE_BLOG_JSP);
 
             rd.forward(req, resp);

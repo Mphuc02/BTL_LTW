@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/css/admin/admin1.css">
+    <link rel="stylesheet" href="/assets/css/admin/admin2.css">
     <link rel="stylesheet" href="/assets/css/home2.css">
     <title>Admin</title>
 </head>
@@ -108,7 +108,7 @@
     <jsp:include page="/assets/javascript/pagination.jsp" />
     <%@include file="/assets/javascript/hide_or_public_api.jsp"%>
     <script>
-        initPagination('${categories}')//Phân trang
+        initPagination('${categories_page}')//Phân trang
 
         function setupData(id, statusInt){
             if(statusInt == 1)

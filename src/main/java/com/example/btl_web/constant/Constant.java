@@ -20,7 +20,7 @@ public class Constant {
         public static final String CREATE_BLOG_PAGE = "/create-blog";
         public static final String CREATE_BLOG_JSP = "/views/blog/create_blog.jsp";
         public static final String READ_BLOG_PAGE = "/blogs/*";
-        public static final String READ_BLOG_JSP = "/views/blog/blog.jsp";
+        public static final String READ_BLOG_JSP = "/views/blog/read_blog.jsp";
         public static final String USER_CREATE_API = "/api-create-user";
     }
     public static class Admin
@@ -34,7 +34,7 @@ public class Constant {
         public static final String BLOGS_API = "/api-blog";
         public static final String BLOGS_JSP = "/views/admin/blogs.jsp";
         public static final String USERS_PAGE = "/admin/users";
-        public static final String USER_API = "/api-user";
+        public static final String USER_API = "/api-admin-user";
         public static final String USERS_JSP = "/views/admin/users.jsp";
         public static final String STATISTIC_PAGE = "/admin/statistic";
         public static final String STATISTIC_JSP = "/views/admin/statistic.jsp";

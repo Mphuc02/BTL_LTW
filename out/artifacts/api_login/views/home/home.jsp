@@ -70,7 +70,7 @@
                 <c:forEach items="${listA}" var="o">
                     <div class="truyen1">
                         <div class="truyen1__ndung">
-                            <a href="" class="noidung">
+                            <a href="/blogs/${o.blogId}" class="noidung">
                                 <div>
                                     <h1>${o.title}</h1>
                                     <h3>${o.user.fullName}</h3>

@@ -1,6 +1,9 @@
 package com.example.btl_web.controller.user;
 
-import jakarta.servlet.RequestDispatcher;
+import com.example.btl_web.dto.BlogDto;
+import com.example.btl_web.dto.CategoryDto;
+import com.example.btl_web.service.BlogService;
+import com.example.btl_web.service.impl.BlogServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,11 +15,24 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = User.READ_BLOG_PAGE)
 public class ReadBlogController extends HttpServlet {
+    private BlogService blogService = BlogServiceImpl.getInstance();
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String blogIdStr = req.getPathInfo().split("/")[1];
-
-        RequestDispatcher rd = req.getRequestDispatcher(User.READ_BLOG_JSP);
-        rd.forward(req, resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String idStr = request.getPathInfo().split("/")[1];
+        if(idStr!= null)
+        {
+            Long id = Long.parseLong(idStr);
+            BlogDto blogDto = blogService.getOneById(id);
+            for(CategoryDto categoryDto: blogDto.getCategories())
+            {
+                System.out.println(categoryDto.getCategoryId());
+            }
+            request.setAttribute("blog",blogDto);
+            request.getRequestDispatcher(User.READ_BLOG_JSP).forward(request,response);
+        }
+        else
+        {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
     }
 }

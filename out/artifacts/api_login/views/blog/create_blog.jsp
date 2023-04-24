@@ -36,11 +36,11 @@
                 <form action="" enctype="multipart/form-data">
                     <input type="hidden" id="blogId" value="${blog.blogId}">
                     <label>Tiêu đề</label>
-                    <p id="title-error"></p>
+                    <p id="error1"></p>
                     <input type="text" id="blogTitle" value="${blog.title}"> <br>
 
                     <label>Chọn ảnh cho tiêu đề</label>
-                    <p id="image-title-error"></p>
+                    <p id="error2"></p>
                     <img id="image" src="">
                     <input type="file" id="imageTitleFile" onchange="chooseFile(this)"> <br>
                         <script>
@@ -56,7 +56,7 @@
                             }
                         </script>
 
-                    <p id="categories-error"></p>
+                    <p id="error3"></p>
                     <label>Chọn thể loại:</label>
                     <c:forEach var="category" items="${categories}" varStatus="loop">
                         <label>${category.name}</label>
@@ -66,7 +66,7 @@
 
                     </select>
 
-                    <p id="content-error"></p>
+                    <p id="error4"></p>
                     <textarea class="content-length" id='edit' style="margin-top: 30px;" placeholder="Type some text">
                     </textarea>
 
@@ -141,9 +141,13 @@
             var fileInput = document.getElementById('imageTitleFile');
 
             var file = fileInput.files[0];
-
-            if(!initProblems())
+            if(!file) {
+                document.querySelector("#error2").innerHTML = 'Ảnh tiêu đề không được để trống!'
                 return
+            }
+            else {
+                document.querySelector("#error2").innerHTML = ''
+            }
 
             var reader = new FileReader();
             reader.readAsDataURL(file);
@@ -159,54 +163,28 @@
                 }
 
                 console.log(data)
-                var message1 = 'Đăng truyện thành công! Vui lòng đợi Admin phê duyệt'
-                var message2 = 'Cập nhật truyện thành công! Vui lòng đợi Admin phê duyệt'
-                formSubmit(data, '${api_url}' , method, message1, message2)
+                formSubmit(data, '${api_url}' , method,function (errors){
+                    if(errors.errors)
+                    {
+                        for(var i = 0 ; i < errors.errors.length; i++)
+                        {
+                            if(errors.errors[i])
+                            {
+                                document.querySelector("#error" + (i + 1)).innerHTML = errors.errors[i]
+                            }
+                            else
+                            {
+                                document.querySelector("#error" + (i+1)).innerHTML = ''
+                            }
+                        }
+                    }
+                    if(errors.messages)
+                    {
+                        console.log(errors.messages)
+                        window.location.href = "blogs/" + errors.messages;
+                    }
+                })
             }
-        }
-
-        function initProblems(){
-            check = true
-
-            var blogTitle = document.querySelector("#blogTitle").value
-            if(!blogTitle || blogTitle.length < 5)
-            {
-                document.querySelector("#title-error").innerHTML = 'Tiêu đề phải có ít nhất 5 ký tự'
-                check = false
-            }
-            else
-            {
-                document.querySelector("#title-error").innerHTML = ''
-            }
-
-            var imageTitle = document.querySelector("#imageTitleFile").value
-            if(!imageTitle)
-            {
-                document.querySelector("#image-title-error").innerHTML = "Ảnh tiêu đề không được để trống"
-                check = false
-            }
-            else
-                document.querySelector("#image-title-error").innerHTML = ''
-
-            if(categories_list.length == 0)
-            {
-                document.querySelector("#categories-error").innerHTML = 'Phải có ít nhất 1 thể loại'
-                check = false
-            }
-            else
-                document.querySelector("#categories-error").innerHTML = ''
-
-            var contentLength = document.querySelector('.content-length').value
-            console.log(contentLength)
-            if(!contentLength)
-            {
-                document.querySelector("#content-error").innerHTML = 'Nội dung truyện không được để trống' +
-                    ''
-                check = false
-            }
-            else
-                document.querySelector("#content-error").innerHTML = ''
-            return check
         }
 
     </script>

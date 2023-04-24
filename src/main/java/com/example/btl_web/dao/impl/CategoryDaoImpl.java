@@ -1,6 +1,7 @@
 package com.example.btl_web.dao.impl;
 
 import com.example.btl_web.dao.CategoryDao;
+import com.example.btl_web.mapper.impl.CategoryDisplayMapperImpl;
 import com.example.btl_web.mapper.impl.CategoryMapperImpl;
 import com.example.btl_web.model.Category;
 
@@ -17,6 +18,11 @@ public class CategoryDaoImpl extends GeneralDaoImpl<Category> implements Categor
     @Override
     public List<Category> select(String sql, Object... parameters) {
         return selectSql(sql, new CategoryMapperImpl(), parameters);
+    }
+
+    @Override
+    public List<Category> selectDisplay(String sql, Object... parameters) {
+        return selectSql(sql, new CategoryDisplayMapperImpl(), parameters);
     }
 
     @Override

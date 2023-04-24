@@ -39,11 +39,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> findAllCategoryOfBlog(Long blogCategoryId, Integer status) {
-        StringBuilder sql = new StringBuilder("Select c.* from categories c, blogs_categories b_c, blogs b where " +
+        StringBuilder sql = new StringBuilder("Select c.category_id, c.name from categories c, blogs_categories b_c, blogs b where " +
                                               "b.blog_id = ? and " +
-                                              "b_c.category_id = c.category_id and" +
-                                              "b_c.category_id = b.blog_id");
-        List<Category> categories = categoryDao.select(sql.toString(), blogCategoryId);
+                                              "c.status = 1 and " +
+                                              "b_c.category_id = c.category_id and " +
+                                              "b_c.blog_id = b.blog_id");
+        List<Category> categories = categoryDao.selectDisplay(sql.toString(), blogCategoryId);
         if(categories == null)
             return null;
         List<CategoryDto> result = new ArrayList<>();
