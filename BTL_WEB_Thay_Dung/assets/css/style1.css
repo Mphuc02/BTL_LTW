@@ -21,6 +21,7 @@ a {
 
 /* start tieu de */
 
+
 #tieude {
     height: 60px;
     width: 100%;
@@ -33,10 +34,15 @@ a {
     justify-content: space-between;
     margin: 0;
 }
+.tieude__nut1 {
+    display: flex;
+    margin-top: 10px;
+}
 
 .tieude__nut {
     display: flex;
 }
+
 
 .tieude__link,
 .tieude__nut {
@@ -55,14 +61,22 @@ a {
 }
 
 .tieude__nut a {
-    padding-right: 35px;
-    font-weight: 200;
+    margin-right: 25px;
+    font-weight: 300;
     color: white;
+    font-size: 18px;
 }
 
-.tieude__link:hover,
-.tieude__nut a:hover {
-    opacity: 0.7;
+.tieude__nut a{
+    padding: 12px 5px;
+}
+
+.tieude__link:hover{
+     opacity: 0.7;
+}
+.tieude__nut1 a:hover {
+    background-color: #625e70;
+    border-radius: 15px;
 }
 
 
