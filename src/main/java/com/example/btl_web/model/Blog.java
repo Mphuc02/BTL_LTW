@@ -18,6 +18,9 @@ public class Blog implements Serializable {
     List<Category> categories;
     List<User> likedUsers;
     List<Comment> comments;
+    //Thuộc tính dùng để tìm kiếm
+    private String categorySearch;
+    //Các hàm
 
     public Blog(){
 
@@ -106,5 +109,13 @@ public class Blog implements Serializable {
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
+    }
+
+    public String getCategorySearch() {
+        return categorySearch;
+    }
+
+    public void setCategorySearch(String categorySearch) {
+        this.categorySearch = categorySearch;
     }
 }

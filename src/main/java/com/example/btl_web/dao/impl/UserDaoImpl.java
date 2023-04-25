@@ -2,6 +2,7 @@ package com.example.btl_web.dao.impl;
 
 import com.example.btl_web.dao.UserDao;
 import com.example.btl_web.mapper.impl.UserMapperImpl;
+import com.example.btl_web.mapper.impl.include.UserIncludeMapper;
 import com.example.btl_web.model.User;
 
 import java.util.List;
@@ -24,6 +25,11 @@ public class UserDaoImpl extends GeneralDaoImpl<User> implements UserDao {
         List<User> users = selectSql(sql, new UserMapperImpl(), parameters);
 
         return users;
+    }
+
+    @Override
+    public List<User> findAllUserInclude(String sql, Object... parameters) {
+        return selectSql(sql, new UserIncludeMapper(), parameters);
     }
 
     @Override

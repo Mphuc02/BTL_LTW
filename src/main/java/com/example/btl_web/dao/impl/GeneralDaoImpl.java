@@ -110,7 +110,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         finally {
             clossConnect(connection, statement, resultSet);
@@ -152,7 +152,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
                 }
             }
             catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }
@@ -168,7 +168,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
                 if(resultSet != null)
                     resultSet.close();
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }

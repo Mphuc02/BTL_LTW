@@ -57,7 +57,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto findOneBy(CategoryDto dto) {
         List<CategoryDto> dtos = findAll(null, dto);
 
-        return dtos.isEmpty()? null: dtos.get(0);
+        return dtos.isEmpty() ? null: dtos.get(0);
     }
 
     @Override

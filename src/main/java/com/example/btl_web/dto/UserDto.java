@@ -1,10 +1,7 @@
 package com.example.btl_web.dto;
 
-import com.example.btl_web.model.Blog;
-import com.example.btl_web.model.Comment;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDto {
     private Long userId;
@@ -18,9 +15,14 @@ public class UserDto {
     private String fullName;
     private String registeredAt;
     private Integer status;
-    private Set<Blog> blogs = new HashSet<>();
-    private Set<Comment> comments = new HashSet<>();
-    private Set<Blog> likedBlog = new HashSet<>();
+    private List<BlogDto> blogs;
+    private List<CommentDto> comments;
+    private List<BlogDto> likedBlog;
+    public void addAnLikedBlog(BlogDto blog){
+        if(likedBlog == null)
+            likedBlog = new ArrayList<>();
+        likedBlog.add(blog);
+    }
 
     public String getUserName() {
         return userName;
@@ -94,30 +96,6 @@ public class UserDto {
         this.fullName = fullName;
     }
 
-    public Set<Blog> getBlogs() {
-        return blogs;
-    }
-
-    public void setBlogs(Set<Blog> blogs) {
-        this.blogs = blogs;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Set<Blog> getLikedBlog() {
-        return likedBlog;
-    }
-
-    public void setLikedBlog(Set<Blog> likedBlog) {
-        this.likedBlog = likedBlog;
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -132,5 +110,29 @@ public class UserDto {
 
     public void setRe_password(String re_password) {
         this.re_password = re_password;
+    }
+
+    public List<BlogDto> getBlogs() {
+        return blogs;
+    }
+
+    public void setBlogs(List<BlogDto> blogs) {
+        this.blogs = blogs;
+    }
+
+    public List<CommentDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
+    }
+
+    public List<BlogDto> getLikedBlog() {
+        return likedBlog;
+    }
+
+    public void setLikedBlog(List<BlogDto> likedBlog) {
+        this.likedBlog = likedBlog;
     }
 }

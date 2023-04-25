@@ -3,11 +3,10 @@ package com.example.btl_web.mapper.impl;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.mapper.RowMapper;
 import com.example.btl_web.model.Blog;
-import com.example.btl_web.service.CategoryService;
+import com.example.btl_web.service.UserBlogService;
 import com.example.btl_web.service.UserService;
-import com.example.btl_web.service.impl.CategoryServiceImpl;
+import com.example.btl_web.service.impl.UserBlogServiceImpl;
 import com.example.btl_web.service.impl.UserServiceimpl;
-import com.example.btl_web.utils.ConvertUtils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,6 +14,7 @@ import java.util.List;
 
 public class BlogMapperImpl implements RowMapper {
     private UserService userService = UserServiceimpl.getInstance();
+    private UserBlogService userBlogService = UserBlogServiceImpl.getInstance();
     @Override
     public Object mapper(ResultSet resultSet) {
         Blog blog = new Blog();
@@ -32,6 +32,8 @@ public class BlogMapperImpl implements RowMapper {
             List<UserDto> userDtos = userService.findAll(null, userDto);
             UserDto user = userDtos.isEmpty() ? null: userDtos.get(0);
             blog.setUser(user);
+
+            //blog.setLikedUsers();
         } catch (SQLException e) {
             e.printStackTrace();
         }

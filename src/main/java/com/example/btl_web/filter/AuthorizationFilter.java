@@ -40,7 +40,7 @@ public class AuthorizationFilter implements Filter {
         }
         else if(url.startsWith("/api"))
         {
-            if(url.equals(Constant.User.USER_CREATE_API))
+            if(url.equals(Constant.User.USER_CREATE_API) && user == null)
             {
                 filterChain.doFilter(servletRequest, servletResponse);
             }

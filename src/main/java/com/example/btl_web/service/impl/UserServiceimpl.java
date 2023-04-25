@@ -8,7 +8,6 @@ import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.ConvertUtils;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +29,21 @@ public class UserServiceimpl implements UserService {
         sql.append(addAndClause(pageable, dto));
 
         List<User> users = userDao.findAll(sql.toString());
+        List<UserDto> dtos = new ArrayList<>();
+
+        for(User user: users)
+        {
+            dtos.add(ConvertUtils.convertEntityToDto(user, UserDto.class));
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<UserDto> findAllInclude(Pageable pageable, UserDto dto) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE ( 1 = 1)");
+        sql.append(addAndClause(pageable, dto));
+
+        List<User> users = userDao.findAllUserInclude(sql.toString());
         List<UserDto> dtos = new ArrayList<>();
 
         for(User user: users)
@@ -144,9 +158,7 @@ public class UserServiceimpl implements UserService {
 
         User user = users.isEmpty() ? null: users.get(0);
 
-        if(user == null)
-            return false;
-        return true;
+        return user != null;
     }
     @Override
     public long countUsers() {

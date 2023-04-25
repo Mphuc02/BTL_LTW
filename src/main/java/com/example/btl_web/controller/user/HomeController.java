@@ -1,16 +1,13 @@
 package com.example.btl_web.controller.user;
 
-import com.example.btl_web.constant.Constant;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.CategoryDto;
-import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.paging.PageRequest;
 import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.BlogService;
 import com.example.btl_web.service.CategoryService;
 import com.example.btl_web.service.impl.BlogServiceImpl;
 import com.example.btl_web.service.impl.CategoryServiceImpl;
-import com.example.btl_web.utils.SessionUtils;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -33,6 +30,15 @@ public class HomeController extends HttpServlet {
         blogApproved.setTitle(keyWord);
         blogApproved.setStatus(1);
 
+        CategoryDto dto = null;
+        if(categorySearch != null)
+        {
+            dto = new CategoryDto();
+            dto.setCategoryId(Long.parseLong(categorySearch));
+            dto = categoryService.findOneBy(dto);
+            blogApproved.addACategory(dto);
+        }
+
         long totalBlogs = blogService.countBlogs(blogApproved);
         Pageable pageable = new PageRequest(request.getParameterMap(), totalBlogs);
 
@@ -41,7 +47,7 @@ public class HomeController extends HttpServlet {
 
         StringBuilder homeUrl = new StringBuilder(User.HOME_PAGE + "?" );
         if(categorySearch != null)
-            homeUrl.append("categorySearch=" + categorySearch+"&");
+            homeUrl.append("categorySearch=" + categorySearch +"&");
         if(keyWord != null)
             homeUrl.append("sortName=" + keyWord + "&");
         homeUrl.append("page=");
@@ -51,7 +57,7 @@ public class HomeController extends HttpServlet {
         request.setAttribute("listA", blogDtos);
         request.setAttribute("home", homeUrl.toString());
         request.setAttribute("categories", categoryDtos);
-        request.setAttribute("category_search", categorySearch);
+        request.setAttribute("category_search", dto);
 
         request.getRequestDispatcher(User.HOME_JSP).forward(request, response);
     }

@@ -1,33 +1,17 @@
 package com.example.btl_web.model;
 
+import com.example.btl_web.dto.UserDto;
+
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class Comment implements Serializable {
     private Long commentId;
     private String content;
-    private User userComment;
-    private Blog blogComment;
-    private Date createdAt;
+    private UserDto userComment;
+    private Long blogComment;
+    private Long createdAt;
     public Comment() {
 
-    }
-
-    public Comment(Long commentId, String content, User userComment, Blog blogComment, Date createdAt) {
-        this.commentId = commentId;
-        this.content = content;
-        this.userComment = userComment;
-        this.blogComment = blogComment;
-        this.createdAt = createdAt;
-    }
-
-    public String timeConvert(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String data[] = dateFormat.format(createdAt).split("\\s+");
-        String date = data[0] + " lúc " + data[1];
-        return date;
     }
 
     public Long getCommentId() {
@@ -42,31 +26,31 @@ public class Comment implements Serializable {
         return content;
     }
 
+    public Long getBlogComment() {
+        return blogComment;
+    }
+
+    public void setBlogComment(Long blogComment) {
+        this.blogComment = blogComment;
+    }
+
     public void setContent(String content) {
         this.content = content;
     }
 
-    public User getUserComment() {
-        return userComment;
-    }
-
-    public void setUserComment(User userComment) {
-        this.userComment = userComment;
-    }
-
-    public Blog getBlogComment() {
-        return blogComment;
-    }
-
-    public void setBlogComment(Blog blogComment) {
-        this.blogComment = blogComment;
-    }
-
-    public Date getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public UserDto getUserComment() {
+        return userComment;
+    }
+
+    public void setUserComment(UserDto userComment) {
+        this.userComment = userComment;
     }
 }

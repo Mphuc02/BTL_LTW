@@ -1,8 +1,7 @@
 package com.example.btl_web.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class User implements Serializable {
     private Long userId;
@@ -15,15 +14,11 @@ public class User implements Serializable {
     private String fullName;
     private Long registeredAt;
     private Integer status;
-    private Set<Blog> blogs = new HashSet<>();
-    private Set<Comment> comments = new HashSet<>();
-    private Set<Blog> likedBlog = new HashSet<>();
+    private List<Blog> blogs;
+    private List<Comment> comments;
+    private List<Blog> likedBlog;
     public User(){
 
-    }
-    public void removeLikedBlog(Blog blog) {
-        this.likedBlog.remove(blog);
-        blog.getLikedUsers().remove(this);
     }
 
     public Long getRegisteredAt() {
@@ -98,35 +93,23 @@ public class User implements Serializable {
         this.fullName = fullName;
     }
 
-    public Set<Blog> getBlogs() {
-        return blogs;
-    }
-
-    public void setBlogs(Set<Blog> blogs) {
-        this.blogs = blogs;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public Set<Blog> getLikedBlog() {
-        return likedBlog;
-    }
-
-    public void setLikedBlog(Set<Blog> likedBlog) {
-        this.likedBlog = likedBlog;
-    }
-
     public Integer getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<Blog> getBlogs() {
+        return blogs;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public List<Blog> getLikedBlog() {
+        return likedBlog;
     }
 }

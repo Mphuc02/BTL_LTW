@@ -1,9 +1,14 @@
 package com.example.btl_web.service.impl;
 
 import com.example.btl_web.dao.BlogDao;
+import com.example.btl_web.dao.UserDao;
 import com.example.btl_web.dao.impl.BlogDaoImpl;
+import com.example.btl_web.dao.impl.UserDaoImpl;
 import com.example.btl_web.dto.BlogDto;
+import com.example.btl_web.dto.CategoryDto;
+import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.model.Blog;
+import com.example.btl_web.model.User;
 import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.BlogService;
 import com.example.btl_web.service.CategoryService;
@@ -15,6 +20,7 @@ import java.util.List;
 
 public class BlogServiceImpl implements BlogService {
     private BlogDao blogDao = BlogDaoImpl.getInstance();
+    private UserDao userDao = UserDaoImpl.getInstance();
     private static BlogServiceImpl blogService;
     private static CategoryService categoryService = CategoryServiceImpl.getInstance();
     public static BlogServiceImpl getInstance()
@@ -26,7 +32,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<BlogDto> getAllBlogs(Pageable pageable, BlogDto dto) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM BLOGS WHERE (1 = 1)");
+        StringBuilder sql = new StringBuilder("SELECT * FROM BLOGS b");
 
         sql.append(addAndClause(pageable, dto));
         List<Blog> blogs = blogDao.findAll(sql.toString());
@@ -49,15 +55,15 @@ public class BlogServiceImpl implements BlogService {
             return null;
         blog = blogDtos.get(0);
         blog.setCategoriesList(categoryService.findAllCategoryOfBlog(blogId, 1));
+        blog.setLikedUsers(peopleLikedBlog(blogId));
 
         return blog;
     }
 
     @Override
     public long countBlogs(BlogDto blogDto) {
-        StringBuilder sql = new StringBuilder("SELECT count(blog_id) FROM BLOGS WHERE ( 1 = 1)");
-        if(blogDto != null)
-            sql.append(addAndClause(null, blogDto));
+        StringBuilder sql = new StringBuilder("SELECT count(b.blog_id) FROM BLOGS b");
+        sql.append(addAndClause(null, blogDto));
         return blogDao.countBlogs(sql.toString());
     }
 
@@ -83,11 +89,42 @@ public class BlogServiceImpl implements BlogService {
         return blogDao.save(sql.toString());
     }
 
+    private List<UserDto> peopleLikedBlog(Long blogId) {
+        String sql = "Select u.user_id, u.username, u.full_name from Users u, liked l where l.user_id = u.user_id and l.blog_id = " + blogId;
+
+        List<User> users = userDao.findAllUserInclude(sql);
+        List<UserDto> result = new ArrayList<>();
+        if(!users.isEmpty())
+        {
+            for(User user: users)
+            {
+                result.add(ConvertUtils.convertEntityToDto(user, UserDto.class));
+            }
+        }
+        return result;
+    }
+
     private StringBuilder addAndClause(Pageable pageable ,BlogDto dto)
     {
         StringBuilder sb = new StringBuilder();
 
-        if(dto != null) {
+        if(dto != null)
+        {
+            boolean firstWhere = true;
+            List<CategoryDto> categories = dto.getCategories();
+            if(categories != null)
+            {
+                firstWhere = false;
+                sb.append(", BLOGS_CATEGORIES b_c WHERE ( 1 = 1) AND b_c.blog_id = b.blog_id");
+                for(CategoryDto category: categories)
+                {
+                    sb.append(" AND b_c.category_id = " + category.getCategoryId());
+                }
+            }
+
+            if(firstWhere)
+                sb.append(" WHERE (1 = 1)");
+
             Long blogId = dto.getBlogId();
             String title = dto.getTitle();
             String content = dto.getContent();

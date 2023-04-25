@@ -23,12 +23,15 @@ public class ReadBlogController extends HttpServlet {
         {
             Long id = Long.parseLong(idStr);
             BlogDto blogDto = blogService.getOneById(id);
-            for(CategoryDto categoryDto: blogDto.getCategories())
+            if(blogDto != null)
             {
-                System.out.println(categoryDto.getCategoryId());
+                request.setAttribute("blog",blogDto);
+                request.getRequestDispatcher(User.READ_BLOG_JSP).forward(request,response);
             }
-            request.setAttribute("blog",blogDto);
-            request.getRequestDispatcher(User.READ_BLOG_JSP).forward(request,response);
+            else
+            {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            }
         }
         else
         {

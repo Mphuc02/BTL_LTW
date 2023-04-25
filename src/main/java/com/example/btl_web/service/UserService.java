@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService{
     List<UserDto> findAll(Pageable pageable, UserDto dto);
+    List<UserDto> findAllInclude(Pageable pageable, UserDto dto);
     long countUsers();
     UserDto login(String userName, String passWord);
     int signUp(String userName, String passWord, String passWord_2, String email);

@@ -22,6 +22,8 @@ public class Constant {
         public static final String READ_BLOG_PAGE = "/blogs/*";
         public static final String READ_BLOG_JSP = "/views/blog/read_blog.jsp";
         public static final String USER_CREATE_API = "/api-create-user";
+        public static final String USER_COMMENT_API = "/api-create-comment";
+        public static final String USER_LIKE_API = "/api-create-like";
     }
     public static class Admin
     {

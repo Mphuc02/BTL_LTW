@@ -14,8 +14,6 @@
 </head>
 
 <body>
-    <input type="hidden" id="key-word-search" value="${key}">
-    <input type="hidden" id="category-search" value="${category_search}">
     <div class="web">
         <jsp:include page="/views/common/header.jsp" />
 
@@ -44,7 +42,7 @@
 
             <form id="search-blog" action="/" method="post">
                 <div class="dieuhuong__tkiem">
-                    <input type="hidden" name="categorySearch" value="${category_search}">
+                    <input type="hidden" name="categorySearch" value="${category_search.categoryId}">
                     <input class="dieuhuong__tkiem--input" type="text" placeholder="Tìm kiếm truyện" name="sortName">
                     <button class="dieuhuong__tkiem--nut" type="submit">Tìm kiếm</button>
                 </div>
@@ -58,7 +56,7 @@
                 <c:if test="${not empty category_search}" >
                     <h1 class="ket_qua_tim_kiem">
                         <span class="tieu_de_tim_kiem">Danh sách truyện có thể loại: </span>
-                        <span class="nd_tim_kiem">${123}</span>
+                        <span class="nd_tim_kiem">${category_search.name}</span>
                     </h1>
                 </c:if>
                 <c:if test="${not empty key}">

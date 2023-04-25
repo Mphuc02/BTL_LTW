@@ -29,6 +29,12 @@
                 <span><a href="/?categorySearch=${category.categoryId}">${category.name}</a></span>
             </c:forEach>
 
+            <c:if test="${not empty USER_MODEL}" >
+                <button>Thích bài viết này</button>
+            </c:if>
+
+            <p>${blog.peopleLikedBlog} lươt thích</p>
+
             <p>${blog.content}</p>
 
             <h4 style="display: flex; justify-content: center;">---End---</h4> <br>
@@ -80,8 +86,6 @@
         </div>
     </div>
 
-    <div class="footer">
-        <div class="footer-form"></div>
-    </div>
+    <jsp:include page="/views/common/footer.jsp" />
 </body>
 </html>
