@@ -10,5 +10,5 @@ public interface UserBlogService {
     boolean saveComment(CommentDto comment);
     boolean likeThisBlog(Long blogId, Long userId);
     boolean removeLikeThisBlog(Long blogId, Long userId);
-    boolean validComment(CommentDto comment, String error);
+    boolean validComment(CommentDto comment, String[] error);
 }

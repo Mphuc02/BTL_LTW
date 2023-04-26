@@ -17,16 +17,16 @@ public class CommentDaoImpl extends GeneralDaoImpl<Comment> implements CommentDa
 
     @Override
     public List<Comment> findAll(String sql, Object... parameters) {
-        return selectSql(sql,new CommentMapperImpl(),parameters);
+        return selectSql(sql, new CommentMapperImpl(), parameters);
     }
 
     @Override
     public Long update(String sql, Object... parameters) {
-        return updateSql(sql,new CommentMapperImpl(),parameters);
+        return updateSql(sql, parameters);
     }
 
     @Override
     public long count(String sql, Object... parameters) {
-        return countSql(sql,new CommentMapperImpl(),parameters);
+        return countSql(sql, parameters);
     }
 }

@@ -29,7 +29,7 @@ public class CommentApi extends HttpServlet {
         UserDto userComment = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
         comment.setUserComment(userComment);
 
-        String errors = null;
+        String errors[] = new String[2];
         boolean validComment = userBlogService.validComment(comment, errors);
 
         ObjectMapper mapper = new ObjectMapper();
@@ -47,7 +47,7 @@ public class CommentApi extends HttpServlet {
         else
         {
             resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
         }
     }
 

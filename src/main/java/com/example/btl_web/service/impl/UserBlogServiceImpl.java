@@ -6,6 +6,7 @@ import com.example.btl_web.dao.impl.CommentDaoImpl;
 import com.example.btl_web.dao.impl.UserDaoImpl;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.CommentDto;
+import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.model.Comment;
 import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.BlogService;
@@ -21,8 +22,6 @@ import java.util.List;
 public class UserBlogServiceImpl implements UserBlogService {
     private CommentDao commentDao = CommentDaoImpl.getInstance();
     private UserDao userDao = UserDaoImpl.getInstance();
-    private BlogService blogService = BlogServiceImpl.getInstance();
-    private UserService userService = UserServiceimpl.getInstance();
     private static UserBlogServiceImpl userBogService;
     public static UserBlogServiceImpl getInstance()
     {
@@ -33,7 +32,9 @@ public class UserBlogServiceImpl implements UserBlogService {
 
     @Override
     public List<CommentDto> findAll(Pageable pageable, CommentDto comment) {
-        StringBuilder sql = new StringBuilder("Select c.* from comments c, users u, blogs b where c.user_id = " + comment.getUserComment().getUserId() + " AND c.blog_id = " + comment.getBlogComment());
+        pageable.setLimit(1000);
+        StringBuilder sql = new StringBuilder("Select c.* from comments c where c.blog_id = " + comment.getBlogComment());
+        sql.append(addAndClause(pageable, comment));
         List<Comment> comments = commentDao.findAll(sql.toString());
         List<CommentDto> result = new ArrayList<>();
         comments.forEach( e -> {
@@ -46,15 +47,11 @@ public class UserBlogServiceImpl implements UserBlogService {
     @Override
     public boolean saveComment(CommentDto comment) {
         Date timeStamp = new Date();
-        StringBuilder sql = new StringBuilder("Insert into Comments (content, blog_id, user_id, created_at ,status) values(1");
-        sql.append(comment.getContent() + ", ");
-        sql.append(comment.getBlogComment() + ", ");
-        sql.append(comment.getUserComment().getUserId() + ", ");
-        sql.append(timeStamp.getTime() + ", 1)");
-        System.out.println(sql.toString());
-        Long saveCommentStatus = commentDao.update(sql.toString(), comment.getContent(), comment.getBlogComment(), comment.getUserComment().getUserId(), timeStamp.getTime());
+        String sql = "Insert into Comments (content, blog_id, user_id, created_at, status) values (?, ?, ?, ?, 1)";
+        Long saveCommentStatus = commentDao.update(sql, comment.getContent(), comment.getBlogComment(), comment.getUserComment().getUserId(), timeStamp.getTime());
         if(saveCommentStatus != null)
         {
+            UserService userService = new UserServiceimpl();
             return userService.updateLastAction(comment.getUserComment());
         }
         return false;
@@ -66,6 +63,13 @@ public class UserBlogServiceImpl implements UserBlogService {
             return false;
         String sql = "Insert into Liked (user_id, blog_id) values (" + userId + ", " + blogId + ")";
         Long status = commentDao.update(sql);
+
+        //Lưu hoạt động gần đây nhất của user
+        UserService userService = new UserServiceimpl();
+        UserDto userDto = new UserDto();
+        userDto.setUserId(userId);
+        userService.updateLastAction(userDto);
+
         return status != null;
     }
 
@@ -79,19 +83,19 @@ public class UserBlogServiceImpl implements UserBlogService {
     }
 
     @Override
-    public boolean validComment(CommentDto comment, String error) {
+    public boolean validComment(CommentDto comment, String[] error) {
         Date timeAction = new Date();
         Long timeActionLong = timeAction.getTime();
         Long timeLastAction = comment.getUserComment().getLastAction();
         if(timeActionLong - timeLastAction < 1000 * 60)
         {
-            error = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + (timeActionLong - timeLastAction) / 1000;
+            error[0] = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + (60 - (timeActionLong - timeLastAction) / 1000);
             return false;
         }
 
         if(comment.getBlogComment() == null)
         {
-            error = "Bài viết không tồn tại!";
+            error[0] = "Bài viết không tồn tại!";
             return false;
         }
 
@@ -99,19 +103,34 @@ public class UserBlogServiceImpl implements UserBlogService {
         BlogDto blogDto = new BlogDto();
         blogDto.setBlogId(comment.getBlogComment());
         blogDto.setStatus(1);
+        BlogService blogService = new BlogServiceImpl();
         List<BlogDto> blogs = blogService.getAllBlogs(null, blogDto);
         if(blogs == null || blogs.isEmpty())
         {
-            error = "Bài viết không tồn tại!";
+            error[0] = "Bài viết không tồn tại!";
             return false;
         }
 
         if(comment.getContent() == null || comment.getContent().isEmpty())
         {
-            error = "Nội dung không được để trống!";
+            error[0] = "Nội dung không được để trống!";
             return false;
         }
         return true;
     }
+    private StringBuilder addAndClause(Pageable pageable, CommentDto commentDto)
+    {
+        StringBuilder sb = new StringBuilder();
+        if(commentDto != null)
+        {
 
+        }
+
+        if(pageable != null)
+        {
+            sb.append(pageable.addPagingation());
+        }
+
+        return sb;
+    }
 }

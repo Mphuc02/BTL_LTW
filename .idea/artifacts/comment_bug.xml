@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="rebuild_api">
-    <output-path>$PROJECT_DIR$/out/artifacts/rebuild_api</output-path>
+  <artifact type="exploded-war" name="comment_bug">
+    <output-path>$PROJECT_DIR$/out/artifacts/comment_bug</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

@@ -1,5 +1,4 @@
 package com.example.btl_web.dto;
-import com.example.btl_web.model.Comment;
 import com.example.btl_web.service.CategoryService;
 import com.example.btl_web.service.impl.CategoryServiceImpl;
 import com.example.btl_web.utils.BytePartUtils;
@@ -19,7 +18,7 @@ public class BlogDto {
     private Integer status;
     List<CategoryDto> categories;
     List<UserDto> likedUsers;
-    List<Comment> comments;
+    List<CommentDto> comments;
     //Thuộc tính dùng để tìm kiếm
     private String categorySearch;
     //Các hàm
@@ -145,15 +144,15 @@ public class BlogDto {
         this.likedUsers = likedUsers;
     }
 
-    public List<Comment> getComments() {
+    public void setCategoriesList(List<CategoryDto> categories) {
+        this.categories = categories;
+    }
+
+    public List<CommentDto> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<CommentDto> comments) {
         this.comments = comments;
-    }
-
-    public void setCategoriesList(List<CategoryDto> categories) {
-        this.categories = categories;
     }
 }

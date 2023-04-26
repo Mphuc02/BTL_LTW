@@ -6,21 +6,26 @@ import com.example.btl_web.dao.impl.BlogDaoImpl;
 import com.example.btl_web.dao.impl.UserDaoImpl;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.CategoryDto;
+import com.example.btl_web.dto.CommentDto;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.model.Blog;
 import com.example.btl_web.model.User;
+import com.example.btl_web.paging.PageRequest;
 import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.BlogService;
 import com.example.btl_web.service.CategoryService;
+import com.example.btl_web.service.UserBlogService;
+import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.ConvertUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-
 public class BlogServiceImpl implements BlogService {
     private BlogDao blogDao = BlogDaoImpl.getInstance();
     private UserDao userDao = UserDaoImpl.getInstance();
+    private UserBlogService userBlogService = UserBlogServiceImpl.getInstance();
     private static BlogServiceImpl blogService;
     private static CategoryService categoryService = CategoryServiceImpl.getInstance();
     public static BlogServiceImpl getInstance()
@@ -57,6 +62,12 @@ public class BlogServiceImpl implements BlogService {
         blog.setCategoriesList(categoryService.findAllCategoryOfBlog(blogId, 1));
         blog.setLikedUsers(peopleLikedBlog(blogId));
 
+        CommentDto commentDto = new CommentDto();
+        commentDto.setBlogComment(blogId);
+        Pageable pageable = new PageRequest(new HashMap<>(), 10L);
+        List<CommentDto> commentsOfBlog = userBlogService.findAll(pageable, commentDto);
+        blog.setComments(commentsOfBlog);
+
         return blog;
     }
 
@@ -79,6 +90,10 @@ public class BlogServiceImpl implements BlogService {
         Long saveCategories = categoryService.saveCategoriesOfBlog(saveBlog, blog.getCategories());
         if(saveCategories == null)
             return null;
+
+        //Lưu hoạt động gần đây nhất của User
+        UserService userService = new UserServiceimpl();
+        userService.updateLastAction(blog.getUser());
         return saveBlog;
     }
 

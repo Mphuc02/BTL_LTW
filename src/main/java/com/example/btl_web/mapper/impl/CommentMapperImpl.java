@@ -33,6 +33,6 @@ public class CommentMapperImpl implements RowMapper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return comment;
     }
 }

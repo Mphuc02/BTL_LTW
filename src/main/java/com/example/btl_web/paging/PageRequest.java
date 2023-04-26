@@ -101,4 +101,9 @@ public class PageRequest implements Pageable{
         this.sortName = sortName;
     }
 
+    @Override
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
 }

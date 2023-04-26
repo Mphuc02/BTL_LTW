@@ -10,4 +10,5 @@ public interface Pageable {
     StringBuilder addPagingation();
     void setSortBy(String sortBy);
     void setSortName(String sortName);
+    void setLimit(Integer limit);
 }

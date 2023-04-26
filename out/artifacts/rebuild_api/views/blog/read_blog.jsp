@@ -64,18 +64,13 @@
             <div class="sidebar-two">
                 <!-- Phần hiển thị bình luận -->
                 <div class="comments">
-                    <div class="comment">
-                        <div class="author">Nguyễn Văn A</div>
-                        <div class="text">Bình luận của Nguyễn Văn A</div>
-                    </div>
-                    <div class="comment">
-                        <div class="author">Trần Thị B</div>
-                        <div class="text">Bình luận của Trần Thị B</div>
-                    </div>
-                    <div class="comment">
-                        <div class="author">Lê Văn C</div>
-                        <div class="text">Bình luận của Lê Văn C</div>
-                    </div>
+                    <c:forEach var="comment" items="${blog.comments}" >
+                        <div class="comment">
+                            <div class="author">${comment.userComment.userId}</div>
+                            <div class="text">${comment.content}</div>
+                            <div>${comment.createdAt}</div>
+                        </div>
+                    </c:forEach>
                 </div>
 
                 <!-- Form để thêm bình luận -->

@@ -55,7 +55,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
         return results;
     }
     @Override
-    public <T> Long updateSql(String sql, Object... parameters)
+    public <T> Long updateSql(String sql,  Object... parameters)
     {
         Long idRow = 2L;
         ResultSet resultSet = null;
