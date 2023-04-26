@@ -15,6 +15,7 @@ public class UserDto {
     private String fullName;
     private String registeredAt;
     private Integer status;
+    private Long lastAction;
     private List<BlogDto> blogs;
     private List<CommentDto> comments;
     private List<BlogDto> likedBlog;
@@ -134,5 +135,13 @@ public class UserDto {
 
     public void setLikedBlog(List<BlogDto> likedBlog) {
         this.likedBlog = likedBlog;
+    }
+
+    public Long getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(Long lastAction) {
+        this.lastAction = lastAction;
     }
 }

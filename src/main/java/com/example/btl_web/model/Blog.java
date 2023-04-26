@@ -1,5 +1,7 @@
 package com.example.btl_web.model;
 
+import com.example.btl_web.dto.CategoryDto;
+import com.example.btl_web.dto.CommentDto;
 import com.example.btl_web.dto.UserDto;
 
 import java.io.Serializable;
@@ -15,9 +17,9 @@ public class Blog implements Serializable {
     private Long createdAt;
     private UserDto user;
     private Integer status;
-    List<Category> categories;
-    List<User> likedUsers;
-    List<Comment> comments;
+    List<CategoryDto> categories;
+    List<UserDto> likedUsers;
+    List<CommentDto> comments;
     //Thuộc tính dùng để tìm kiếm
     private String categorySearch;
     //Các hàm
@@ -87,35 +89,35 @@ public class Blog implements Serializable {
         this.user = user;
     }
 
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
-
-    public List<User> getLikedUsers() {
-        return likedUsers;
-    }
-
-    public void setLikedUsers(List<User> likedUsers) {
-        this.likedUsers = likedUsers;
-    }
-
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
     public String getCategorySearch() {
         return categorySearch;
     }
 
     public void setCategorySearch(String categorySearch) {
         this.categorySearch = categorySearch;
+    }
+
+    public List<CategoryDto> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryDto> categories) {
+        this.categories = categories;
+    }
+
+    public List<UserDto> getLikedUsers() {
+        return likedUsers;
+    }
+
+    public void setLikedUsers(List<UserDto> likedUsers) {
+        this.likedUsers = likedUsers;
+    }
+
+    public List<CommentDto> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
     }
 }

@@ -7,23 +7,20 @@
         <a class="" href="/">BlogTruyen.vn</a>
     </div>
 
-    <c:set var="role" value="${USER_MODEL.role}" />
-    <c:if test="${role eq 'ADMIN'}" >
-        <ul>
-            <li>
-                <a href="/admin/categories">Quản lý thể loại</a>
-            </li>
-            <li>
-                <a href="/admin/blogs">Quản lý bải viết</a>
-            </li>
-            <li>
-                <a href="/admin/users">Quản lý người dùng</a>
-            </li>
-        </ul>
-    </c:if>
-
     <div class="tieude__nut">
-        <div class="tieude__nut">
+        <div class="tieude__nut1">
+            <c:set var="role" value="${USER_MODEL.role}" />
+            <c:if test="${role eq 'ADMIN'}" >
+                <div>
+                    <a href="/admin/categories">Quản lý thể loại</a>
+                </div>
+                <div>
+                    <a href="/admin/blogs">Quản lý bải viết</a>
+                </div>
+                <div>
+                    <a href="/admin/users">Quản lý người dùng</a>
+                </div>
+            </c:if>
             <div>
                 <a class="tieude__nut--icon" href="">
                     <i class="search-icon ti-announcement"></i>

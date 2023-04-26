@@ -1,5 +1,6 @@
 package com.example.btl_web.mapper.impl;
 
+import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.mapper.RowMapper;
 import com.example.btl_web.model.Blog;
@@ -27,13 +28,12 @@ public class BlogMapperImpl implements RowMapper {
             blog.setCreatedAt(resultSet.getLong("created_at"));
             blog.setStatus(resultSet.getInt("status"));
 
-            UserDto userDto = new UserDto();
-            userDto.setUserId(resultSet.getLong("user_id"));
-            List<UserDto> userDtos = userService.findAll(null, userDto);
+            //Tìm người user viết blog này
+            UserDto userOfBlog = new UserDto();
+            userOfBlog.setUserId(resultSet.getLong("user_id"));
+            List<UserDto> userDtos = userService.findAll(null, userOfBlog);
             UserDto user = userDtos.isEmpty() ? null: userDtos.get(0);
             blog.setUser(user);
-
-            //blog.setLikedUsers();
         } catch (SQLException e) {
             e.printStackTrace();
         }

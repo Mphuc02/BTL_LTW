@@ -14,6 +14,7 @@ public class User implements Serializable {
     private String fullName;
     private Long registeredAt;
     private Integer status;
+    private Long lastAction;
     private List<Blog> blogs;
     private List<Comment> comments;
     private List<Blog> likedBlog;
@@ -111,5 +112,25 @@ public class User implements Serializable {
 
     public List<Blog> getLikedBlog() {
         return likedBlog;
+    }
+
+    public Long getLastAction() {
+        return lastAction;
+    }
+
+    public void setLastAction(Long lastAction) {
+        this.lastAction = lastAction;
+    }
+
+    public void setBlogs(List<Blog> blogs) {
+        this.blogs = blogs;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void setLikedBlog(List<Blog> likedBlog) {
+        this.likedBlog = likedBlog;
     }
 }

@@ -104,6 +104,11 @@ public class BlogServiceImpl implements BlogService {
         return result;
     }
 
+    @Override
+    public boolean checkUserLikedBlog(BlogDto blog, Long userId) {
+        return false;
+    }
+
     private StringBuilder addAndClause(Pageable pageable ,BlogDto dto)
     {
         StringBuilder sb = new StringBuilder();

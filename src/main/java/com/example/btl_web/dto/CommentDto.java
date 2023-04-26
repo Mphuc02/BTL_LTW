@@ -7,7 +7,7 @@ public class CommentDto {
     private String content;
     private UserDto userComment;
     private Long blogComment;
-    private Long createdAt;
+    private String createdAt;
     public CommentDto() {
     }
 
@@ -43,11 +43,11 @@ public class CommentDto {
         this.content = content;
     }
 
-    public Long getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Long createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 }

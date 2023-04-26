@@ -63,7 +63,7 @@
             }
             formSubmit(data, '${api_url}', 'POST', function(errors, status) {
                 if(status != 200) {
-                    for(var i = 0 ; i < errors.errors.length; i++) {
+                    for(var  i = 0 ; i < errors.errors.length; i++) {
                         if(errors.errors[i])
                             document.querySelector("#bug" + (i + 1)).innerHTML = errors.errors[i]
                         else

@@ -151,6 +151,13 @@ public class UserServiceimpl implements UserService {
         return check;
     }
 
+    @Override
+    public boolean updateLastAction(UserDto user) {
+        Date timeLastACtion = new Date();
+        user.setLastAction(timeLastACtion.getTime());
+        return updateUser(user) != null;
+    }
+
     private boolean checkUserNameExisted(String userName)
     {
         String sql = "SELECT * FROM USERS WHERE username = ?";

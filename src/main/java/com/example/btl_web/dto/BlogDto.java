@@ -27,7 +27,17 @@ public class BlogDto {
     {
 
     }
-
+    public boolean checkUserLikedBlog(Long userId)
+    {
+        if(likedUsers == null)
+            return false;
+        for(UserDto user: likedUsers)
+        {
+            if(user.getUserId() == userId)
+                return true;
+        }
+        return false;
+    }
     public Long getBlogId() {
         return blogId;
     }

@@ -48,6 +48,7 @@ public class Constant {
         public static final String REGISTRATION_AT = "registeredAt";
         public static final String MODIFIED_DATE = "modifiedAt";
         public static final String DATE_FORMAT = "dd/MM/yyyy HH:mm";
+        public static final String LAST_ACTION = "lastAction";
     }
 
     public static class Paging
