@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/css/admin/admin2.css">
+    <link rel="stylesheet" href="/assets/css/admin/admin3.css">
     <link rel="stylesheet" href="/assets/css/home4.css">
     <title>Admin</title>
 </head>
@@ -85,7 +85,7 @@
                                                 <a href="/admin/categories/edit/${item.categoryId}">Chỉnh sửa</a>
                                             </td>
                                             <td>
-                                                <div onclick="setupData(${item.categoryId}, ${item.status})">${status}</div>
+                                                <div onclick="setupData(${item.categoryId}, ${item.status})" id="category-status-${item.categoryId}">${status}</div>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -106,7 +106,7 @@
     </div>
 
     <jsp:include page="/assets/javascript/pagination.jsp" />
-    <%@include file="/assets/javascript/hide_or_public_api.jsp"%>
+    <jsp:include page="/assets/javascript/create_or_update_api.jsp" />
     <script>
         initPagination('${categories_page}')//Phân trang
 
@@ -115,13 +115,20 @@
                 statusInt = 0
             else
                 statusInt = 1
-
             var data = {
                 categoryId: id,
                 status: statusInt
             }
 
-            hideOrPublic(statusInt, data, '${api_url}');
+            formSubmit(data, '${api_url}', 'DELETE', function (errors, status){
+                if(status == 200){
+                    alert("Cập nhật trạng thái thành công!")
+                    window.location.reload()
+                }
+                else{
+                    alert("Không thể cập nhật trạng thái!")
+                }
+            })
         }
     </script>
 </body>

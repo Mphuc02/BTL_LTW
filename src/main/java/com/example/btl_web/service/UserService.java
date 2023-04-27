@@ -14,5 +14,6 @@ public interface UserService{
     Long saveUser(UserDto userDto);
     Long updateUser(UserDto dto);
     boolean validateSignUp(UserDto user, String[] errors);
+    boolean validUpdate(UserDto user, String[] errors);
     boolean updateLastAction(UserDto user);
 }

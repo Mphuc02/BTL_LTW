@@ -14,4 +14,6 @@ public interface CategoryService {
     Long update(CategoryDto categoryDto);
     Long saveCategoriesOfBlog(Long blogId, List<CategoryDto> categories);
     Long delete(Long categoryId);
+    boolean validCategoryCreate(CategoryDto category, String[] error);
+    boolean validCategoryUpdate(CategoryDto category, String[] error);
 }

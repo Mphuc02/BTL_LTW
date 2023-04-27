@@ -104,6 +104,38 @@ public class BlogServiceImpl implements BlogService {
         return blogDao.save(sql.toString());
     }
 
+    @Override
+    public boolean validCreateBlog(String[] errors, BlogDto blog) {
+        boolean result = true;
+        if(blog.getTitle().isEmpty())
+        {
+            result = false;
+            errors[0] = "Tiêu đề không được để trống";
+        }
+        if(blog.getImageTitleData() == null)
+        {
+            result = false;
+            errors[1] = "Ảnh tiêu đề không được để trống";
+        }
+        if(blog.getCategories().isEmpty())
+        {
+            result = false;
+            errors[2] = "Phải chọn ít nhất 1 thể loại";
+        }
+
+        if(blog.getContent().isEmpty())
+        {
+            result = false;
+            errors[3] = "Nội dung truyện không được để trống";
+        }
+        return result;
+    }
+
+    @Override
+    public boolean validUpdateBlog(String[] errors, BlogDto blog) {
+        return false;
+    }
+
     private List<UserDto> peopleLikedBlog(Long blogId) {
         String sql = "Select u.user_id, u.username, u.full_name from Users u, liked l where l.user_id = u.user_id and l.blog_id = " + blogId;
 
@@ -196,31 +228,5 @@ public class BlogServiceImpl implements BlogService {
             sb.append(", status = " + status );
         sb.append(" WHERE blog_id = " + blogId);
         return sb;
-    }
-    public boolean validateBlog(String[] errors, BlogDto blog)
-    {
-        boolean result = true;
-        if(blog.getTitle().isEmpty())
-        {
-            result = false;
-            errors[0] = "Tiêu đề không được để trống";
-        }
-        if(blog.getImageTitleData() == null)
-        {
-            result = false;
-            errors[1] = "Ảnh tiêu đề không được để trống";
-        }
-        if(blog.getCategories().isEmpty())
-        {
-            result = false;
-            errors[2] = "Phải chọn ít nhất 1 thể loại";
-        }
-
-        if(blog.getContent().isEmpty())
-        {
-            result = false;
-            errors[3] = "Nội dung truyện không được để trống";
-        }
-        return result;
     }
 }

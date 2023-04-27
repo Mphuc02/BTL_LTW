@@ -152,6 +152,18 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
+    public boolean validUpdate(UserDto user, String[] errors) {
+        UserDto dto = new UserDto();
+        List<UserDto> existedUser = findAll(null, dto);
+        if(existedUser == null || existedUser.isEmpty())
+        {
+            errors[0] = "Người dùng không tồn tại";
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public boolean updateLastAction(UserDto user) {
         Date timeLastACtion = new Date();
         user.setLastAction(timeLastACtion.getTime());

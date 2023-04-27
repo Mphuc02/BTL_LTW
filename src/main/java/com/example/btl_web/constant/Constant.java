@@ -59,4 +59,12 @@ public class Constant {
         public static final String SORT_NAME = "sort-name";
         public static final String SORT_BY = "sort-by";
     }
+
+    public static class Request
+    {
+        public static final String GET_METHOD =  "GET";
+        public static final String POST_METHOD = "POST";
+        public static final String PUT_METHOD = "PUT";
+        public static final String DELETE_METHOD = "DELETE";
+    }
 }

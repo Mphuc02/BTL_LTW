@@ -104,6 +104,28 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDao.update(sql, categoryId);
     }
 
+    @Override
+    public boolean validCategoryCreate(CategoryDto category, String errors[]) {
+        if(category.getName().isEmpty())
+        {
+            errors[0] = "Tên thể loại không được để trống!";
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean validCategoryUpdate(CategoryDto category, String[] error)
+    {
+        //Kiểm tra xem thể loại này có tồn tại không
+        CategoryDto dto = new CategoryDto();
+        dto.setCategoryId(category.getCategoryId());
+        List<CategoryDto> categories = findAll(null, dto);
+        if(categories == null || categories.isEmpty())
+            return false;
+        return true;
+    }
+
     private StringBuilder addAndClause(Pageable pageable,CategoryDto categoryDto)
     {
         StringBuilder sb = new StringBuilder();
@@ -113,8 +135,8 @@ public class CategoryServiceImpl implements CategoryService {
                 sb.append(" AND category_id = " + categoryDto.getCategoryId());
             if(categoryDto.getName() != null)
                 sb.append(" AND NAME lower(like) lower(%" + categoryDto.getName() + "%)");
-            if(categoryDto.getCreatedAt() != null)
-                sb.append(" AND created_at = " + categoryDto.getCreatedAt());
+//            if(categoryDto.getCreatedAt() != null)
+//                sb.append(" AND created_at = " + categoryDto.getCreatedAt());
             if(categoryDto.getUserId() != null)
                 sb.append(" AND user_id = " + categoryDto.getUserId());
         }
@@ -140,8 +162,8 @@ public class CategoryServiceImpl implements CategoryService {
             sb.append(", name = '" + name + "'");
         if(userId != null)
             sb.append(", user_id = " + userId);
-        if(createAt != null)
-            sb.append(", created_at = ?");
+//        if(createAt != null)
+//            sb.append(", created_at = ?");
         if(status != null)
             sb.append(", status = " + status);
 

@@ -19,14 +19,6 @@
             <jsp:include page="/views/common/header.jsp" />
         </div>
         <div id="main">
-            <!-- MAIN -->
-            <div class="container">
-                <div class="navbar">
-                    <div class="icon--link">
-                        <i class="icon fa-solid fa-book-open"></i>
-                    </div>
-                </div>
-            </div>
             <!-- Content -->
             <section class="content">
                 <div class="row mt-5">
@@ -38,7 +30,7 @@
                                     <h2>Thêm thể loại</h2>
                                 </div>
                                 <div class="card-body">
-                                    <form class="form-group mt-4" id="formSubmit" action="/admin/categories/edit/-1" method="post">
+                                    <form class="form-group mt-4" id="formSubmit">
                                         <input type="hidden" id="categoryId" name="categoryId" value = ${category.categoryId}>
                                         <input type="hidden" id="userId" value="${category.userId}">
                                         <input type="hidden" id="createdAt" value="${category.createdAt}">
@@ -78,11 +70,10 @@
             if(!categoryId)
             {
                 var data = {
-                    categoryId: categoryId,
                     name: nameStr
                 }
                 // Thiết lập phương thức POST và URL của API để gửi JSON
-                method = "POST"
+                var method = "POST"
             }
             else
             {
@@ -92,30 +83,26 @@
                     userId: document.querySelector("#userId").value,
                     createdAt: document.querySelector("#createdAt").value
                 }
-                method = "PUT"
+                var method = "PUT"
             }
 
-            var message1 = 'Tạo thể loại thành công!'
-            var message2 = 'Không thể tạo thể loại này, vui lòng thử lại!'
-            formSubmit(data, '${api_url}', function (errors, status){
+            console.log(data)
+
+            formSubmit(data, '${api_url}', method, function (errors, status){
                 if(status == 200)
                 {
-                    alert("Thêm thể loại thành công!")
+                    alert(errors.messages)
                     window.location.reload()
                 }
                 else{
-                    initProblems()
+                    initProblems(errors)
                 }
             })
         }
 
-        function initProblems(){
+        function initProblems(errors){
             var nameError = document.querySelector("#name-error")
-            var nameInput = document.querySelector("#id").value
-            if(!nameInput)
-                nameError.innerHTML = 'Tên thể loại không đuợc để trống'
-            else
-                nameError.innerHTML = 'Tên thể loại này đã được tạo'
+            nameError.innerHTML = errors.errors[0]
         }
     </script>
 </body>

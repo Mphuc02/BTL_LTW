@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/css/admin/admin2.css">
+    <link rel="stylesheet" href="/assets/css/admin/admin3.css">
     <link rel="stylesheet" href="/assets/css/home4.css">
     <title>Admin</title>
 </head>
@@ -106,9 +106,8 @@
             </section>
         </div>
     </div>
-
-    <jsp:include page="/assets/javascript/hide_or_public_api.jsp" />
     <jsp:include page="/assets/javascript/pagination.jsp" />
+    <jsp:include page="/assets/javascript/create_or_update_api.jsp"/>
 
     <script>
         initPagination('${blogs_page}');
@@ -120,13 +119,20 @@
                 blogId: blogId,
                 status: status
             }
-            hideOrPublic(status, data, '${api_url}')
 
-            var blogStatus = document.querySelector("#blog-status")
-            if(status == 0)
-                blogStatus.innerHTML = 'Đã bị ẩn'
-            else if(status == 1)
-                blogStatus.innerHTML = 'Đã được duyệt'
+            formSubmit(data, '${api_url}', 'DELETE', function (errors, status)
+            {
+                if(status == 200) {
+                    var blogStatus = document.querySelector("#blog-status")
+                    if(status == 0)
+                        blogStatus.innerHTML = 'Đã bị ẩn'
+                    else if(status == 1)
+                        blogStatus.innerHTML = 'Đã được duyệt'
+                }
+                else{
+                    alert("Không thể cập nhật trạng thái!")
+                }
+            })
         }
     </script>
 </body>

@@ -75,7 +75,7 @@
                 <div class="comments">
                     <c:forEach var="comment" items="${blog.comments}" >
                         <div class="comment">
-                            <div class="author">${comment.userComment.userId}</div>
+                            <div class="author">${comment.userComment.fullName}</div>
                             <div class="text">${comment.content}</div>
                             <div>${comment.createdAt}</div>
                         </div>
