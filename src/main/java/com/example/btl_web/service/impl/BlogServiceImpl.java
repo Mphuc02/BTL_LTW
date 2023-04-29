@@ -106,6 +106,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public boolean validCreateBlog(String[] errors, BlogDto blog) {
+        if(!validUpdateBlog(errors, blog))
+            return false;
+
         boolean result = true;
         if(blog.getTitle().isEmpty())
         {
@@ -133,7 +136,21 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public boolean validUpdateBlog(String[] errors, BlogDto blog) {
-        return false;
+        UserService userService = new UserServiceimpl();
+        Long validTime = userService.checkLastAction(blog.getUser().getUserId());
+        if(validTime != null)
+        {
+            errors[0] = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + validTime;
+            return false;
+        }
+
+        BlogDto dto = new BlogDto();
+        dto.setBlogId(blog.getBlogId());
+        List<BlogDto> checkBlogExisted = getAllBlogs(null, dto);
+        if(checkBlogExisted == null || checkBlogExisted.isEmpty())
+            return false;
+
+        return true;
     }
 
     private List<UserDto> peopleLikedBlog(Long blogId) {

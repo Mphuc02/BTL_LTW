@@ -45,18 +45,6 @@
             <p>${blog.content}</p>
 
             <h4 style="display: flex; justify-content: center;">---End---</h4> <br>
-
-            <!-- <h4>Bình luận về truyện</h4>
-            <textarea name="comment" id="comment" cols="30" rows="10"></textarea>
-            <h5>Nội dung không được để trống</h5>
-            <input type="submit" value="Đăng" id="submit">
-
-            <div id="cm-comment">
-                <ul id="cm">
-                    <ul id="cm-one">0</ul>
-                    <ul id="cm-one">Bình luận</ul>
-                </ul>
-            </div> -->
         </div>
 
         <div class="sidebar">
@@ -66,7 +54,6 @@
                 <!-- Form để thêm bình luận -->
                 <div class="comment-form">
                     <h3>Thêm bình luận</h3>
-                    <label for="comment">Bình luận:</label>
                     <textarea id="comment" name="comment" required></textarea>
 
                     <button onclick="sendComment()">Gửi</button>
@@ -99,14 +86,14 @@
 
             formSubmit(data, '${api_url_like}', method, function (errors, status){
                 if(status == 200){
-                    alert("Đã like bài viết này!")
+                    alert(errors.message)
                     resetLikeButton(statusLike)
                 }
                 else if(status== 400){
                     alert("Bạn phải đăng nhập thì mới xem được bài viết này")
                 }
                 else if(status == 406){
-                    alert(errors[0])
+                    alert(errors.errors[0])
                 }
             })
         }

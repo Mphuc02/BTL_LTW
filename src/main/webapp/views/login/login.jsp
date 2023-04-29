@@ -4,7 +4,7 @@
 <head>
 
     <title>Đăng nhập</title>
-    <link rel="stylesheet" href="/assets/css/login/login.css">
+    <link rel="stylesheet" href="/assets/css/registraion/registraion5.css">
 </head>
 <body>
 <div class="main">
@@ -33,7 +33,7 @@
                         <input name="passWord" type="password" required>
                         <label>Mật khẩu</label>
                     </div>
-                    <button>Đăng nhập</button>
+                    <button class="btn">Đăng nhập</button>
                     <div class="register">
                         <p>Bạn chưa có tài khoản ? <a href="registration">Đăng kí ngay</a></p>
                     </div>

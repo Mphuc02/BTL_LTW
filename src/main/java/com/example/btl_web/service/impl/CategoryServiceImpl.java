@@ -61,9 +61,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public long countCategories() {
-        String sql = "Select count(category_id) from categories";
-        return categoryDao.count(sql);
+    public long countCategories(CategoryDto category) {
+        StringBuilder sql = new StringBuilder("Select count(category_id) from categories where (1 = 1)");
+        sql.append(addAndClause(null, category));
+        return categoryDao.count(sql.toString());
     }
 
     @Override
@@ -106,6 +107,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean validCategoryCreate(CategoryDto category, String errors[]) {
+        if(!validCategoryUpdate(category, errors))
+            return false;
+
         if(category.getName().isEmpty())
         {
             errors[0] = "Tên thể loại không được để trống!";
@@ -134,7 +138,7 @@ public class CategoryServiceImpl implements CategoryService {
             if(categoryDto.getCategoryId() != null)
                 sb.append(" AND category_id = " + categoryDto.getCategoryId());
             if(categoryDto.getName() != null)
-                sb.append(" AND NAME lower(like) lower(%" + categoryDto.getName() + "%)");
+                sb.append(" AND lower(name) like lower('%" + categoryDto.getName() + "%')");
 //            if(categoryDto.getCreatedAt() != null)
 //                sb.append(" AND created_at = " + categoryDto.getCreatedAt());
             if(categoryDto.getUserId() != null)

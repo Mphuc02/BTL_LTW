@@ -21,19 +21,30 @@ public class UserController extends HttpServlet {
     private UserService userService = UserServiceimpl.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long totalItem = userService.countUsers();
+        StringBuilder pageUrl = new StringBuilder(Admin.USERS_PAGE + "?");
+
+        UserDto searchDto = null;
+
+        String searchName = req.getParameter("searchName");
+        if(searchName != null)
+        {
+            searchDto = new UserDto();
+            searchDto.setFullName(searchName);
+            pageUrl.append("searchName=" + searchName + "&");
+        }
+        pageUrl.append("page=");
+
+        long totalItem = userService.countUsers(searchDto);
         Pageable pageable = new PageRequest(req.getParameterMap(), totalItem);
 
-        List<UserDto> dtos = userService.findAll(pageable, null);
-
-        StringBuilder pageUrl = new StringBuilder(Admin.USERS_PAGE);
-        pageUrl.append("?page=");
+        List<UserDto> dtos = userService.findAll(pageable, searchDto);
 
         req.setAttribute("users_list", dtos);
         req.setAttribute("pageable", pageable);
         req.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
         req.setAttribute("blogs_page", Admin.BLOGS_PAGE);
         req.setAttribute("users_page", pageUrl.toString());
+        req.setAttribute("searchName", searchName);
 
         RequestDispatcher rd = req.getRequestDispatcher(Admin.USERS_JSP);
         rd.forward(req,resp);

@@ -84,14 +84,8 @@ public class UserBlogServiceImpl implements UserBlogService {
 
     @Override
     public boolean validComment(CommentDto comment, String[] error) {
-        Date timeAction = new Date();
-        Long timeActionLong = timeAction.getTime();
-        Long timeLastAction = comment.getUserComment().getLastAction();
-        if(timeActionLong - timeLastAction < 1000 * 60)
-        {
-            error[0] = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + (60 - (timeActionLong - timeLastAction) / 1000);
+        if(!userCanDoAction(error, comment.getUserComment().getUserId()))
             return false;
-        }
 
         if(comment.getBlogComment() == null)
         {
@@ -118,6 +112,18 @@ public class UserBlogServiceImpl implements UserBlogService {
         }
         return true;
     }
+    private boolean userCanDoAction(String errors[], Long userId)
+    {
+        UserService userService = new UserServiceimpl();
+        Long timeValid = userService.checkLastAction(userId);
+        if(timeValid != null)
+        {
+            errors[0] = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + timeValid;
+            return false;
+        }
+        return true;
+    }
+
     private StringBuilder addAndClause(Pageable pageable, CommentDto commentDto)
     {
         StringBuilder sb = new StringBuilder();

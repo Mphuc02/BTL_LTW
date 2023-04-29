@@ -35,14 +35,16 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="float-left">
-                                    <form action="#">
+                                    <form action="" method="get">
                                         <div class="tim-kiem">
-                                            <input type="text" placeholder="Tìm Kiếm" class="search">
-                                            <button class="btn btn-search">
-                                                <a href="#" class="title">Tìm Kiếm</a>
-                                            </button>
+                                            <input type="text" placeholder="Tìm Kiếm" class="search" name="keySearch" value="${keySearch}">
+                                            <button class="btn btn-search">Tìm kiếm</button>
                                         </div>
                                     </form>
+
+                                    <c:if test="${not empty keySearch}" >
+                                        <p>Tìm kiếm truyện theo từ khoá: ${keySearch}</p>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -120,14 +122,14 @@
                 status: status
             }
 
+            console.log(data)
+
             formSubmit(data, '${api_url}', 'DELETE', function (errors, status)
             {
                 if(status == 200) {
                     var blogStatus = document.querySelector("#blog-status")
-                    if(status == 0)
-                        blogStatus.innerHTML = 'Đã bị ẩn'
-                    else if(status == 1)
-                        blogStatus.innerHTML = 'Đã được duyệt'
+                    alert("Cập nhật trạng thái thành công!")
+                    window.location.reload()
                 }
                 else{
                     alert("Không thể cập nhật trạng thái!")

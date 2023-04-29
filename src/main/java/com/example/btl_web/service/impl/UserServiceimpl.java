@@ -53,6 +53,16 @@ public class UserServiceimpl implements UserService {
         return dtos;
     }
 
+    @Override
+    public UserDto findOneById(Long userId) {
+        UserDto findUser = new UserDto();
+        findUser.setUserId(userId);
+        List<UserDto> result = findAll(null, findUser);
+        if(result == null || result.isEmpty())
+            return null;
+        return result.get(0);
+    }
+
 
     @Override
     public UserDto login(String userName, String passWord) {
@@ -97,6 +107,9 @@ public class UserServiceimpl implements UserService {
 
     @Override
     public boolean validateSignUp(UserDto user, String[] errors) {
+        if(!validUpdate(user, errors))
+            return false;
+
         boolean check = true;
 
         if(user.getUserName() == null)
@@ -153,6 +166,13 @@ public class UserServiceimpl implements UserService {
 
     @Override
     public boolean validUpdate(UserDto user, String[] errors) {
+        Long timeValid = checkLastAction(user.getUserId());
+        if(timeValid != null)
+        {
+            errors[0] = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + timeValid;
+            return false;
+        }
+
         UserDto dto = new UserDto();
         List<UserDto> existedUser = findAll(null, dto);
         if(existedUser == null || existedUser.isEmpty())
@@ -170,6 +190,18 @@ public class UserServiceimpl implements UserService {
         return updateUser(user) != null;
     }
 
+    @Override
+    public Long checkLastAction(Long userId) {
+        UserDto validUser = findOneById(userId);
+        Long timenow = (new Date()).getTime();
+        Long lastAction = validUser.getLastAction();
+        Long validTime = (timenow - lastAction) / 1000;
+
+        if(validTime < 60)
+            return 60 - validTime;
+        return null;
+    }
+
     private boolean checkUserNameExisted(String userName)
     {
         String sql = "SELECT * FROM USERS WHERE username = ?";
@@ -180,9 +212,11 @@ public class UserServiceimpl implements UserService {
         return user != null;
     }
     @Override
-    public long countUsers() {
-        String sql = "SELECT COUNT(user_id) FROM USERS";
-        return userDao.countItems(sql);
+    public long countUsers(UserDto countDto) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(user_id) FROM USERS where (1 = 1)");
+        sql.append(addAndClause(null, countDto));
+
+        return userDao.countItems(sql.toString());
     }
     private StringBuilder addAndClause(Pageable pageable,UserDto userDto)
     {
@@ -197,7 +231,7 @@ public class UserServiceimpl implements UserService {
             String role = userDto.getRole();
             String address = userDto.getAddress();
             String phone = userDto.getPhone();
-            String fullName = userDto.getPhone();
+            String fullName = userDto.getFullName();
             String registeredAt = userDto.getRegisteredAt();
 
             if(userId != null)
@@ -217,7 +251,7 @@ public class UserServiceimpl implements UserService {
             if(phone != null)
                 sb.append(" AND phone = '" + phone +  "'");
             if(fullName != null)
-                sb.append(" AND full_name = '" + fullName + "'");
+                sb.append(" AND lower(full_name) like lower('%" + fullName + "%')");
             if(registeredAt != null)
                 sb.append(" AND registered_at = " + registeredAt);
         }
@@ -238,6 +272,7 @@ public class UserServiceimpl implements UserService {
         String phone = dto.getPhone();
         String fullName = dto.getFullName();
         Long timeStamp = null;
+        Long lastAcion = dto.getLastAction();
 
         if(dto.getRegisteredAt() != null)
             timeStamp = ConvertUtils.convertStringDateToLong(dto.getRegisteredAt());
@@ -261,6 +296,9 @@ public class UserServiceimpl implements UserService {
             sb.append(", created_at = " + timeStamp);
         if(status != null)
             sb.append(", status = " + status);
+        if(lastAcion != null)
+            sb.append(", last_action = " + lastAcion);
+
         sb.append(" WHERE user_id = " + dto.getUserId());
         return sb;
     }

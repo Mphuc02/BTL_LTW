@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="../.././assets/css/registraion/registraion.css">
+  <link rel="stylesheet" href="../../assets/css/registraion/registraion5.css">
   <title>Blog Truyện - Đăng kí</title>
 </head>
 <body>
@@ -40,7 +40,7 @@
                         <label>Email</label>
                     </div>
                     <span class="bug" id="bug4">${bug4}</span>
-                    <button type="button" onclick="setupData()">Đăng ký</button>
+                    <button class="btn" type="button" onclick="setupData()">Đăng ký</button>
                     <div class="register">
                         <p>Bạn đã có tài khoản rồi ? <a href="../../login">Đăng nhập</a></p>
                     </div>

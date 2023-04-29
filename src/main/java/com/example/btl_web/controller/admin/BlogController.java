@@ -21,19 +21,29 @@ public class BlogController extends HttpServlet {
     private BlogService blogService = BlogServiceImpl.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        long totalBlog = blogService.countBlogs(null);
+        StringBuilder pageUrl = new StringBuilder(Admin.BLOGS_PAGE + "?");
+
+        BlogDto searchDto = null;
+        String searchName = req.getParameter("keySearch");
+        if(searchName != null)
+        {
+            searchDto = new BlogDto();
+            searchDto.setTitle(searchName);
+            pageUrl.append("keySearch=" + searchName + "&");
+        }
+        pageUrl.append("page=");
+
+        long totalBlog = blogService.countBlogs(searchDto);
         Pageable pageable = new PageRequest(req.getParameterMap(), totalBlog);
 
-        List<BlogDto> blogList = blogService.getAllBlogs(pageable, null);
-
-        StringBuilder pageUrl = new StringBuilder(Admin.BLOGS_PAGE);
-        pageUrl.append("?page=");
+        List<BlogDto> blogList = blogService.getAllBlogs(pageable, searchDto);
 
         req.setAttribute("pageable", pageable);
         req.setAttribute("blogList", blogList);
         req.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
         req.setAttribute("blogs_page", pageUrl.toString());
         req.setAttribute("users_page", Admin.USERS_PAGE);
+        req.setAttribute("keySearch", searchName);
         RequestDispatcher rd = req.getRequestDispatcher(Admin.BLOGS_JSP);
         rd.forward(req, resp);
     }
