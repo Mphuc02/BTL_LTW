@@ -107,9 +107,6 @@ public class UserServiceimpl implements UserService {
 
     @Override
     public boolean validateSignUp(UserDto user, String[] errors) {
-        if(!validUpdate(user, errors))
-            return false;
-
         boolean check = true;
 
         if(user.getUserName() == null)
