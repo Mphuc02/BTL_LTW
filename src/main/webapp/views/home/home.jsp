@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/assets/css/home4.css">
+    <link rel="stylesheet" href="/assets/css/home5.css">
     <link rel="stylesheet" href="/assets/css/font/themify-icons-font/themify-icons/themify-icons.css">
 </head>
 
@@ -36,8 +36,6 @@
                         </c:forEach>
                     </ul>
                 </li>
-
-                <li><a href="">Tác giả</a></li>
             </ul>
 
             <form id="search-blog" action="/" method="post">

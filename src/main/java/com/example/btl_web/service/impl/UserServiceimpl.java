@@ -94,8 +94,8 @@ public class UserServiceimpl implements UserService {
     @Override
     public Long saveUser(UserDto userDto) {
         Date timeStamp = new Date();
-        String sql = "INSERT INTO USERS (email, password, created_at, role, username, status) VALUES (?, ?, ?, ?, ?, 1)";
-        return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), "USER", userDto.getUserName());
+        String sql = "INSERT INTO USERS (email, password, created_at, role, username, last_action, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
+        return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), "USER", userDto.getUserName(), timeStamp.getTime());
     }
 
     @Override
