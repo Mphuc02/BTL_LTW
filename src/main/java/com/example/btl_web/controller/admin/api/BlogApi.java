@@ -70,6 +70,11 @@ public class BlogApi extends HttpServlet {
 //                String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
 //                FileUtils.saveImageToServer(blog.getImageTitleData(), blogId, absoluteDiskPath);
 
+            if(blogId != null)
+            {
+                System.out.println("Khong null");
+            }
+
                 resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("messages", blogId)));
                 return;
             //}
