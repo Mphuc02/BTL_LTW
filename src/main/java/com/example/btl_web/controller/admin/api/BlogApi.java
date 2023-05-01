@@ -6,7 +6,6 @@ import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.BlogService;
 import com.example.btl_web.service.impl.BlogServiceImpl;
-import com.example.btl_web.utils.FileUtils;
 import com.example.btl_web.utils.HttpUtils;
 import com.example.btl_web.utils.SessionUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.BLOGS_API)
@@ -25,7 +23,7 @@ public class BlogApi extends HttpServlet {
     BlogService blogService = BlogServiceImpl.getInstance();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        solveApi(req, resp);
     }
 
     @Override
@@ -40,6 +38,8 @@ public class BlogApi extends HttpServlet {
 
     private void solveApi(HttpServletRequest req, HttpServletResponse resp) throws IOException
     {
+        UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
+
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
 
@@ -51,18 +51,18 @@ public class BlogApi extends HttpServlet {
         if(requestMethod.equals(Request.POST_METHOD))
             valid = blogService.validCreateBlog(errors, blog);
         else if(requestMethod.equals(Request.PUT_METHOD) || requestMethod.equals(Request.DELETE_METHOD))
-            valid = blogService.validUpdateBlog(errors, blog);
+            valid = blogService.validUpdateBlog(errors, blog, user.getUserId());
 
         ObjectMapper mapper = new ObjectMapper();
 
         if(valid)
         {
-            UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
-            blog.setUser(user);
-
             Long blogId = null;
             if(requestMethod.equals(Request.POST_METHOD))
+            {
+                blog.setUser(user);
                 blogId = blogService.save(blog);
+            }
             else if(requestMethod.equals(Request.PUT_METHOD) || requestMethod.equals(Request.DELETE_METHOD))
                 blogId = blogService.update(blog);
 //            if(blogId != null) {

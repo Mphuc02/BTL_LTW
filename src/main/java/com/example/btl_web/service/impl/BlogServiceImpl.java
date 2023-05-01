@@ -106,9 +106,6 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public boolean validCreateBlog(String[] errors, BlogDto blog) {
-        if(!validUpdateBlog(errors, blog))
-            return false;
-
         boolean result = true;
         if(blog.getTitle().isEmpty())
         {
@@ -135,9 +132,9 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public boolean validUpdateBlog(String[] errors, BlogDto blog) {
+    public boolean validUpdateBlog(String[] errors, BlogDto blog, Long userId) {
         UserService userService = new UserServiceimpl();
-        Long validTime = userService.checkLastAction(blog.getUser().getUserId());
+        Long validTime = userService.checkLastAction(userId);
         if(validTime != null)
         {
             errors[0] = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + validTime;

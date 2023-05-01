@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="comment_bug">
-    <output-path>$PROJECT_DIR$/out/artifacts/comment_bug</output-path>
+  <artifact type="exploded-war" name="quan_ly_truyen_bug">
+    <output-path>$PROJECT_DIR$/out/artifacts/quan_ly_truyen_bug</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">

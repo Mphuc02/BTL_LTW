@@ -107,8 +107,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public boolean validCategoryCreate(CategoryDto category, String errors[]) {
-        if(!validCategoryUpdate(category, errors))
-            return false;
 
         if(category.getName().isEmpty())
         {

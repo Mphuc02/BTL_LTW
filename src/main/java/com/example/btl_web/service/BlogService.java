@@ -13,6 +13,6 @@ public interface BlogService {
     Long save(BlogDto blog);
     Long update(BlogDto blog);
     boolean validCreateBlog(String[] errors, BlogDto blog);
-    boolean validUpdateBlog(String[] errors, BlogDto blog);
+    boolean validUpdateBlog(String[] errors, BlogDto blog, Long userId);
     boolean checkUserLikedBlog(BlogDto blog, Long userId);
 }

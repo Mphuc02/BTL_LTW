@@ -34,6 +34,7 @@
                                 <li><a class="category-search-url" href="/?categorySearch=${category.categoryId}&sortName=${keyWord}">${category.name}</a></li>
                             </c:if>
                         </c:forEach>
+                        <li><a href="">Tác giả</a></li>
                     </ul>
                 </li>
             </ul>
