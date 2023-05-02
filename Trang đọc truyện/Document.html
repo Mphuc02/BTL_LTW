@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://localhost:8080/blogs/17 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./Document_files/blog1.css">
+    <link rel="stylesheet" href="./Document_files/home5.css">
+    <link rel="stylesheet" href="./Document_files/icon">
+    <link rel="stylesheet" href="./Document_files/all.min.css">
+    <title>Document</title>
+</head>
+<body>
+
+        
+
+<!-- tieu de -->
+<div id="tieude">
+    <div class="tieude__link">
+        <a class="" href="http://localhost:8080/">BlogTruyen.vn</a>
+    </div>
+
+    <div class="tieude__nut">
+        <div class="tieude__nut1">
+            
+            
+                <div>
+                    <a href="http://localhost:8080/admin/categories">Quản lý thể loại</a>
+                </div>
+                <div>
+                    <a href="http://localhost:8080/admin/blogs">Quản lý bải viết</a>
+                </div>
+                <div>
+                    <a href="http://localhost:8080/admin/users">Quản lý người dùng</a>
+                </div>
+            
+            <div>
+                <a class="tieude__nut--icon" href="http://localhost:8080/blogs/17">
+                    <i class="search-icon ti-announcement"></i>
+                    Thông báo</a>
+            </div>
+            <div>
+                <a class="tieuDe__nut--icon" href="http://localhost:8080/blogs/17">
+                    <i class="search-icon ti-help-alt"></i>
+                    Trợ giúp</a>
+            </div>
+            <div>
+                <a class="tieuDe__nut--icon" href="http://localhost:8080/create-blog">
+                    <i class="search-icon ti-write"></i>
+                    Viết truyện</a>
+            </div>
+            
+        </div>
+
+        
+            <div class="avatar">
+                <img src="./Document_files/th" alt="Avatar" class="avatar_anh" onclick="showMenu()">
+                <div class="avatar_ndung">
+                    <ul class="avatar_menu" id="menu">
+                        <li>
+                            <a href="http://localhost:8080/user/3">
+                                <i class="avatar_icon ti-user"></i>
+                                Cá nhân</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:8080/blogs/17#">
+                                <i class=" avatar_icon ti-settings"></i>
+                                Cài đặt</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:8080/blogs/17#">
+                            <i class="avatar_icon ti-help-alt"></i>
+                            Trợ giúp</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:8080/blogs/17#">
+                                <i class="avatar_icon ti-info-alt"></i>
+                                Phản hồi</a>
+                        </li>
+                        <li>
+                            <a href="http://localhost:8080/login?action=logout">
+                                <i class="avatar_icon ti-drupal"></i>
+                                Đăng xuất</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        
+
+    </div>
+    <script>
+        function showMenu() {
+            var menu = document.getElementById("menu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+
+            document.addEventListener("click", (event) => {
+                    if (!event.target.closest(".avatar")) {
+                        menu.style.display = "none";
+                    }
+                }
+            );
+        }
+    </script>
+</div>
+<!-- end  tieu de -->
+
+
+    <div class="main">
+        <div class="content">
+            <h1 style="display: flex; justify-content: center;">Triệu hồi con lợn Phong làm lại Css cho 2 trang này </h1> <br> <br> <br>
+
+            <p>Thể loại:</p>
+            
+                
+                <span><a href="http://localhost:8080/?categorySearch=1">0</a></span>
+            
+                
+                    <span>-</span>
+                
+                <span><a href="http://localhost:8080/?categorySearch=2">1</a></span>
+            
+                
+                    <span>-</span>
+                
+                <span><a href="http://localhost:8080/?categorySearch=3">2</a></span>
+            
+                
+                    <span>-</span>
+                
+                <span><a href="http://localhost:8080/?categorySearch=4">3</a></span>
+            
+
+            
+                
+                    <button id="like-button" onclick="likeBlog(17,1)">Thích bài viết này</button>
+                
+                
+            
+
+            <p>0 lươt thích</p>
+            <img style="width: 100%;" src="./Document_files/17_title" alt=""> <br> <br>
+
+            <p></p><p>Làm Css nhanh không thì Hùng nó thông nát đít</p><p></p>
+
+            <h4 style="display: flex; justify-content: center;">---End---</h4> <br>
+        </div>
+
+        <div class="sidebar">
+
+            <div class="sidebar-two">
+                <h1>2 bình luận</h1>
+                <!-- Form để thêm bình luận -->
+                <div class="comment-form">
+                    <h3>Thêm bình luận</h3>
+                    <textarea id="comment" name="comment" required=""></textarea>
+
+                    <button onclick="sendComment()">Gửi</button>
+                </div>
+                <!-- Phần hiển thị bình luận -->
+                <div class="comments">
+                    
+                        <div class="comment">
+                            <div class="author">Bố đời</div>
+                            <div class="text">Đây là bình luận 2</div>
+                            <div>02/05/2023 16:02</div>
+                        </div>
+                    
+                        <div class="comment">
+                            <div class="author">Bố đời</div>
+                            <div class="text">Đây là bình luận 1</div>
+                            <div>02/05/2023 16:01</div>
+                        </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+<script>
+    function formSubmit(data, api_url, method, callback){
+        // Tạo XMLHttpRequest
+        var xhr = new XMLHttpRequest();
+
+        //Thiết lập api và phương thức
+        xhr.open(method, api_url, true);
+        // Thiết lập header cho request
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        // Xử lý response nếu cần
+        xhr.onreadystatechange = function() {
+            if(this.readyState == XMLHttpRequest.DONE) {
+                console.log(this.responseText + " " + this.status)
+                callback(JSON.parse(this.responseText), this.status)
+            }
+        };
+
+        // Gửi đối tượng JSON
+        xhr.send(JSON.stringify(data));
+    }
+</script>
+    <script>
+        function likeBlog(blogId, statusLike)
+        {
+            if(statusLike == 1)
+                var method = 'POST'
+            else if(statusLike == 0)
+                var method = 'DELETE'
+            var data = {
+                blogId: blogId
+            }
+
+            formSubmit(data, '/api-create-like', method, function (errors, status){
+                if(status == 200){
+                    alert(errors.message)
+                    resetLikeButton(statusLike)
+                }
+                else if(status== 400){
+                    alert("Bạn phải đăng nhập thì mới xem được bài viết này")
+                }
+                else if(status == 406){
+                    alert(errors.errors[0])
+                }
+            })
+        }
+
+        function resetLikeButton(status){
+            var likeButton = document.querySelector("#like-button");
+            if(status == 1){
+                likeButton.outerHTML = '<button id="like-button" onclick="likeBlog(17,0)">Bỏ thích bài viết này</button>'
+            }
+            else {
+                likeButton.outerHTML = '<button id="like-button" onclick="likeBlog(17,1)">Thích bài viết này</button>'
+            }
+        }
+
+        function sendComment(){
+            var commentContent = document.querySelector("#comment").value
+            if(!commentContent)
+                return
+            var data = {
+                content: commentContent,
+                blogComment: 17
+            }
+            formSubmit(data, '/api-create-comment', 'POST', function (errors, status){
+                if(status == 200){
+                    alert("Đã gửi comment!")
+                }
+                else if(status == 406){
+                    alert(errors.errors[0])
+                }
+            })
+        }
+    </script>
+    
+<div id="cuoitrang">
+  <div class="cuoitrang_ndung">
+
+    <div class="cuoitrang_ndung--chitiet">
+      <h3>Trang chủ</h3>
+      <h3>Video</h3>
+      <h3>Podcasts</h3>
+      <h3>Infographics</h3>
+    </div>
+
+    <div class="cuoitrang_ndung--chitiet">
+      <h3>Liên hệ</h3>
+      <ul>
+        <li>Email: info@mywebsite.com</li>
+        <li>Phone: 78325534546</li>
+        <li>Address: 123 Main St, Anytown,Viet nam</li>
+      </ul>
+    </div>
+
+    <div class="cuoitrang_ndung--chitiet">
+      <h3>Địa chỉ</h3>
+      <ul class="social-icons">
+        <li>Địa chỉ: Tầng 10, Tòa A FPT Tower, số 10 Phạm Văn Bạch, Dịch</li>
+        <li>Vọng, Cầu Giấy, Hà Nội</li>
+        <li>Điện thoại: 024 7300 8899 - máy lẻ 4500</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+</body></html>
