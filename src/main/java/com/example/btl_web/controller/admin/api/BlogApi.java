@@ -65,19 +65,8 @@ public class BlogApi extends HttpServlet {
             }
             else if(requestMethod.equals(Request.PUT_METHOD) || requestMethod.equals(Request.DELETE_METHOD))
                 blogId = blogService.update(blog);
-//            if(blogId != null) {
-//                String relativeWebPath = "/images/blog/";
-//                String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
-//                FileUtils.saveImageToServer(blog.getImageTitleData(), blogId, absoluteDiskPath);
-
-            if(blogId != null)
-            {
-                System.out.println("Khong null");
-            }
-
-                resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("messages", blogId)));
-                return;
-            //}
+            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("messages", blogId)));
+            return;
         }
         resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
         resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

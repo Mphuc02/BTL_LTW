@@ -17,6 +17,7 @@ import com.example.btl_web.service.CategoryService;
 import com.example.btl_web.service.UserBlogService;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.ConvertUtils;
+import com.example.btl_web.utils.FileUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,24 +52,23 @@ public class BlogServiceImpl implements BlogService {
         return dtos;
     }
     @Override
-    public BlogDto getOneById(Long blogId) {
-        BlogDto blog = new BlogDto();
-        blog.setBlogId(blogId);
+    public BlogDto getOne(BlogDto searchBlog) {
+        BlogDto result = new BlogDto();
 
-        List<BlogDto> blogDtos = getAllBlogs(null, blog);
+        List<BlogDto> blogDtos = getAllBlogs(null, searchBlog);
         if(blogDtos.isEmpty())
             return null;
-        blog = blogDtos.get(0);
-        blog.setCategoriesList(categoryService.findAllCategoryOfBlog(blogId, 1));
-        blog.setLikedUsers(peopleLikedBlog(blogId));
+        result = blogDtos.get(0);
+        result.setCategoriesList(categoryService.findAllCategoryOfBlog(result.getBlogId(), 1));
+        result.setLikedUsers(peopleLikedBlog(result.getBlogId()));
 
         CommentDto commentDto = new CommentDto();
-        commentDto.setBlogComment(blogId);
+        commentDto.setBlogComment(result.getBlogId());
         Pageable pageable = new PageRequest(new HashMap<>(), 10L);
         List<CommentDto> commentsOfBlog = userBlogService.findAll(pageable, commentDto);
-        blog.setComments(commentsOfBlog);
+        result.setComments(commentsOfBlog);
 
-        return blog;
+        return result;
     }
 
     @Override
@@ -90,6 +90,13 @@ public class BlogServiceImpl implements BlogService {
         Long saveCategories = categoryService.saveCategoriesOfBlog(saveBlog, blog.getCategories());
         if(saveCategories == null)
             return null;
+
+        //Cập nhật link ảnh tiêu đề
+        BlogDto saveImageUrl = new BlogDto();
+        saveImageUrl.setBlogId(saveBlog);
+        String imageUrl = FileUtils.saveImageToServer(blog.getImageTitleData(), saveBlog);
+        saveImageUrl.setImageTitle(imageUrl);
+        update(saveImageUrl);
 
         //Lưu hoạt động gần đây nhất của User
         UserService userService = new UserServiceimpl();
@@ -233,9 +240,9 @@ public class BlogServiceImpl implements BlogService {
         if(title != null)
             sb.append(", title = '" + title + "'");
         if(content != null)
-            sb.append(", content '" + content + "'");
+            sb.append(", content = '" + content + "'");
         if(imageTitle != null)
-            sb.append(", content '" + content + "'");
+            sb.append(", image_title = '" + imageTitle + "'");
         if(createAt != null)
             sb.append(", created_at = " + createAt);
         if(status != null)

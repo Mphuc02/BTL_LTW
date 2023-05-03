@@ -22,7 +22,12 @@ public class ReadBlogController extends HttpServlet {
         if(idStr!= null)
         {
             Long id = Long.parseLong(idStr);
-            BlogDto blogDto = blogService.getOneById(id);
+            BlogDto blogDto = new BlogDto();
+            blogDto.setBlogId(id);
+            blogDto.setStatus(1);
+
+            blogDto = blogService.getOne(blogDto);
+
             if(blogDto != null)
             {
                 request.setAttribute("blog",blogDto);

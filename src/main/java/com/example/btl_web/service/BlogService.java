@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BlogService {
     List<BlogDto> getAllBlogs(Pageable pageable, BlogDto dto);
-    BlogDto getOneById(Long blogId);
+    BlogDto getOne(BlogDto searchBlog);
     long countBlogs(BlogDto blogDto);
     Long save(BlogDto blog);
     Long update(BlogDto blog);
