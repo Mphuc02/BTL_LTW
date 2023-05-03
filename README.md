@@ -3,4 +3,5 @@
 - Link download https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.5/bin/apache-tomcat-10.1.5.zip
 
 Cập nhật ngày 22/03/2023:
-    - Hoàn thành chức năng đặng nhập và đăng ký tài khoản
+    - Hoàn thành chức năng đặng nhập và đăng ký tài khoản: test123
+    
