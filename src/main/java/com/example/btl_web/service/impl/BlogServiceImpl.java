@@ -136,6 +136,7 @@ public class BlogServiceImpl implements BlogService {
             result = false;
             errors[3] = "Nội dung truyện không được để trống";
         }
+
         return result;
     }
 

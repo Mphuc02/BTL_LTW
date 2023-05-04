@@ -27,6 +27,13 @@ public class BlogDto {
     {
 
     }
+    public BlogDto(HashMap<String, String> parameters)
+    {
+        String blogIdStr = parameters.get("blogId");
+        String title = parameters.get("title");
+        String content = parameters.get("content");
+
+    }
     public boolean checkUserLikedBlog(Long userId)
     {
         if(likedUsers == null)

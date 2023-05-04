@@ -33,7 +33,13 @@
         <jsp:include page="/views/common/header.jsp" />
         <div id="dieuhuong">
             <div id="editor">
-                <form action="" enctype="multipart/form-data">
+                <form action="/api-blog" enctype="multipart/form-data" method="post">
+                    <c:if test="${not empty blog.blogId}">
+                        <input type="hidden" name="_method" value="PUT">
+                    </c:if>
+                    <c:if test="${empty blog.blogId}">
+                        <input type="hidden" name="_method" value="POST">
+                    </c:if>
                     <input type="hidden" id="blogId" value="${blog.blogId}">
                     <label>Tiêu đề</label>
                     <p id="error1"></p>

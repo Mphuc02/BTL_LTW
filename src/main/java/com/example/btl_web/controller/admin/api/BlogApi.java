@@ -6,11 +6,9 @@ import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.BlogService;
-import com.example.btl_web.service.impl.BlogServiceImpl;
 import com.example.btl_web.utils.HttpUtils;
 import com.example.btl_web.utils.SessionUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,19 +19,19 @@ import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.BLOGS_API)
 public class BlogApi extends HttpServlet {
-    BlogService blogService = ServiceConfiguration.getBlogService();
+    private BlogService blogService = ServiceConfiguration.getBlogService();
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         solveApi(req, resp);
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         solveApi(req, resp);
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         solveApi(req, resp);
     }
 
@@ -47,7 +45,7 @@ public class BlogApi extends HttpServlet {
         BlogDto blog = HttpUtils.of(req.getReader()).toModel(BlogDto.class);
         String[] errors = new String[4];
 
-        String requestMethod = req.getMethod();
+        String requestMethod = req.getParameter("_method");
         boolean valid = false;
         if(requestMethod.equals(Request.POST_METHOD))
         {

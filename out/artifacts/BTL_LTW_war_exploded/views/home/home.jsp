@@ -86,7 +86,9 @@
                 <!-- trang khac -->
                 <div class="card-footer">
                     <nav class="Page navigation">
-                        <ul class="pagination jc-center" id="pagination"></ul>
+                        <ul class="pagination jc-center" id="pagination">
+                            <%--<jsp:include page="/views/common/pagingation.jsp"/>--%>
+                        </ul>
                     </nav>
                 </div>
             </div>

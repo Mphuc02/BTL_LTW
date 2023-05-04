@@ -180,6 +180,8 @@ public class UserServiceimpl implements UserService {
 
         if(validTime < 60)
             return "Bạn thao tác quá nhanh, vui lòng thử lại sau " + (60 - validTime);
+        else
+            updateLastAction(validUser);
         return null;
     }
 
