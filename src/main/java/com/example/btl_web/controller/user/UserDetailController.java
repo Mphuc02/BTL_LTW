@@ -1,9 +1,9 @@
 package com.example.btl_web.controller.user;
 
+import com.example.btl_web.configuration.ServiceConfiguration;
 import com.example.btl_web.constant.Constant;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.UserService;
-import com.example.btl_web.service.impl.UserServiceimpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = Constant.User.USER_DETAIL_PAGE)
 public class UserDetailController extends HttpServlet {
-    private UserService userService = UserServiceimpl.getInstance();
+    private UserService userService = ServiceConfiguration.getUserService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userIdStr = req.getPathInfo().split("/")[1];

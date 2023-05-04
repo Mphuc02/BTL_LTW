@@ -1,5 +1,6 @@
 package com.example.btl_web.controller.admin.api;
 
+import com.example.btl_web.configuration.ServiceConfiguration;
 import com.example.btl_web.constant.Constant;
 import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.BlogDto;
@@ -20,7 +21,7 @@ import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.BLOGS_API)
 public class BlogApi extends HttpServlet {
-    BlogService blogService = BlogServiceImpl.getInstance();
+    BlogService blogService = ServiceConfiguration.getBlogService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         solveApi(req, resp);
@@ -49,7 +50,10 @@ public class BlogApi extends HttpServlet {
         String requestMethod = req.getMethod();
         boolean valid = false;
         if(requestMethod.equals(Request.POST_METHOD))
+        {
+            blog.setUser(user);
             valid = blogService.validCreateBlog(errors, blog);
+        }
         else if(requestMethod.equals(Request.PUT_METHOD) || requestMethod.equals(Request.DELETE_METHOD))
             valid = blogService.validUpdateBlog(errors, blog, user.getUserId());
 

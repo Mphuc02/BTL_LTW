@@ -1,14 +1,12 @@
 package com.example.btl_web.controller.user;
 
+import com.example.btl_web.configuration.ServiceConfiguration;
 import com.example.btl_web.constant.Constant;
 import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.CategoryDto;
 import com.example.btl_web.dto.UserDto;
-import com.example.btl_web.paging.PageRequest;
-import com.example.btl_web.paging.Pageable;
 import com.example.btl_web.service.CategoryService;
-import com.example.btl_web.service.impl.CategoryServiceImpl;
 import com.example.btl_web.utils.SessionUtils;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -22,7 +20,7 @@ import java.util.List;
 
 @WebServlet(urlPatterns = User.CREATE_BLOG_PAGE)
 public class CreateBlogController extends HttpServlet {
-    private CategoryService categoryService = CategoryServiceImpl.getInstance();
+    private CategoryService categoryService = ServiceConfiguration.getCategoryService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);

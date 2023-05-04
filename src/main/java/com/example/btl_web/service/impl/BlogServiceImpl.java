@@ -1,5 +1,6 @@
 package com.example.btl_web.service.impl;
 
+import com.example.btl_web.configuration.ServiceConfiguration;
 import com.example.btl_web.dao.BlogDao;
 import com.example.btl_web.dao.UserDao;
 import com.example.btl_web.dao.impl.BlogDaoImpl;
@@ -26,15 +27,9 @@ import java.util.List;
 public class BlogServiceImpl implements BlogService {
     private BlogDao blogDao = BlogDaoImpl.getInstance();
     private UserDao userDao = UserDaoImpl.getInstance();
-    private UserBlogService userBlogService = UserBlogServiceImpl.getInstance();
-    private static BlogServiceImpl blogService;
-    private static CategoryService categoryService = CategoryServiceImpl.getInstance();
-    public static BlogServiceImpl getInstance()
-    {
-        if(blogService == null)
-            blogService = new BlogServiceImpl();
-        return blogService;
-    }
+    private UserBlogService userBlogService = ServiceConfiguration.getUserBlogService();
+    private CategoryService categoryService = ServiceConfiguration.getCategoryService();
+    private UserService userService = ServiceConfiguration.getUserService();
 
     @Override
     public List<BlogDto> getAllBlogs(Pageable pageable, BlogDto dto) {
@@ -99,7 +94,6 @@ public class BlogServiceImpl implements BlogService {
         update(saveImageUrl);
 
         //Lưu hoạt động gần đây nhất của User
-        UserService userService = new UserServiceimpl();
         userService.updateLastAction(blog.getUser());
         return saveBlog;
     }
@@ -113,6 +107,13 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public boolean validCreateBlog(String[] errors, BlogDto blog) {
+        String timeValid = userService.checkLastAction(blog.getUser().getUserId());
+        if(timeValid != null)
+        {
+            errors[0] = timeValid;
+            return false;
+        }
+
         boolean result = true;
         if(blog.getTitle().isEmpty())
         {
@@ -140,11 +141,10 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public boolean validUpdateBlog(String[] errors, BlogDto blog, Long userId) {
-        UserService userService = new UserServiceimpl();
-        Long validTime = userService.checkLastAction(userId);
+        String validTime = userService.checkLastAction(userId);
         if(validTime != null)
         {
-            errors[0] = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + validTime;
+            errors[0] = validTime;
             return false;
         }
 

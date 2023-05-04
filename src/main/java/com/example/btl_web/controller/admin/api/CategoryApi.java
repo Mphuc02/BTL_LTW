@@ -1,10 +1,10 @@
 package com.example.btl_web.controller.admin.api;
 
+import com.example.btl_web.configuration.ServiceConfiguration;
 import com.example.btl_web.constant.Constant;
 import com.example.btl_web.dto.CategoryDto;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.CategoryService;
-import com.example.btl_web.service.impl.CategoryServiceImpl;
 import com.example.btl_web.utils.HttpUtils;
 import com.example.btl_web.utils.SessionUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,7 +20,7 @@ import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.CATEGORY_API)
 public class CategoryApi extends HttpServlet {
-    private CategoryService categoryService = CategoryServiceImpl.getInstance();
+    private CategoryService categoryService = ServiceConfiguration.getCategoryService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         solveApi(req, resp);

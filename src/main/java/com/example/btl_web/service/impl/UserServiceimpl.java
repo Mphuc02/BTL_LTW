@@ -1,10 +1,12 @@
 package com.example.btl_web.service.impl;
 
+import com.example.btl_web.configuration.ServiceConfiguration;
 import com.example.btl_web.dao.UserDao;
 import com.example.btl_web.dao.impl.UserDaoImpl;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.model.User;
 import com.example.btl_web.paging.Pageable;
+import com.example.btl_web.service.HashPasswordService;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.ConvertUtils;
 
@@ -15,14 +17,7 @@ import java.util.regex.Pattern;
 
 public class UserServiceimpl implements UserService {
     private UserDao userDao = UserDaoImpl.getInstance();
-
-    private static UserServiceimpl userServiceimpl;
-    public static UserServiceimpl getInstance()
-    {
-        if(userServiceimpl == null)
-            userServiceimpl = new UserServiceimpl();
-        return userServiceimpl;
-    }
+    private HashPasswordService hashPasswordService = ServiceConfiguration.getHashPasswordService();
     @Override
     public List<UserDto> findAll(Pageable pageable, UserDto dto) {
         StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE ( 1 = 1)");
@@ -68,7 +63,8 @@ public class UserServiceimpl implements UserService {
     public UserDto login(String userName, String passWord) {
         UserDto userDto = new UserDto();
         userDto.setUserName(userName);
-        userDto.setPassWord(passWord);
+        String encryptPassword = hashPasswordService.encryptPassword(passWord); //Mã hoá password này rồi thực hiện tìm kiếm trong database
+        userDto.setPassWord(encryptPassword);
 
         StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE (1 = 1)");
         sql.append(addAndClause(null, userDto));
@@ -77,22 +73,10 @@ public class UserServiceimpl implements UserService {
 
         return users.isEmpty() ? null : ConvertUtils.convertEntityToDto(users.get(0), UserDto.class);
     }
-
-    @Override
-    public int signUp(String userName, String passWord, String passWord_2, String email) {
-        if(checkUserNameExisted(userName))
-            return 1;
-        if(passWord.length() < 6)
-            return 2;
-        if(!passWord.equals(passWord_2))
-            return 3;
-        if(!checkEmailValid(email))
-            return 4;
-        return -1;
-    }
-
     @Override
     public Long saveUser(UserDto userDto) {
+        String encryptPassword = hashPasswordService.encryptPassword(userDto.getPassWord());
+        userDto.setPassWord(encryptPassword); //Mã hoá password
         Date timeStamp = new Date();
         String sql = "INSERT INTO USERS (email, password, created_at, role, username, last_action, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
         return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), "USER", userDto.getUserName(), timeStamp.getTime());
@@ -155,7 +139,7 @@ public class UserServiceimpl implements UserService {
         if(!findAll(null, checkEmailExisted).isEmpty())
         {
             check = false;
-            errors[3] = "Email này đã được đăng ký, vui lòng chọn email khác";
+            errors[3] = "Email này đã được đăng ký";
         }
 
         return check;
@@ -163,10 +147,10 @@ public class UserServiceimpl implements UserService {
 
     @Override
     public boolean validUpdate(UserDto user, String[] errors) {
-        Long timeValid = checkLastAction(user.getUserId());
+        String timeValid = checkLastAction(user.getUserId());
         if(timeValid != null)
         {
-            errors[0] = "Bạn thao tác quá nhanh, vui lòng thử lại sau " + timeValid;
+            errors[0] = timeValid;
             return false;
         }
 
@@ -188,14 +172,14 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
-    public Long checkLastAction(Long userId) {
+    public String checkLastAction(Long userId) {
         UserDto validUser = findOneById(userId);
         Long timenow = (new Date()).getTime();
         Long lastAction = validUser.getLastAction();
         Long validTime = (timenow - lastAction) / 1000;
 
         if(validTime < 60)
-            return 60 - validTime;
+            return "Bạn thao tác quá nhanh, vui lòng thử lại sau " + (60 - validTime);
         return null;
     }
 

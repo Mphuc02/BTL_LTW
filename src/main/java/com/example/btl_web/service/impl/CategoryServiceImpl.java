@@ -14,13 +14,6 @@ import java.util.List;
 
 public class CategoryServiceImpl implements CategoryService {
     private CategoryDao categoryDao = CategoryDaoImpl.getInstance();
-    private static CategoryServiceImpl categoryService;
-    public static CategoryServiceImpl getInstance()
-    {
-        if(categoryService == null)
-            categoryService = new CategoryServiceImpl();
-        return categoryService;
-    }
     @Override
     public List<CategoryDto> findAll(Pageable pageable, CategoryDto dto) {
         StringBuilder sql = new StringBuilder("SELECT * FROM CATEGORIES WHERE (1 = 1)");

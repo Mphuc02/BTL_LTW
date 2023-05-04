@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="/assets/css/text_editor/image.css">
     <link rel="stylesheet" href="/assets/css/text_editor/table.css">
     <link rel="stylesheet" href="/assets/css/text_editor/video.css">
-    <link rel="stylesheet" href="/assets/css/home5.css">
+    <link rel="stylesheet" href="/assets/css/home7.css">
 
     <style>
         body {
