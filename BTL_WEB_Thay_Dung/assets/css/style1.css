@@ -273,10 +273,8 @@ a {
 
 }
 
-.truyen__anh {
-    flex: 0;
-    margin-left: 10px;
-
+.truyen1__anh {
+    cursor: pointer;
 }
 
 img {
