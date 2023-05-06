@@ -19,6 +19,7 @@ import com.example.btl_web.service.UserBlogService;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.ConvertUtils;
 import com.example.btl_web.utils.FileUtils;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,46 +107,46 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public boolean validCreateBlog(String[] errors, BlogDto blog) {
+    public boolean validCreateBlog(HttpServletRequest req, BlogDto blog) {
         String timeValid = userService.checkLastAction(blog.getUser().getUserId());
         if(timeValid != null)
         {
-            errors[0] = timeValid;
+            req.setAttribute("bug_time", timeValid);
             return false;
         }
 
         boolean result = true;
-        if(blog.getTitle().isEmpty())
+        if(blog.getTitle() == null || blog.getTitle().isEmpty())
         {
             result = false;
-            errors[0] = "Tiêu đề không được để trống";
+            req.setAttribute("bug_1", "Tiêu đề không được để trống");
         }
         if(blog.getImageTitleData() == null)
         {
             result = false;
-            errors[1] = "Ảnh tiêu đề không được để trống";
+            req.setAttribute("bug_2" ,"Ảnh tiêu đề không được để trống");
         }
-        if(blog.getCategories().isEmpty())
+        if(blog.getCategories() == null || blog.getCategories().isEmpty())
         {
             result = false;
-            errors[2] = "Phải chọn ít nhất 1 thể loại";
+            req.setAttribute("bug_3" ,"Phải chọn ít nhất 1 thể loại");
         }
 
-        if(blog.getContent().isEmpty())
+        if(blog.getContent() == null || blog.getContent().isEmpty())
         {
             result = false;
-            errors[3] = "Nội dung truyện không được để trống";
+            req.setAttribute("bug_4" ,"Nội dung truyện không được để trống");
         }
 
         return result;
     }
 
     @Override
-    public boolean validUpdateBlog(String[] errors, BlogDto blog, Long userId) {
+    public boolean validUpdateBlog(HttpServletRequest req, BlogDto blog, Long userId) {
         String validTime = userService.checkLastAction(userId);
         if(validTime != null)
         {
-            errors[0] = validTime;
+            req.setAttribute("bug_time", validTime);
             return false;
         }
 

@@ -6,71 +6,55 @@ import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.BlogService;
-import com.example.btl_web.utils.HttpUtils;
 import com.example.btl_web.utils.SessionUtils;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.BLOGS_API)
+@MultipartConfig(
+        fileSizeThreshold   = 1024 * 1024 * 1,  // 1 MB
+        maxFileSize         = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize      = 1024 * 1024 * 15  // 15 MB
+)
 public class BlogApi extends HttpServlet {
     private BlogService blogService = ServiceConfiguration.getBlogService();
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        solveApi(req, resp);
-    }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        solveApi(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        solveApi(req, resp);
-    }
-
-    private void solveApi(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException
     {
         UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
 
-        req.setCharacterEncoding("UTF-8");
-        resp.setContentType("application/json");
-
-        BlogDto blog = HttpUtils.of(req.getReader()).toModel(BlogDto.class);
-        String[] errors = new String[4];
+        BlogDto createBlog = new BlogDto(req);
 
         String requestMethod = req.getParameter("_method");
         boolean valid = false;
         if(requestMethod.equals(Request.POST_METHOD))
         {
-            blog.setUser(user);
-            valid = blogService.validCreateBlog(errors, blog);
+            createBlog.setUser(user);
+            valid = blogService.validCreateBlog(req, createBlog);
         }
-        else if(requestMethod.equals(Request.PUT_METHOD) || requestMethod.equals(Request.DELETE_METHOD))
-            valid = blogService.validUpdateBlog(errors, blog, user.getUserId());
-
-        ObjectMapper mapper = new ObjectMapper();
+        else if(requestMethod.equals(Request.PUT_METHOD))
+            valid = blogService.validUpdateBlog(req, createBlog, user.getUserId());
 
         if(valid)
         {
-            Long blogId = null;
-            if(requestMethod.equals(Request.POST_METHOD))
+            Long blogId = blogService.save(createBlog);
+            if(blogId != null)
             {
-                blog.setUser(user);
-                blogId = blogService.save(blog);
+                req.setAttribute("success", "Tạo bài viết thành công, vui lòng đợi quản trị viên xét duyệt!");
+                req.setAttribute("status", "notice");
             }
-            else if(requestMethod.equals(Request.PUT_METHOD) || requestMethod.equals(Request.DELETE_METHOD))
-                blogId = blogService.update(blog);
-            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("messages", blogId)));
-            return;
+            //Todo: Thực hiện Dispatcher lại trang này và thông báo thành công
         }
-        resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
-        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        else
+            req.setAttribute("status", "alert");
+        //Todo: Thực hiện Dispatcher lại trang này và hiển thị các lỗi
+        RequestDispatcher rd = req.getRequestDispatcher(User.CREATE_BLOG_JSP);
+        rd.forward(req, resp);
     }
 }

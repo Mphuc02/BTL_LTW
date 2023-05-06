@@ -33,8 +33,9 @@ public class HttpUtils{
                 json.append(line);
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
+
         return new HttpUtils(json.toString());
     }
 

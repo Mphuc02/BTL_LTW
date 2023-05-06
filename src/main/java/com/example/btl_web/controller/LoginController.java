@@ -10,9 +10,7 @@ import com.example.btl_web.utils.SessionUtils;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
 import java.io.IOException;
 
@@ -37,6 +35,9 @@ public class LoginController extends HttpServlet {
             }
             else if(action.equals(User.ACTION_LOG_OUT))
             {
+                //Thực hiện xoá cookie của người dùng
+                addCookie(req, resp, 0);
+
                 req.setAttribute("message", "Đăng xuất thành công!");
                 SessionUtils.getInstance().removeValue(req, Constant.USER_MODEL);
             }
@@ -57,7 +58,6 @@ public class LoginController extends HttpServlet {
         String userName = req.getParameter("userName");
         String passWord = req.getParameter("passWord");
 
-
         UserDto userDto = userService.login(userName, passWord);
 
         if(userDto != null )
@@ -66,6 +66,9 @@ public class LoginController extends HttpServlet {
             {
                 SessionUtils session = SessionUtils.getInstance();
                 session.putValue(req, Constant.USER_MODEL, userDto);
+
+                //Thêm thông tin session của người dùng vào cookie
+                addCookie(req, resp, 1);
 
                 if(userDto.getRole().equals(Constant.USER))
                 {
@@ -91,5 +94,17 @@ public class LoginController extends HttpServlet {
         req.setAttribute("display_flex", "display__flex");
         req.setAttribute("message_type", "alert");
         rd.forward(req, resp);
+    }
+
+    private void addCookie(HttpServletRequest req, HttpServletResponse resp, int status)
+    {
+        HttpSession session = req.getSession();
+        Cookie cookie = null;
+        if(status == 1) //Login
+            cookie = new Cookie("JSESSIONID", session.getId());
+        else if (status == 0) //logout
+            cookie = new Cookie("JSESSIONID", "");
+        cookie.setMaxAge(-1); // Cookie tồn tại đến khi trình duyệt đóng
+        resp.addCookie(cookie);
     }
 }
