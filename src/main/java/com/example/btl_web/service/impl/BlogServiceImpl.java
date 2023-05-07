@@ -76,6 +76,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Long save(BlogDto blog) {
+        //Thêm các thẻ <p> và </p> vào mỗi dòng của truyện
+        addPTagContent(blog);
+
         Date timeStamp = new Date();
         String sql = "INSERT INTO BLOGS (content, created_at, title, user_id, status) values (?, ?, ?, ?, 2)";
 
@@ -111,7 +114,7 @@ public class BlogServiceImpl implements BlogService {
         String timeValid = userService.checkLastAction(blog.getUser().getUserId());
         if(timeValid != null)
         {
-            req.setAttribute("bug_time", timeValid);
+            req.setAttribute("message", timeValid);
             return false;
         }
 
@@ -146,7 +149,7 @@ public class BlogServiceImpl implements BlogService {
         String validTime = userService.checkLastAction(userId);
         if(validTime != null)
         {
-            req.setAttribute("bug_time", validTime);
+            req.setAttribute("message", validTime);
             return false;
         }
 
@@ -154,7 +157,10 @@ public class BlogServiceImpl implements BlogService {
         dto.setBlogId(blog.getBlogId());
         List<BlogDto> checkBlogExisted = getAllBlogs(null, dto);
         if(checkBlogExisted == null || checkBlogExisted.isEmpty())
+        {
+            req.setAttribute("message", "Bài viết chỉnh sửa không tồn tại");
             return false;
+        }
 
         return true;
     }
@@ -177,6 +183,25 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public boolean checkUserLikedBlog(BlogDto blog, Long userId) {
         return false;
+    }
+
+    @Override
+    public void addPTagContent(BlogDto blog) {
+        String oldContent = blog.getContent();
+        StringBuilder newContent = new StringBuilder("");
+        String lines[] = oldContent.split("\\n");
+        for(String line: lines)
+        {
+            newContent.append("<p>").append(line).append("</p>\n");
+        }
+        blog.setContent(newContent.toString());
+    }
+
+    @Override
+    public void removePTagContent(BlogDto blog) {
+        String oldContent = blog.getContent();
+        oldContent = oldContent.replaceAll("<p>|</p>", "");
+        blog.setContent(oldContent);
     }
 
     private StringBuilder addAndClause(Pageable pageable ,BlogDto dto)

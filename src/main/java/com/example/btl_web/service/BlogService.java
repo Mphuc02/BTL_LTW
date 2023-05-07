@@ -16,4 +16,6 @@ public interface BlogService {
     boolean validCreateBlog(HttpServletRequest req, BlogDto blog);
     boolean validUpdateBlog(HttpServletRequest req, BlogDto blog, Long userId);
     boolean checkUserLikedBlog(BlogDto blog, Long userId);
+    void addPTagContent(BlogDto blog);
+    void removePTagContent(BlogDto blog);
 }

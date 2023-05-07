@@ -18,6 +18,7 @@ public class Constant {
         public static final String HOME_PAGE = "/";
         public static final String HOME_JSP = "/views/home/home.jsp";
         public static final String CREATE_BLOG_PAGE = "/create-blog";
+        public static final String UPDATE_BLOG_PAGE = "/update-blog";
         public static final String CREATE_BLOG_JSP = "/views/blog/create_blog.jsp";
         public static final String READ_BLOG_PAGE = "/blogs/*";
         public static final String READ_BLOG_JSP = "/views/blog/read_blog.jsp";
