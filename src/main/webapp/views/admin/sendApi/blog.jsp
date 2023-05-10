@@ -53,5 +53,4 @@
 
     RequestDispatcher rd = request.getRequestDispatcher(Admin.BLOGS_JSP);
     rd.forward(request, response);
-    //Todo: hứng phản hồi từ phía server
 %>

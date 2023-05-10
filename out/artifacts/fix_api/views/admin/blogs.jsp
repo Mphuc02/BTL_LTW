@@ -16,11 +16,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/css/admin/admin3.css">
+    <link rel="stylesheet" href="/assets/css/admin/admin.css">
     <link rel="stylesheet" href="/assets/css/home7.css">
     <title>Admin</title>
 </head>
 <body>
+    <%
+        BlogService blogService = ServiceConfiguration.getBlogService();
+
+        StringBuilder pageUrl = new StringBuilder(Constant.Admin.BLOGS_PAGE + "?");
+
+        BlogDto searchDto = null;
+        String searchName = request.getParameter("keySearch");
+        if(searchName != null)
+        {
+            searchDto = new BlogDto();
+            searchDto.setTitle(searchName);
+            pageUrl.append("keySearch=" + searchName + "&");
+        }
+        pageUrl.append("page=");
+
+        long totalBlog = blogService.countBlogs(searchDto);
+        Pageable pageable = new PageRequest(request.getParameterMap(), totalBlog);
+
+        List<BlogDto> blogList = blogService.getAllBlogs(pageable, searchDto);
+
+        request.setAttribute("pageable", pageable);
+        request.setAttribute("blogList", blogList);
+        request.setAttribute("categories_page", Constant.Admin.CATEGORIES_PAGE);
+        request.setAttribute("home", pageUrl.toString());
+        request.setAttribute("users_page", Constant.Admin.USERS_PAGE);
+        request.setAttribute("keySearch", searchName);
+    %>
     <div id="Admin">
         <div class="navbar-main">
             <jsp:include page="/views/common/header.jsp" />
@@ -67,34 +94,6 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <%
-                                            BlogService blogService = ServiceConfiguration.getBlogService();
-
-                                            StringBuilder pageUrl = new StringBuilder(Constant.Admin.BLOGS_PAGE + "?");
-
-                                            BlogDto searchDto = null;
-                                            String searchName = request.getParameter("keySearch");
-                                            if(searchName != null)
-                                            {
-                                                searchDto = new BlogDto();
-                                                searchDto.setTitle(searchName);
-                                                pageUrl.append("keySearch=" + searchName + "&");
-                                            }
-                                            pageUrl.append("page=");
-
-                                            long totalBlog = blogService.countBlogs(searchDto);
-                                            Pageable pageable = new PageRequest(request.getParameterMap(), totalBlog);
-
-                                            List<BlogDto> blogList = blogService.getAllBlogs(pageable, searchDto);
-
-                                            request.setAttribute("pageable", pageable);
-                                            request.setAttribute("blogList", blogList);
-                                            request.setAttribute("categories_page", Constant.Admin.CATEGORIES_PAGE);
-                                            request.setAttribute("home", pageUrl.toString());
-                                            request.setAttribute("users_page", Constant.Admin.USERS_PAGE);
-                                            request.setAttribute("keySearch", searchName);
-                                        %>
-
                                         <c:forEach var="blog" items="${blogList}" varStatus="loop">
                                             <tr>
                                                 <td>${loop.index + 1}</td>
@@ -117,7 +116,6 @@
                                                             </li>
                                                         </ul>
                                                     </div>
-
                                                 </td>
                                             </tr>
                                         </c:forEach>
@@ -125,11 +123,9 @@
                                 </table>
                             </div>
                             <div class="card-footer">
-                                <nav class="Page navigation">
-                                    <ul class="pagination jc-center" id="pagination">
-                                        <jsp:include page="/views/common/pagingation.jsp" />
-                                    </ul>
-                                </nav>
+                                <ul class="pagination jc-center" id="pagination">
+                                    <jsp:include page="/views/common/pagingation.jsp" />
+                                </ul>
                             </div>
                         </div>
                     </div>

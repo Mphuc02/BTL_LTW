@@ -21,18 +21,9 @@ import java.util.Collections;
 @WebServlet(urlPatterns = Admin.CATEGORY_API)
 public class CategoryApi extends HttpServlet {
     private CategoryService categoryService = ServiceConfiguration.getCategoryService();
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        solveApi(req, resp);
-    }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        solveApi(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         solveApi(req, resp);
     }
 
@@ -51,12 +42,12 @@ public class CategoryApi extends HttpServlet {
         String successMessage = "";
         if(req.getMethod().equals(Request.POST_METHOD))
         {
-            validCategory = categoryService.validCategoryCreate(category, errors);
+            validCategory = categoryService.validCategoryCreate(category, errors, user.getUserId());
             successMessage = "Thêm thể loại thành công!";
         }
         else if(req.getMethod().equals(Request.PUT_METHOD) || req.getMethod().equals(Request.DELETE_METHOD))
         {
-            validCategory = categoryService.validCategoryUpdate(category, errors);
+            validCategory = categoryService.validCategoryUpdate(category, errors, user.getUserId());
             successMessage = "Cập nhật thành công!";
         }
         ObjectMapper mapper = new ObjectMapper();
@@ -71,12 +62,11 @@ public class CategoryApi extends HttpServlet {
                 status = categoryService.update(category);
             }
             if (status != null) {
-                resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("messages", successMessage)));
-                resp.setStatus(HttpServletResponse.SC_OK);
+                mapper.writeValue(resp.getOutputStream(), successMessage);
                 return;
             }
         }
-        resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
         resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        mapper.writeValue(resp.getOutputStream(), errors);
     }
 }

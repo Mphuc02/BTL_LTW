@@ -31,14 +31,18 @@ public class CreateUser extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         if(!valid)
         {
-            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
+            mapper.writeValue(resp.getOutputStream(), errors);
         }
         else
         {
             Long status = userService.saveUser(user);
             if(status != null)
-                resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("messages", "Đăng ký tài khoản thành công!")));
+            {
+                errors[0] = "Đăng ký tài khoản thành công!";
+                mapper.writeValue(resp.getOutputStream(), errors);
+            }
         }
     }
 }

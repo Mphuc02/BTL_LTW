@@ -23,6 +23,16 @@ public class BlogApi extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        solveApi(req, resp);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        solveApi(req, resp);
+    }
+
+    private void solveApi(HttpServletRequest req, HttpServletResponse resp) throws IOException
+    {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         UserDto userEdit = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);

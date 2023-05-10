@@ -39,11 +39,6 @@ a{
     text-decoration: none;
     font-weight: 550;
 }
-
-li{
-    margin: 0 16px;
-}
-
 .navbar{
     display: flex;
     align-items: center;

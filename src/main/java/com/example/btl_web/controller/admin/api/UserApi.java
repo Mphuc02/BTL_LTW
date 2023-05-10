@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.Collections;
 @WebServlet(urlPatterns = Admin.USER_API)
 public class UserApi extends HttpServlet {
     private UserService userService = ServiceConfiguration.getUserService();
@@ -33,7 +32,7 @@ public class UserApi extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
-
+        //Todo: chưa thực hiện xác minh xem tài khoản này có thể thực hiện được hành động này hay không
         String errors[] = new String[4];
         boolean validStatus = userService.validUpdate(user, errors);
         ObjectMapper mapper = new ObjectMapper();
@@ -43,11 +42,13 @@ public class UserApi extends HttpServlet {
             Long status = userService.updateUser(user);
             if(status != null)
             {
-                resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("messages", "Cập nhật thành công!")));
+                errors[0] = "Cập nhật thành công!";
+                mapper.writeValue(resp.getOutputStream(), errors);
                 return;
             }
         }
-        resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
+        //Todo: Trả về lỗi chưa đúng định dạng, cần phải sửa lại
         resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        mapper.writeValue(resp.getOutputStream(), errors);
     }
 }
