@@ -16,8 +16,11 @@
     String statusStr = request.getParameter("status");
 
     BlogDto editBlog = new BlogDto();
-    editBlog.setBlogId(Long.parseLong(blogIdStr));
-    editBlog.setStatus(Integer.parseInt(statusStr));
+    if(blogIdStr != null || statusStr != null)
+    {
+        editBlog.setBlogId(Long.parseLong(blogIdStr));
+        editBlog.setStatus(Integer.parseInt(statusStr));
+    }
 
     Gson gson = new Gson();
     String blogJson = gson.toJson(editBlog);
@@ -43,6 +46,12 @@
         status = "notice";
     }
 
-    response.sendRedirect(Admin.BLOGS_PAGE + "?message=" + responseString + "&status=" + status);
+    //Xoá bỏ "" ở đầu và cuối của Json
+    responseString = responseString.replaceAll("\"", "");
+    request.setAttribute("status", status);
+    request.setAttribute("message", responseString);
+
+    RequestDispatcher rd = request.getRequestDispatcher(Admin.BLOGS_JSP);
+    rd.forward(request, response);
     //Todo: hứng phản hồi từ phía server
 %>

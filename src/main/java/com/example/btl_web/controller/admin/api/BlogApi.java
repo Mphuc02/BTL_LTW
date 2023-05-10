@@ -15,7 +15,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.BLOGS_API)
 public class BlogApi extends HttpServlet {
@@ -31,9 +30,8 @@ public class BlogApi extends HttpServlet {
 
         boolean validBlog = blogService.validUpdateBlog(req, editBlot, userEdit.getUserId());
 
-        ObjectMapper mapper = null;
+        ObjectMapper mapper = new ObjectMapper();
         if (validBlog) {
-            mapper = new ObjectMapper();
 
             Long editStatus = blogService.update(editBlot);
             if (editStatus != null)
@@ -45,7 +43,7 @@ public class BlogApi extends HttpServlet {
         } else {
             //Sửa lại message sao cho chuẩn
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("message", req.getAttribute("message"))));
+            mapper.writeValue(resp.getOutputStream(), req.getAttribute("message"));
         }
     }
 }

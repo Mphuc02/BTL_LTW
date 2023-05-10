@@ -109,7 +109,7 @@
             }
 
             document.addEventListener("click", (event) => {
-                    if (!event.target.closest('.blog-status')) {
+                    if (!event.target.closest('.blog-status-' + id)) {
                         menu.style.display = "none";
                     }
                 }

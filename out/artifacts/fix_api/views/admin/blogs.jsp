@@ -1,4 +1,10 @@
-<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%@ page import="com.example.btl_web.constant.Constant" %>
+<%@ page import="com.example.btl_web.dto.BlogDto" %>
+<%@ page import="com.example.btl_web.paging.Pageable" %>
+<%@ page import="com.example.btl_web.paging.PageRequest" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.btl_web.service.BlogService" %>
+<%@ page import="com.example.btl_web.configuration.ServiceConfiguration" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="api_url" value="/api-blog"/>
@@ -28,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            <p class="${request.getParameter("status")}">${request.getParameter("message")}</p>
+            <p class="${status}">${message}</p>
             <!-- Content -->
             <section class="content">
                 <div class="row mt-5">
@@ -36,7 +42,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="float-left">
-                                    <form action="" method="get">
+                                    <form action="/admin/blogs" method="post">
                                         <div class="tim-kiem">
                                             <input type="text" placeholder="Tìm Kiếm" class="search" name="keySearch" value="${keySearch}">
                                             <button class="btn btn-search">Tìm kiếm</button>
@@ -61,32 +67,58 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                        <%
+                                            BlogService blogService = ServiceConfiguration.getBlogService();
+
+                                            StringBuilder pageUrl = new StringBuilder(Constant.Admin.BLOGS_PAGE + "?");
+
+                                            BlogDto searchDto = null;
+                                            String searchName = request.getParameter("keySearch");
+                                            if(searchName != null)
+                                            {
+                                                searchDto = new BlogDto();
+                                                searchDto.setTitle(searchName);
+                                                pageUrl.append("keySearch=" + searchName + "&");
+                                            }
+                                            pageUrl.append("page=");
+
+                                            long totalBlog = blogService.countBlogs(searchDto);
+                                            Pageable pageable = new PageRequest(request.getParameterMap(), totalBlog);
+
+                                            List<BlogDto> blogList = blogService.getAllBlogs(pageable, searchDto);
+
+                                            request.setAttribute("pageable", pageable);
+                                            request.setAttribute("blogList", blogList);
+                                            request.setAttribute("categories_page", Constant.Admin.CATEGORIES_PAGE);
+                                            request.setAttribute("home", pageUrl.toString());
+                                            request.setAttribute("users_page", Constant.Admin.USERS_PAGE);
+                                            request.setAttribute("keySearch", searchName);
+                                        %>
+
                                         <c:forEach var="blog" items="${blogList}" varStatus="loop">
                                             <tr>
-                                                <a href="/blogs/${blog.blogId}">
-                                                    <td>${loop.index + 1}</td>
-                                                    <td>${blog.title}</td>
-                                                    <td>${blog.user.userId}</td>
-                                                    <td>${blog.createdAt}</td>
-                                                    <td>0</td>
-                                                    <td>
-                                                        <c:if test="${blog.status == 0}"><p class="blog-status" onclick="showOption(${loop.index})">Đã bị ẩn</p></c:if>
-                                                        <c:if test="${blog.status == 1}"><p class="blog-status" onclick="showOption(${loop.index})">Đã được đuyệt</p></c:if>
-                                                        <c:if test="${blog.status == 2}"><p class="blog-status" onclick="showOption(${loop.index})">Đang chờ xét duyệt</p></c:if>
-                                                    </td>
+                                                <td>${loop.index + 1}</td>
+                                                <td>${blog.title}</td>
+                                                <td>${blog.user.userId}</td>
+                                                <td>${blog.createdAt}</td>
+                                                <td>0</td>
+                                                <td>
+                                                    <c:if test="${blog.status == 0}"><p class="blog-status-${loop.index} action" onclick="showOption(${loop.index})">Đã bị ẩn</p></c:if>
+                                                    <c:if test="${blog.status == 1}"><p class="blog-status-${loop.index} action" onclick="showOption(${loop.index})">Đã được đuyệt</p></c:if>
+                                                    <c:if test="${blog.status == 2}"><p class="blog-status-${loop.index} action" onclick="showOption(${loop.index})">Đang chờ xét duyệt</p></c:if>
 
-                                                    <ul class="menu-option" id="menu-${loop.index}">
-                                                        <li>
-                                                            Đang chờ xét duyệt
-                                                        </li>
-                                                        <li>
-                                                            <a href="/views/admin/sendApi/blog.jsp?id=${blog.blogId}&status=0">Ẩn truyện này</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="/views/admin/sendApi/blog.jsp?id=${blog.blogId}&status=1">Công khai truyện này</a>
-                                                        </li>
-                                                    </ul>
-                                                </a>
+                                                    <div class="menu-option">
+                                                        <ul class="menu-list"  id="menu-${loop.index}">
+                                                            <li>
+                                                                <a href="/views/admin/sendApi/blog.jsp?id=${blog.blogId}&status=0">Ẩn truyện này</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="/views/admin/sendApi/blog.jsp?id=${blog.blogId}&status=1">Công khai truyện này</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
@@ -94,7 +126,9 @@
                             </div>
                             <div class="card-footer">
                                 <nav class="Page navigation">
-                                    <ul class="pagination jc-center" id="pagination"></ul>
+                                    <ul class="pagination jc-center" id="pagination">
+                                        <jsp:include page="/views/common/pagingation.jsp" />
+                                    </ul>
                                 </nav>
                             </div>
                         </div>
@@ -103,6 +137,5 @@
             </section>
         </div>
     </div>
-    <jsp:include page="/assets/javascript/pagination.jsp" />
 </body>
 </html>
