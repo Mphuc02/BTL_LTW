@@ -62,6 +62,7 @@
 
     <jsp:include page="/assets/javascript/create_or_update_api.jsp" />
     <script>
+        //Todo: Chỉnh sửa cách gửi api của page này
         function setupData()
         {
             var categoryId = document.querySelector("#categoryId").value;

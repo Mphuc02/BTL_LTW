@@ -23,6 +23,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
         }
         return connection;
     }
+    //Nếu không có <T> đầu tiên thì phải thực hiện ép kiểu về kiểu dữ liệu mong muốn
     @Override
     public <T> List<T> selectSql(String sql, RowMapper<T> rowMapper, Object... parameters) {
         List<T> results = new ArrayList<>();

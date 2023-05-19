@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @WebServlet(urlPatterns = Admin.CATEGORY_API)
 public class CategoryApi extends HttpServlet {

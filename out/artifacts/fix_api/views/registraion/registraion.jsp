@@ -50,6 +50,7 @@
     </div>
     <jsp:include page="/assets/javascript/create_or_update_api.jsp" />
     <script>
+        //Todo: sửa lại cách gọi api và phản hồi không sử dụng js, thay bằng java
         async function setupData() {
             var userName = document.querySelector("#user-name").value;
             var passWord = document.querySelector("#pass-word").value;

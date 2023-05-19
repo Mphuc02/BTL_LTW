@@ -17,6 +17,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/blog/create_blog.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/blog" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/blog/read_blog.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/blog" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/common/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/common" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/common/pagingation.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/common" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/home/header.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/home" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/home/home.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/home" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/registraion/registraion.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/registraion" />

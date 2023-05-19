@@ -87,7 +87,7 @@
                 <div class="card-footer">
                     <nav class="Page navigation">
                         <ul class="pagination jc-center" id="pagination">
-                            <%--<jsp:include page="/views/common/pagingation.jsp"/>--%>
+                            <jsp:include page="/views/common/pagingation.jsp"/>
                         </ul>
                     </nav>
                 </div>
@@ -129,13 +129,7 @@
         <!-- end footer -->
 
         <!-- end footer -->
-
-
     </div>
-    <jsp:include page="/assets/javascript/pagination.jsp" />
-    <script>
-        initPagination('${home}')
-    </script>
 </body>
 
 </html>
