@@ -93,53 +93,59 @@ public class UserServiceimpl implements UserService {
     public boolean validateSignUp(UserDto user, String[] errors) {
         boolean check = true;
 
-        if(user.getUserName() == null)
+        if(user.getFullName() == null || user.getFullName().equals(""))
         {
-            errors[0] = "Tên đăng nhập không được bỏ trống!";
+            errors[0] = "Tên người dùng không được để trống!";
+            check = false;
+        }
+
+        if(user.getUserName() == null || user.getUserName().equals(""))
+        {
+            errors[1] = "Tên đăng nhập không được bỏ trống!";
             check = false;
         }
         UserDto checkUserNameExisted = new UserDto();
         checkUserNameExisted.setUserName(user.getUserName());
         if(!findAll(null, checkUserNameExisted).isEmpty())
         {
-            errors[0] = "Tên đăng nhập này đã tồn tại!";
+            errors[1] = "Tên đăng nhập này đã tồn tại!";
             check = false;
         }
 
-        if(user.getPassWord() == null)
+        if(user.getPassWord() == null || user.getPassWord().equals(""))
         {
             check = false;
-            errors[1] = "Mật khẩu không được để trống!";
+            errors[2] = "Mật khẩu không được để trống!";
         }
         String passWord = user.getPassWord();
-        if(passWord.length() < 6)
+        if(user.getPassWord() != null && passWord.length() < 6)
         {
             check = false;
-            errors[1] = "Mật khẩu phải có độ dài ít nhất 6 ký tự!";
+            errors[2] = "Mật khẩu phải có độ dài ít nhất 6 ký tự!";
         }
 
-        if(user.getRe_password() == null)
+        if(user.getRe_password() == null || user.getRe_password().equals(""))
         {
             check = false;
-            errors[2] = "Mật khẩu nhập lại không được để trống!";
+            errors[3] = "Mật khẩu nhập lại không được để trống!";
         }
         if(!user.getPassWord().equals(user.getRe_password()))
         {
             check = false;
-            errors[2] = "Mật khẩu nhập lại không khớp";
+            errors[3] = "Mật khẩu nhập lại không khớp";
         }
 
         if(!checkEmailValid(user.getEmail()))
         {
             check = false;
-            errors[3] = "Email không đúng định dạng";
+            errors[4] = "Email không đúng định dạng";
         }
         UserDto checkEmailExisted = new UserDto();
         checkEmailExisted.setEmail(user.getEmail());
         if(!findAll(null, checkEmailExisted).isEmpty())
         {
             check = false;
-            errors[3] = "Email này đã được đăng ký";
+            errors[4] = "Email này đã được đăng ký";
         }
 
         return check;
@@ -178,21 +184,11 @@ public class UserServiceimpl implements UserService {
         Long lastAction = validUser.getLastAction();
         Long validTime = (timenow - lastAction) / 1000;
 
-        if(validTime < 60)
-            return "Bạn thao tác quá nhanh, vui lòng thử lại sau " + (60 - validTime);
+        if(validTime < 10)
+            return "Bạn thao tác quá nhanh, vui lòng thử lại sau " + (10 - validTime);
         else
             updateLastAction(validUser);
         return null;
-    }
-
-    private boolean checkUserNameExisted(String userName)
-    {
-        String sql = "SELECT * FROM USERS WHERE username = ?";
-        List<User> users = userDao.getUserByCondition(sql.toString(), userName);
-
-        User user = users.isEmpty() ? null: users.get(0);
-
-        return user != null;
     }
     @Override
     public long countUsers(UserDto countDto) {
@@ -274,7 +270,7 @@ public class UserServiceimpl implements UserService {
         if(phone != null)
             sb.append(", phone = '" + phone + "'");
         if(fullName != null)
-            sb.append(", full_name = '" + fullName + "'");
+            sb.append(", full_name = N'" + fullName + "'");
         if(timeStamp != null)
             sb.append(", created_at = " + timeStamp);
         if(status != null)

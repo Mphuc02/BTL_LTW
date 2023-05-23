@@ -1,8 +1,5 @@
 package com.example.btl_web.controller.admin.edit;
 
-import com.example.btl_web.configuration.ServiceConfiguration;
-import com.example.btl_web.dto.CategoryDto;
-import com.example.btl_web.service.CategoryService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -15,25 +12,17 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = Admin.CATEGORIES_PAGE + Admin.EDIT + "/*")
 public class EditCategoryController extends HttpServlet {
-    private CategoryService categoryService = ServiceConfiguration.getCategoryService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String categoryIdStr = req.getPathInfo().split("/")[1];
-        Long categoryId = Long.parseLong(categoryIdStr);
+        String pathInfor = req.getPathInfo();
 
-        CategoryDto categoryDto = new CategoryDto();
-        if(categoryId != -1)
-        {
-            categoryDto.setCategoryId(categoryId);
-            categoryDto = categoryService.findOneBy(categoryDto);
-        }
-
-        req.setAttribute("category", categoryDto);
-        req.setAttribute("users", Admin.USERS_PAGE);
-        req.setAttribute("blogs", Admin.BLOGS_PAGE);
-        req.setAttribute("categories", Admin.CATEGORIES_PAGE);
-
+        req.setAttribute("path_infor", pathInfor);
         RequestDispatcher rd = req.getRequestDispatcher(Admin.CATEGORY_EDIT_JSP);
         rd.forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }

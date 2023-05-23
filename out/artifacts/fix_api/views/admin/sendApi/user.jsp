@@ -49,7 +49,6 @@
         status = "notice";
     }
 
-    //Xoá bỏ "" ở đầu và cuối của Json
     request.setAttribute("status", status);
     request.setAttribute("message", error[0]);
 

@@ -47,7 +47,7 @@
     }
 
     //Xoá bỏ "" ở đầu và cuối của Json
-    responseString = responseString.replaceAll("\"", "");
+    responseString = responseString.replaceAll("[\\[\\]\"]", "");
     request.setAttribute("status", status);
     request.setAttribute("message", responseString);
 

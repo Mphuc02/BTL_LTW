@@ -67,7 +67,7 @@
             <p class="alert">${bug_4}</p>
             <textarea name="content">${blog.content}</textarea>
 
-            <button onclick="dangTruyen()">
+            <button>
                 <c:if test="${blog.blogId == null}">Đăng bài</c:if>
                 <c:if test="${blog.blogId != null}">Cập nhật</c:if>
             </button>
@@ -75,5 +75,4 @@
     </div>
     </div>
 </body>
-
 </html>

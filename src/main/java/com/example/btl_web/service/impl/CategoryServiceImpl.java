@@ -170,7 +170,7 @@ public class CategoryServiceImpl implements CategoryService {
         Integer status = dto.getStatus();
 
         if(name != null)
-            sb.append(", name = '" + name + "'");
+            sb.append(", name = N'" + name + "'");
         if(userId != null)
             sb.append(", user_id = " + userId);
 //        if(createAt != null)

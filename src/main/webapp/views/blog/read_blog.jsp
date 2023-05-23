@@ -74,59 +74,8 @@
         </div>
     </div>
 
-    <jsp:include page="/assets/javascript/create_or_update_api.jsp" />
     <script>
-        function likeBlog(blogId, statusLike)
-        {
-            if(statusLike == 1)
-                var method = 'POST'
-            else if(statusLike == 0)
-                var method = 'DELETE'
-            var data = {
-                blogId: blogId
-            }
-
-            formSubmit(data, '${api_url_like}', method, function (errors, status){
-                if(status == 200){
-                    alert(errors.message)
-                    resetLikeButton(statusLike)
-                }
-                else if(status== 400){
-                    alert("Bạn phải đăng nhập thì mới xem được bài viết này")
-                }
-                else if(status == 406){
-                    alert(errors.errors[0])
-                }
-            })
-        }
-
-        function resetLikeButton(status){
-            var likeButton = document.querySelector("#like-button");
-            if(status == 1){
-                likeButton.outerHTML = '<button id="like-button" onclick="likeBlog(${blog.blogId},0)">Bỏ thích bài viết này</button>'
-            }
-            else {
-                likeButton.outerHTML = '<button id="like-button" onclick="likeBlog(${blog.blogId},1)">Thích bài viết này</button>'
-            }
-        }
-
-        function sendComment(){
-            var commentContent = document.querySelector("#comment").value
-            if(!commentContent)
-                return
-            var data = {
-                content: commentContent,
-                blogComment: ${blog.blogId}
-            }
-            formSubmit(data, '${api_url_comment}', 'POST', function (errors, status){
-                if(status == 200){
-                    alert("Đã gửi comment!")
-                }
-                else if(status == 406){
-                    alert(errors.errors[0])
-                }
-            })
-        }
+        //Todo: sửa lại cách gửi api 2 page này
     </script>
     <jsp:include page="/views/common/footer.jsp" />
 </body>

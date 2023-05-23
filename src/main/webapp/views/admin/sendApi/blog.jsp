@@ -38,7 +38,6 @@
     HttpEntity entity = apiResponse.getEntity();
     String responseString = EntityUtils.toString(entity, "UTF-8");
     String status = "alert";
-    //System.out.println(responseString);
 
     int statusCode = apiResponse.getStatusLine().getStatusCode();
     if(statusCode == 200)
@@ -47,7 +46,7 @@
     }
 
     //Xoá bỏ "" ở đầu và cuối của Json
-    responseString = responseString.replaceAll("\"", "");
+    responseString = responseString.replaceAll("[\\[\\]\"]", "");
     request.setAttribute("status", status);
     request.setAttribute("message", responseString);
 

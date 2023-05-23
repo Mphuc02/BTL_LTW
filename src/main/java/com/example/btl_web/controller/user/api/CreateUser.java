@@ -26,13 +26,13 @@ public class CreateUser extends HttpServlet {
 
         UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
 
-        String[] errors = new String[4];
+        String[] errors = new String[5];
         boolean valid = userService.validateSignUp(user, errors);
         ObjectMapper mapper = new ObjectMapper();
         if(!valid)
         {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
+            mapper.writeValue(resp.getOutputStream(), errors);
             mapper.writeValue(resp.getOutputStream(), errors);
         }
         else
