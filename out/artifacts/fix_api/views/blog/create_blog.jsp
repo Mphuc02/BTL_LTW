@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
-    <link rel="stylesheet" href="/assets/css/home7.css">
+    <link rel="stylesheet" href="/assets/css/home.css">
 
     <style>
         body {

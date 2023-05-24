@@ -51,6 +51,13 @@ public class UserBlogServiceImpl implements UserBlogService {
     }
 
     @Override
+    public boolean deleteComment(CommentDto commentDto) {
+        String sql = "Delete from Comments where comment_id = ?";
+        Long deleteStatus = commentDao.update(sql, commentDto.getCommentId());
+        return deleteStatus == null ? false : true;
+    }
+
+    @Override
     public boolean likeThisBlog(Long blogId, Long userId) {
         if(blogId == null || userId == null)
             return false;

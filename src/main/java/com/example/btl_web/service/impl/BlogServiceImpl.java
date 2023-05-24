@@ -165,7 +165,8 @@ public class BlogServiceImpl implements BlogService {
         return true;
     }
 
-    private List<UserDto> peopleLikedBlog(Long blogId) {
+    @Override
+    public List<UserDto> peopleLikedBlog(Long blogId) {
         String sql = "Select u.user_id, u.username, u.full_name from Users u, liked l where l.user_id = u.user_id and l.blog_id = " + blogId;
 
         List<User> users = userDao.findAllUserInclude(sql);

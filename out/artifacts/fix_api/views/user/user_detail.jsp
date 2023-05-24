@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="/assets/css/user/user_detail2.css">
-    <link rel="stylesheet" href="/assets/css/home7.css">
-    <title>Admin</title>
+    <link rel="stylesheet" href="/assets/css/user/user_detail.css">
+    <link rel="stylesheet" href="/assets/css/home.css">
+    <title>Thông tin của ${USER.fullName}</title>
 </head>
 <body>
-    <jsp:include page="/views/common/header.jsp" />
-    <div id="Admin">
-        <div id="main">
+<jsp:include page="/views/common/header.jsp" />
+<div id="Admin">
+    <div id="main">
         <!-- Content -->
         <section class="content mt-5">
             <div class="container">
@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="avatar-wrapper mt-4">
-                                <img src="./default-avatar.jpg" alt="avatar" class="avatar">    
+                                <img src="./default-avatar.jpg" alt="avatar" class="avatar">
                             </div>
                         </div>
                         <div class="col-8">
@@ -60,8 +60,8 @@
             </div>
             <div class="container mt-5">
                 <div class="row mb-5">
-                    
-                    
+
+
                     <div class="col">
                         <a href="/admin/users/viewPost/abcxyz" class="btn btn-primary mr-3">Truyện đã đăng</a>
                         <a href="/admin/users/viewLike/abcxyz" class="btn btn-primary mr-3">Truyện đã thích</a>
@@ -76,11 +76,27 @@
                                 <tr>
                                     <th>STT</th>
                                     <th>Tên truyện</th>
-                                    <th>Số lượt like</th>
-                                    <th></th>
+                                    <c:if test="${USER_MODEL.userId == USER.userId}">
+                                        <th>Trạng thái</th>
+                                    </c:if>
+                                    <th>Số lượt thích</th>
                                 </tr>
+                                <c:forEach var="blog" items="${blogs}" varStatus="loop">
+                                    <tr style="background-color: black">
+                                        <td>${loop.index+1}</td>
+                                        <td><a href="/blogs/${blog.blogId}">${blog.title}</a></td>
+                                        <c:if test="${USER_MODEL.userId == USER.userId}">
+                                            <td>
+                                                <c:if test="${blog.status == 0}">Đã bị ẩn</c:if>
+                                                <c:if test="${blog.status == 1}">Đã được duyệt</c:if>
+                                                <c:if test="${blog.status == 2}">Đang chờ xét duyệt</c:if>
+                                            </td>
+                                        </c:if>
+                                        <td>${blog.likedUsers.size()}</td>
+                                    </tr>
+                                </c:forEach>
                                 </thead>
-                                
+
                             </table>
                         </div>
                     </div>
@@ -90,4 +106,5 @@
             </div>
         </section>
     </div>
+    <jsp:include page="/views/common/footer.jsp" />
 </div>

@@ -17,7 +17,7 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/assets/css/admin/admin.css">
-    <link rel="stylesheet" href="/assets/css/home7.css">
+    <link rel="stylesheet" href="/assets/css/home.css">
     <title>Admin</title>
 </head>
 <body>
@@ -40,6 +40,12 @@
         Pageable pageable = new PageRequest(request.getParameterMap(), totalBlog);
 
         List<BlogDto> blogList = blogService.getAllBlogs(pageable, searchDto);
+
+        //Tìm lượt thích cho mỗi bài viết
+        for(BlogDto blog: blogList)
+        {
+            blog.setLikedUsers(blogService.peopleLikedBlog(blog.getBlogId()));
+        }
 
         request.setAttribute("pageable", pageable);
         request.setAttribute("blogList", blogList);
@@ -100,7 +106,7 @@
                                                 <td>${blog.title}</td>
                                                 <td>${blog.user.userId}</td>
                                                 <td>${blog.createdAt}</td>
-                                                <td>0</td>
+                                                <td>${blog.likedUsers.size()}</td>
                                                 <td>
                                                     <c:if test="${blog.status == 0}"><p class="blog-status-${loop.index} action" onclick="showOption(${loop.index})">Đã bị ẩn</p></c:if>
                                                     <c:if test="${blog.status == 1}"><p class="blog-status-${loop.index} action" onclick="showOption(${loop.index})">Đã được đuyệt</p></c:if>
@@ -133,5 +139,6 @@
             </section>
         </div>
     </div>
+    <jsp:include page="/views/common/footer.jsp" />
 </body>
 </html>

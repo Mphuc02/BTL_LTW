@@ -31,10 +31,16 @@ public class UserApi extends HttpServlet {
     {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
+
         UserDto user = HttpUtils.of(req.getReader()).toModel(UserDto.class);
-        //Todo: chưa thực hiện xác minh xem tài khoản này có thể thực hiện được hành động này hay không
         String errors[] = new String[4];
+        //Kiểm tra xem User đang đăng nhập có quyền chỉnh sửa thông tin này không
         boolean validStatus = userService.validUpdate(user, errors);
+        if(!user.getRole().equals("ADMIN"))
+        {
+            validStatus = false;
+            errors[0] = "Bạn không có quyền này";
+        }
         ObjectMapper mapper = new ObjectMapper();
 
         if(validStatus)
@@ -47,7 +53,7 @@ public class UserApi extends HttpServlet {
                 return;
             }
         }
-        //Todo: Trả về lỗi chưa đúng định dạng, cần phải sửa lại
+
         resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         mapper.writeValue(resp.getOutputStream(), errors);
     }

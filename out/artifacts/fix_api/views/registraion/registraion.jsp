@@ -60,9 +60,6 @@
             int statusCode = apiResponse.getStatusLine().getStatusCode();
             if(statusCode == 200)
             {
-//                String message = "Tạo tài khoản thành công!";
-//                request.setAttribute("message", message);
-//                status = "notice";
                 response.sendRedirect("http://localhost:8080/login?action=sign-up-success");
             }
             request.setAttribute("user", newUser);

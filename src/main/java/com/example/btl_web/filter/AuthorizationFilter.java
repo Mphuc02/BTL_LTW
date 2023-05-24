@@ -18,6 +18,7 @@ public class AuthorizationFilter implements Filter {
         String url = request.getRequestURI();
 
         UserDto user = (UserDto) SessionUtils.getInstance().getValue(request,Constant.USER_MODEL);
+        request.setAttribute(Constant.USER_MODEL, user);
 
         if(url.contains("admin"))
         {
@@ -29,7 +30,6 @@ public class AuthorizationFilter implements Filter {
             {
                 if(user.getRole().equals(Constant.ADMIN))
                 {
-                    request.setAttribute(Constant.USER_MODEL, user);
                     filterChain.doFilter(servletRequest, servletResponse);
                 }
                 else
@@ -58,7 +58,6 @@ public class AuthorizationFilter implements Filter {
         }
         else
         {
-            request.setAttribute(Constant.USER_MODEL, user);
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }

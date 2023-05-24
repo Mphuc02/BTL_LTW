@@ -8,6 +8,7 @@ import java.util.List;
 public interface UserBlogService {
     List<CommentDto> findAll(Pageable pageable, CommentDto comment);
     boolean saveComment(CommentDto comment);
+    boolean deleteComment(CommentDto commentDto);
     boolean likeThisBlog(Long blogId, Long userId);
     boolean removeLikeThisBlog(Long blogId, Long userId);
     boolean validComment(CommentDto comment, String[] error);

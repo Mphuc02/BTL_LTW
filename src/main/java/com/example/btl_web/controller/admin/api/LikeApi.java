@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.Collections;
 
 @WebServlet(urlPatterns = User.USER_LIKE_API)
 public class LikeApi extends HttpServlet {
@@ -28,7 +27,7 @@ public class LikeApi extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         solveApi(req, resp);
     }
 
@@ -41,6 +40,7 @@ public class LikeApi extends HttpServlet {
 
         UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
 
+        String message = "";
         ObjectMapper mapper = new ObjectMapper();
         String[] errors = new String[1];
         String timevalid = userService.checkLastAction(user.getUserId());
@@ -50,24 +50,30 @@ public class LikeApi extends HttpServlet {
 
             boolean statusLiked = false;
             if(method.equals(Request.POST_METHOD))
+            {
                 statusLiked = userBlogService.likeThisBlog(likedBlog.getBlogId(), user.getUserId());
-            else if(method.equals(Request.DELETE_METHOD))
+                message = "Bạn đã thích bài viết này";
+            }
+            else if(method.equals(Request.PUT_METHOD))
+            {
                 statusLiked = userBlogService.removeLikeThisBlog(likedBlog.getBlogId(), user.getUserId());
+                message = "Bạn đã bỏ thích bải viết này";
+            }
 
             if(statusLiked)
             {
-                resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("message", "Bạn đã thích bài viết này!")));
+                mapper.writeValue(resp.getOutputStream(), message);
                 return;
             }
             else
             {
-                resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", "Bạn phải đăng nhập thì mới có thể like bài viết này!")));
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                mapper.writeValue(resp.getOutputStream(), "Bạn phải đăng nhập thì mới có thể thích bài viết này");
                 return;
             }
         }
         errors[0] = timevalid;
-        resp.getOutputStream().write(mapper.writeValueAsBytes(Collections.singletonMap("errors", errors)));
         resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+        mapper.writeValue(resp.getOutputStream(), errors);
     }
 }
