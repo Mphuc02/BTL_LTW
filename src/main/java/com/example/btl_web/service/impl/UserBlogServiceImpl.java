@@ -1,6 +1,7 @@
 package com.example.btl_web.service.impl;
 
 import com.example.btl_web.configuration.ServiceConfiguration;
+import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dao.CommentDao;
 import com.example.btl_web.dao.UserDao;
 import com.example.btl_web.dao.impl.CommentDaoImpl;
@@ -52,8 +53,8 @@ public class UserBlogServiceImpl implements UserBlogService {
 
     @Override
     public boolean deleteComment(CommentDto commentDto) {
-        String sql = "Delete from Comments where comment_id = ?";
-        Long deleteStatus = commentDao.update(sql, commentDto.getCommentId());
+        String sql = "Delete from Comments where comment_id = ? and user_id = ? ";
+        Long deleteStatus = commentDao.update(sql, commentDto.getCommentId(), commentDto.getUserComment().getUserId());
         return deleteStatus == null ? false : true;
     }
 
@@ -82,33 +83,36 @@ public class UserBlogServiceImpl implements UserBlogService {
     }
 
     @Override
-    public boolean validComment(CommentDto comment, String[] error) {
+    public boolean validComment(CommentDto comment, String[] error, String method) {
         if(!userCanDoAction(error, comment.getUserComment().getUserId()))
             return false;
 
-        if(comment.getBlogComment() == null)
+        if(method.equals(Request.POST_METHOD))
         {
-            error[0] = "Bài viết không tồn tại!";
-            return false;
+            if(comment.getBlogComment() == null)
+            {
+                error[0] = "Bài viết không tồn tại!";
+                return false;
+            }
+            //Kiểm tra xem bài viết được comment có tồn tại hay không
+            BlogDto blogDto = new BlogDto();
+            blogDto.setBlogId(comment.getBlogComment());
+            blogDto.setStatus(1);
+            BlogService blogService = new BlogServiceImpl();
+            List<BlogDto> blogs = blogService.getAllBlogs(null, blogDto);
+            if(blogs == null || blogs.isEmpty())
+            {
+                error[0] = "Bài viết không tồn tại!";
+                return false;
+            }
+
+            if(comment.getContent() == null || comment.getContent().isEmpty())
+            {
+                error[0] = "Nội dung không được để trống!";
+                return false;
+            }
         }
 
-        //Kiểm tra xem bài viết được comment có tồn tại hay không
-        BlogDto blogDto = new BlogDto();
-        blogDto.setBlogId(comment.getBlogComment());
-        blogDto.setStatus(1);
-        BlogService blogService = new BlogServiceImpl();
-        List<BlogDto> blogs = blogService.getAllBlogs(null, blogDto);
-        if(blogs == null || blogs.isEmpty())
-        {
-            error[0] = "Bài viết không tồn tại!";
-            return false;
-        }
-
-        if(comment.getContent() == null || comment.getContent().isEmpty())
-        {
-            error[0] = "Nội dung không được để trống!";
-            return false;
-        }
         return true;
     }
     private boolean userCanDoAction(String errors[], Long userId)

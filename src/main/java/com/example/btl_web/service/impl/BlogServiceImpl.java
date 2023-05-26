@@ -207,24 +207,25 @@ public class BlogServiceImpl implements BlogService {
 
     private StringBuilder addAndClause(Pageable pageable ,BlogDto dto)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(" WHERE (1 = 1)");
+        StringBuilder fromClause = new StringBuilder();
 
         if(dto != null)
         {
-            boolean firstWhere = true;
             List<CategoryDto> categories = dto.getCategories();
             if(categories != null)
             {
-                firstWhere = false;
-                sb.append(", BLOGS_CATEGORIES b_c WHERE ( 1 = 1) AND b_c.blog_id = b.blog_id");
+                fromClause.append(", blogs_categories b_c");
+                sb.append(" AND b_c.blog_id = b.blog_id");
                 for(CategoryDto category: categories)
                 {
                     sb.append(" AND b_c.category_id = " + category.getCategoryId());
                 }
             }
-
-            if(firstWhere)
-                sb.append(" WHERE (1 = 1)");
+            if(dto.getUser() != null)
+            {
+                sb.append(" AND user_id = " + dto.getUser().getUserId());
+            }
 
             Long blogId = dto.getBlogId();
             String title = dto.getTitle();
@@ -250,7 +251,7 @@ public class BlogServiceImpl implements BlogService {
         if(pageable != null)
             sb.append(pageable.addPagingation());
 
-        return sb;
+        return fromClause.append(sb);
     }
     private StringBuilder addUpdateClause(BlogDto blog)
     {

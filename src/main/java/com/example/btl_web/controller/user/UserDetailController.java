@@ -42,10 +42,14 @@ public class UserDetailController extends HttpServlet {
         }
 
         BlogDto blogsOfUser = new BlogDto();
-        blogsOfUser.setUser((UserDto) req.getAttribute(Constant.USER_MODEL));
-        if(searchDto.getUserId() != user.getUserId())//Nếu như đây là trang cá nhân của chính mình thì mới xem được cả truyện chưa được phê duyệt
+        blogsOfUser.setUser(searchDto);
+
+        if(user != null)
         {
-            blogsOfUser.setStatus(1);
+            if(searchDto.getUserId() != user.getUserId())//Nếu như đây là trang cá nhân của chính mình thì mới xem được cả truyện chưa được phê duyệt
+            {
+                blogsOfUser.setStatus(1);
+            }
         }
 
         List<BlogDto> listBlogsOfUser = blogService.getAllBlogs(null, blogsOfUser);

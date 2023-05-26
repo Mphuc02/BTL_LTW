@@ -1,4 +1,4 @@
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <!-- tieu de -->
@@ -10,12 +10,12 @@
     <div class="tieude__nut">
         <div class="tieude__nut1">
             <c:set var="role" value="${USER_MODEL.role}" />
-            <c:if test="${role eq 'ADMIN'}" >
+            <c:if test="${role >= 2}" >
                 <div>
                     <a href="/admin/categories">Quản lý thể loại</a>
                 </div>
                 <div>
-                    <a href="/admin/blogs">Quản lý bải viết</a>
+                    <a href="/admin/blogs">Quản lý bài viết</a>
                 </div>
                 <div>
                     <a href="/admin/users">Quản lý người dùng</a>

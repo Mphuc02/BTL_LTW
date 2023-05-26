@@ -31,8 +31,9 @@
                                 <div class="user-info__item mb-2 text-white">
                                     <label for="username" class="user-info__label">Cấp độ :</label>
                                     <span class="user-info__value ml-3" id="role">
-                                        <c:if test="${USER.role eq 'ADMIN'}">Quản trị viên</c:if>
-                                        <c:if test="${USER.role eq 'USER'}">Người dùng</c:if>
+                                        <c:if test="${USER.role == 3}">Admin</c:if>
+                                        <c:if test="${USER.role == 2}">Quản trị viên</c:if>
+                                        <c:if test="${USER.role == 1}">Người dùng</c:if>
                                     </span>
                                 </div>
 

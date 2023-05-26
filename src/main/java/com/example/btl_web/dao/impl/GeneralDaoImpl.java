@@ -86,6 +86,7 @@ public class GeneralDaoImpl<T> implements GeneralDao {
             } catch (SQLException ex) {
                 e.printStackTrace();
             }
+            return null;
         }
 
         clossConnect(connection, statement, resultSet);

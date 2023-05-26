@@ -1,10 +1,19 @@
-<%@ page import="com.example.btl_web.constant.Constant" %>
+<%@ page import="com.example.btl_web.constant.Constant.*" %>
 <%@ page import="com.example.btl_web.dto.BlogDto" %>
 <%@ page import="com.example.btl_web.paging.Pageable" %>
 <%@ page import="com.example.btl_web.paging.PageRequest" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.btl_web.service.BlogService" %>
 <%@ page import="com.example.btl_web.configuration.ServiceConfiguration" %>
+<%@ page import="com.example.btl_web.utils.CookieUtils" %>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="org.apache.http.client.HttpClient" %>
+<%@ page import="org.apache.http.impl.client.HttpClientBuilder" %>
+<%@ page import="org.apache.http.client.methods.HttpPut" %>
+<%@ page import="org.apache.http.entity.StringEntity" %>
+<%@ page import="org.apache.http.HttpResponse" %>
+<%@ page import="org.apache.http.HttpEntity" %>
+<%@ page import="org.apache.http.util.EntityUtils" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="api_url" value="/api-blog"/>
@@ -18,13 +27,59 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/assets/css/admin/admin.css">
     <link rel="stylesheet" href="/assets/css/home.css">
-    <title>Admin</title>
+    <title>Quản lý truyện</title>
 </head>
 <body>
     <%
+        String editMethod = request.getParameter("editBlog");
+        if(editMethod != null)
+        {
+            String cookieValue = CookieUtils.getInstance().getValue(request, "JSESSIONID", request.getSession().getId()).toString();
+
+            String blogIdStr = request.getParameter("id");
+            String statusStr = request.getParameter("status");
+
+            BlogDto editBlog = new BlogDto();
+            if(blogIdStr != null || statusStr != null)
+            {
+                editBlog.setBlogId(Long.parseLong(blogIdStr));
+                editBlog.setStatus(Integer.parseInt(statusStr));
+            }
+
+            Gson gson = new Gson();
+            String blogJson = gson.toJson(editBlog);
+
+            String url = "http://localhost:8080/api-blog";
+            HttpClient httpClient = HttpClientBuilder.create().build();
+            HttpPut sendApi = new HttpPut(url);
+            StringEntity params = new StringEntity(blogJson);
+            sendApi.addHeader("content-type", "application/json");
+            sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
+            sendApi.setEntity(params);
+
+            //Nhận phản hồi
+            HttpResponse apiResponse = httpClient.execute(sendApi);
+            HttpEntity entity = apiResponse.getEntity();
+            String responseString = EntityUtils.toString(entity, "UTF-8");
+            String status = "alert";
+
+            int statusCode = apiResponse.getStatusLine().getStatusCode();
+            if(statusCode == 200)
+            {
+                status = "notice";
+            }
+
+            //Xoá bỏ "" ở đầu và cuối của Json
+            responseString = responseString.replaceAll("[\\[\\]\"]", "");
+            request.setAttribute("status", status);
+            request.setAttribute("message", responseString);
+        }
+    %>
+
+    <%
         BlogService blogService = ServiceConfiguration.getBlogService();
 
-        StringBuilder pageUrl = new StringBuilder(Constant.Admin.BLOGS_PAGE + "?");
+        StringBuilder pageUrl = new StringBuilder(Admin.BLOGS_PAGE + "?");
 
         BlogDto searchDto = null;
         String searchName = request.getParameter("keySearch");
@@ -49,9 +104,9 @@
 
         request.setAttribute("pageable", pageable);
         request.setAttribute("blogList", blogList);
-        request.setAttribute("categories_page", Constant.Admin.CATEGORIES_PAGE);
+        request.setAttribute("categories_page", Admin.CATEGORIES_PAGE);
         request.setAttribute("home", pageUrl.toString());
-        request.setAttribute("users_page", Constant.Admin.USERS_PAGE);
+        request.setAttribute("users_page", Admin.USERS_PAGE);
         request.setAttribute("keySearch", searchName);
     %>
     <div id="Admin">
@@ -103,8 +158,8 @@
                                         <c:forEach var="blog" items="${blogList}" varStatus="loop">
                                             <tr>
                                                 <td>${loop.index + 1}</td>
-                                                <td>${blog.title}</td>
-                                                <td>${blog.user.userId}</td>
+                                                <td> <a href="/blogs/${blog.blogId}">${blog.title}</a> </td>
+                                                <td><a href="/user/${blog.user.userId}"></a> ${blog.user.userId}</td>
                                                 <td>${blog.createdAt}</td>
                                                 <td>${blog.likedUsers.size()}</td>
                                                 <td>
@@ -115,10 +170,20 @@
                                                     <div class="menu-option">
                                                         <ul class="menu-list"  id="menu-${loop.index}">
                                                             <li>
-                                                                <a href="/views/admin/sendApi/blog.jsp?id=${blog.blogId}&status=0">Ẩn truyện này</a>
+                                                                <form action="" method="post">
+                                                                    <input type="hidden" name="editBlog" value="POST">
+                                                                    <input type="hidden" name="id" value="${blog.blogId}">
+                                                                    <input type="hidden" name="status" value="0">
+                                                                    <button class="">Ẩn truyện này</button>
+                                                                </form>
                                                             </li>
                                                             <li>
-                                                                <a href="/views/admin/sendApi/blog.jsp?id=${blog.blogId}&status=1">Công khai truyện này</a>
+                                                                <form>
+                                                                    <input type="hidden" name="editBlog" value="POST">
+                                                                    <input type="hidden" name="id" value="${blog.blogId}">
+                                                                    <input type="hidden" name="status" value="1">
+                                                                    <button>Công khai truyện này</button>
+                                                                </form>
                                                             </li>
                                                         </ul>
                                                     </div>

@@ -1,9 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
 <head>
-
-    <title>Đăng nhập</title>
+    <title>Blog Truyện - Đăng nhập</title>
     <link rel="stylesheet" href="/assets/css/registraion/registraion5.css">
 </head>
 <body>

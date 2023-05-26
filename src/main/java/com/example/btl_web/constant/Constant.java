@@ -71,4 +71,11 @@ public class Constant {
         public static final String PUT_METHOD = "PUT";
         public static final String DELETE_METHOD = "DELETE";
     }
+
+    public static class Role
+    {
+        public static final int ADMIN = 3;
+        public static final int MOD = 2;
+        public static final int USER = 1;
+    }
 }

@@ -61,15 +61,11 @@ public class UserServiceimpl implements UserService {
 
     @Override
     public UserDto login(String userName, String passWord) {
-        UserDto userDto = new UserDto();
-        userDto.setUserName(userName);
         String encryptPassword = hashPasswordService.encryptPassword(passWord); //Mã hoá password này rồi thực hiện tìm kiếm trong database
-        userDto.setPassWord(encryptPassword);
 
-        StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE (1 = 1)");
-        sql.append(addAndClause(null, userDto));
+        StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE username = ? and password = ?");
 
-        List<User> users = userDao.getUserByCondition(sql.toString());
+        List<User> users = userDao.getUserByCondition(sql.toString(), userName, encryptPassword);
 
         return users.isEmpty() ? null : ConvertUtils.convertEntityToDto(users.get(0), UserDto.class);
     }
@@ -78,8 +74,8 @@ public class UserServiceimpl implements UserService {
         String encryptPassword = hashPasswordService.encryptPassword(userDto.getPassWord());
         userDto.setPassWord(encryptPassword); //Mã hoá password
         Date timeStamp = new Date();
-        String sql = "INSERT INTO USERS (email, password, created_at, role, username, last_action, status) VALUES (?, ?, ?, ?, ?, ?, 1)";
-        return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), "USER", userDto.getUserName(), timeStamp.getTime());
+        String sql = "INSERT INTO USERS (email, password, created_at, role, username, last_action, status, full_name) VALUES (?, ?, ?, ?, ?, ?, 1, ?)";
+        return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), "USER", userDto.getUserName(), timeStamp.getTime(), userDto.getFullName());
     }
 
     @Override
@@ -207,7 +203,7 @@ public class UserServiceimpl implements UserService {
             String userName = userDto.getUserName();
             String passWord = userDto.getPassWord();
             String email = userDto.getEmail();
-            String role = userDto.getRole();
+            Integer role = userDto.getRole();
             String address = userDto.getAddress();
             String phone = userDto.getPhone();
             String fullName = userDto.getFullName();
@@ -246,7 +242,7 @@ public class UserServiceimpl implements UserService {
         String userName = dto.getUserName();
         String passWord = dto.getPassWord();
         String email = dto.getEmail();
-        String role = dto.getRole();
+        Integer role = dto.getRole();
         String address = dto.getAddress();
         String phone = dto.getPhone();
         String fullName = dto.getFullName();

@@ -1,6 +1,7 @@
 package com.example.btl_web.filter;
 
 import com.example.btl_web.constant.Constant;
+import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.utils.SessionUtils;
 import jakarta.servlet.*;
@@ -28,7 +29,7 @@ public class AuthorizationFilter implements Filter {
             }
             else
             {
-                if(user.getRole().equals(Constant.ADMIN))
+                if(user.getRole() >= Role.MOD)
                 {
                     filterChain.doFilter(servletRequest, servletResponse);
                 }

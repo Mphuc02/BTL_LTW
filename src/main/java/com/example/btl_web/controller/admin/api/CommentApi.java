@@ -26,7 +26,7 @@ public class CommentApi extends HttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         solveApi(req, resp);
     }
 
@@ -39,33 +39,32 @@ public class CommentApi extends HttpServlet {
         UserDto userComment = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
         comment.setUserComment(userComment);
 
-        String[] errors = new String[2];
-        boolean validComment = userBlogService.validComment(comment, errors);
+        String[] errors = new String[1];
+        String method = req.getMethod();
+        boolean validComment = userBlogService.validComment(comment, errors, method);
 
         ObjectMapper mapper = new ObjectMapper();
         if(validComment)
         {
-            String message = "";
-            String method = req.getMethod();
             boolean editCommentStatus = false;
 
             if(method.equals(Request.POST_METHOD))
             {
-                message = "Đăng comment thành công";
+                errors[0] = "Đăng comment thành công";
                 editCommentStatus = userBlogService.saveComment(comment);
             }
             else if(method.equals(Request.PUT_METHOD))
             {
-                message = "Xóa comment thành công";
+                errors[0] = "Xóa comment thành công";
                 editCommentStatus = userBlogService.deleteComment(comment);
             }
 
             if(editCommentStatus)
-                mapper.writeValue(resp.getOutputStream(), message);
+                mapper.writeValue(resp.getOutputStream(), errors);
             else
             {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                mapper.writeValue(resp.getOutputStream(), message);
+                mapper.writeValue(resp.getOutputStream(), errors);
             }
         }
         else

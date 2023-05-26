@@ -14,13 +14,6 @@ public class Category implements Serializable {
     public Category(){
         
     }
-
-    public Category(Long categoryId, String name, Set<Blog> blogs) {
-        this.categoryId = categoryId;
-        this.name = name;
-        this.blogs = blogs;
-    }
-
     public Long getCategoryId() {
         return categoryId;
     }

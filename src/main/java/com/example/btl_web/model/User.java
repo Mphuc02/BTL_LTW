@@ -8,7 +8,7 @@ public class User implements Serializable {
     private String userName;
     private String passWord;
     private String email;
-    private String role;
+    private Integer role;
     private String address;
     private String phone;
     private String fullName;
@@ -62,11 +62,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 

@@ -14,6 +14,9 @@
 <%@ page import="com.example.btl_web.service.BlogService" %>
 <%@ page import="com.example.btl_web.configuration.ServiceConfiguration" %>
 <%@ page import="com.example.btl_web.dto.CommentDto" %>
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
+<%@ page import="com.example.btl_web.dto.UserDto" %>
+<%@ page import="com.example.btl_web.constant.Constant" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var="api_url_like" value="/api-create-like" />
@@ -28,13 +31,15 @@
     <link rel="stylesheet" href="/assets/css/home.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <title>Document</title>
+    <title>Đọc truyện ${blog.title}</title>
 </head>
 <body>
     <%
+        UserDto user = (UserDto) request.getAttribute(Constant.USER_MODEL);
+
         //Gửi api để like hoặc bỏ like bài viết
         String likeMethod = request.getParameter("likeMethod");
-        if(likeMethod != null)
+        if(likeMethod != null && user != null)
         {
             BlogDto editLike = new BlogDto();
             String blogIdStr = request.getParameter("blog-id");
@@ -84,15 +89,20 @@
     <%
         //Xử lý api để gửi hoặc xóa comment
         String commentMethod = request.getParameter("edit_comment");
-        if(commentMethod != null)
+        if(commentMethod != null && user != null)
         {
             String cookieValue = CookieUtils.getInstance().getValue(request, "JSESSIONID", request.getSession().getId()).toString();
 
             CommentDto editComment = new CommentDto();
+            String commentId = request.getParameter("comment_id");
             String blogId = request.getParameter("blog_id");
             String content = request.getParameter("comment_content");
-            editComment.setBlogComment(Long.parseLong(blogId));
-            editComment.setContent(content);
+            if(commentId != null && !commentId.isEmpty())
+                editComment.setCommentId(Long.parseLong(commentId));
+            if(blogId != null && !blogId.isEmpty())
+                editComment.setBlogComment(Long.parseLong(blogId));
+            if(content != null && !content.isEmpty())
+                editComment.setContent(content);
 
             Gson gson = new Gson();
             String commentJson = gson.toJson(editComment);
@@ -111,7 +121,7 @@
 
                 responseApi = httpClient.execute(sendApi);
             }
-            else if(likeMethod.equals(Request.DELETE_METHOD))
+            else if(commentMethod.equals(Request.DELETE_METHOD))
             {
                 HttpPut sendApi = new HttpPut(url);
                 sendApi.addHeader("content-type", "application/json");
@@ -129,8 +139,8 @@
             {
                 alert = "notice";
             }
-            //Todo: cắt chuỗi được trả về thành các chuỗi nhỉ riêng biệt
-            responseString = responseString.replaceAll("[\\[\\]\"]", "");
+
+            responseString = (new ObjectMapper()).readValue(responseString, String[].class)[0];
             request.setAttribute("comment_message", responseString);
             request.setAttribute("comment_status", alert);
         }
@@ -196,35 +206,50 @@
             <p class="${like_status}">${like_message}</p>
 
             <p>${blog.likedUsers.size()} lươt thích</p>
+
+            <c:if test="${blog.user.userId == USER_MODEL.userId}">
+                <a href="/update-blog/${blog.blogId}">Chỉnh sửa bài viết này</a>
+            </c:if>
             
             <img src="${blog.imageTitle}">
 
             <p>${blog.content}</p>
 
             <h4 style="display: flex; justify-content: center;">---End---</h4> <br>
+
+            <a href="/user/${blog.user.userId}">${blog.user.fullName}</a>
         </div>
 
         <div class="sidebar">
             <div class="sidebar-two">
                 <h1>${blog.comments.size()} bình luận</h1>
-                <!-- Form để thêm bình luận -->
-                <div class="comment-form">
-                    <h3>Thêm bình luận</h3>
-                    <p class="${comment_status}">${comment_message}</p>
-                    <form action="" method="post">
-                        <input type="hidden" name="blog_id" value="${blog.blogId}">
-                        <input type="hidden" name="edit_comment" value="POST">
-                        <textarea id="comment" name="comment_content" required></textarea>
-                        <button>Gửi</button>
-                    </form>
-                </div>
+                <c:if test="${not empty USER_MODEL}">
+                    <!-- Form để thêm bình luận -->
+                    <div class="comment-form">
+                        <h3>Thêm bình luận</h3>
+                        <p class="${comment_status}">${comment_message}</p>
+                        <form action="" method="post">
+                            <input type="hidden" name="blog_id" value="${blog.blogId}">
+                            <input type="hidden" name="edit_comment" value="POST">
+                            <textarea id="comment" name="comment_content" required></textarea>
+                            <button>Gửi</button>
+                        </form>
+                    </div>
+                </c:if>
                 <!-- Phần hiển thị bình luận -->
                 <div class="comments">
                     <c:forEach var="comment" items="${blog.comments}" >
                         <div class="comment">
-                            <div class="author">${comment.userComment.fullName}</div>
+                            <div class="author"><a href="/user/${comment.userComment.userId}">${comment.userComment.fullName}</a></div>
                             <div class="text">${comment.content}</div>
                             <div>${comment.createdAt}</div>
+                            <c:if test="${comment.userComment.userId == USER_MODEL.userId}">
+                                <form action="" method="POST">
+                                    <input type="hidden" name="edit_comment" value="DELETE">
+                                    <input type="hidden" name="comment_id" value="${comment.commentId}">
+                                    <button>Xóa comment này</button>
+                                </form>
+                            </c:if>
                         </div>
                     </c:forEach>
                 </div>

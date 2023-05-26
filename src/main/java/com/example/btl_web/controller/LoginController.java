@@ -5,7 +5,6 @@ import com.example.btl_web.constant.Constant;
 import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.service.UserService;
-import com.example.btl_web.service.impl.UserServiceimpl;
 import com.example.btl_web.utils.SessionUtils;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -70,16 +69,8 @@ public class LoginController extends HttpServlet {
                 //Thêm thông tin session của người dùng vào cookie
                 addCookie(req, resp, 1);
 
-                if(userDto.getRole().equals(Constant.USER))
-                {
-                    resp.sendRedirect(req.getContextPath() + "/");
-                    return;
-                }
-                else if(userDto.getRole().equals(Constant.ADMIN))
-                {
-                    resp.sendRedirect(req.getContextPath() + "/");
-                    return;
-                }
+                resp.sendRedirect("/");
+                return;
             }
             else
             {
@@ -98,6 +89,7 @@ public class LoginController extends HttpServlet {
 
     private void addCookie(HttpServletRequest req, HttpServletResponse resp, int status)
     {
+        //Todo: chuyển hàm này sang CookieUtils
         HttpSession session = req.getSession();
         Cookie cookie = null;
         if(status == 1) //Login

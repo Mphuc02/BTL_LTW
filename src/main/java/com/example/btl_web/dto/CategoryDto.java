@@ -3,7 +3,9 @@ package com.example.btl_web.dto;
 public class CategoryDto {
     private Long categoryId;
     private String name;
+    private UserDto user;
     private Long userId;
+    private Long blogsHaveCategory;
     private String createdAt;
     private Integer status;
     public CategoryDto()
@@ -39,5 +41,21 @@ public class CategoryDto {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getBlogsHaveCategory() {
+        return blogsHaveCategory;
+    }
+
+    public void setBlogsHaveCategory(Long blogsHaveCategory) {
+        this.blogsHaveCategory = blogsHaveCategory;
+    }
+
+    public UserDto getUser() {
+        return user;
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
     }
 }

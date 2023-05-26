@@ -5,6 +5,18 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.example.btl_web.service.CategoryService" %>
 <%@ page import="com.example.btl_web.configuration.ServiceConfiguration" %>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page import="com.example.btl_web.utils.CookieUtils" %>
+<%@ page import="org.apache.http.client.HttpClient" %>
+<%@ page import="org.apache.http.impl.client.HttpClientBuilder" %>
+<%@ page import="org.apache.http.client.methods.HttpPut" %>
+<%@ page import="org.apache.http.entity.StringEntity" %>
+<%@ page import="org.apache.http.HttpResponse" %>
+<%@ page import="org.apache.http.HttpEntity" %>
+<%@ page import="org.apache.http.util.EntityUtils" %>
+<%@ page import="com.example.btl_web.service.BlogService" %>
+<%@ page import="com.example.btl_web.dto.BlogDto" %>
+<%@ page import="com.example.btl_web.service.UserService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:url var="api_url" value="/api-admin-category" />
@@ -18,9 +30,56 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/assets/css/admin/admin.css">
     <link rel="stylesheet" href="/assets/css/home.css">
-    <title>Admin</title>
+    <title>Quản lý thể loại</title>
 </head>
 <body>
+    <%
+        String editMethod = request.getParameter("editMethod");
+        if(editMethod != null)
+        {
+            String categoryIdStr = request.getParameter("id");
+            String statsStr = request.getParameter("status");
+            CategoryDto editCategory = null;
+            if(categoryIdStr != null && statsStr != null)
+            {
+                editCategory = new CategoryDto();
+                editCategory.setCategoryId(Long.parseLong(categoryIdStr));
+                editCategory.setStatus(Integer.parseInt(statsStr));
+            }
+
+            Gson gson = new Gson();
+            String categoryJson = gson.toJson(editCategory);
+
+            String cookieValue = CookieUtils.getInstance().getValue(request, "JSESSIONID", request.getSession().getId()).toString();
+
+            String url = "http://localhost:8080/api-admin-category";
+            HttpClient httpClient = HttpClientBuilder.create().build();
+            HttpPut sendApi = new HttpPut(url);
+            StringEntity jsonEntity = new StringEntity(categoryJson);
+            sendApi.addHeader("content-type", "application/json");
+            sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
+            sendApi.setEntity(jsonEntity);
+
+            //Nhận phản hồi
+            HttpResponse apiResponse = httpClient.execute(sendApi);
+            HttpEntity entity = apiResponse.getEntity();
+            String responseString = EntityUtils.toString(entity, "UTF-8");
+            String status = "alert";
+            //System.out.println(responseString);
+
+            int statusCode = apiResponse.getStatusLine().getStatusCode();
+            if(statusCode == 200)
+            {
+                status = "notice";
+            }
+
+            //Xoá bỏ "" ở đầu và cuối của Json
+            responseString = responseString.replaceAll("[\\[\\]\"]", "");
+            request.setAttribute("status", status);
+            request.setAttribute("message", responseString);
+        }
+    %>
+
     <%
         CategoryService categoryService = ServiceConfiguration.getCategoryService();
 
@@ -40,6 +99,18 @@
         Pageable pageable = new PageRequest(request.getParameterMap(), totalCategories );
         request.setAttribute("pageable", pageable);
         List<CategoryDto> categoryDtos = categoryService.findAll(pageable, searchDto);
+        //Đếm xem mỗi thể loại có bao nhiêu truyện
+        BlogService blogService = ServiceConfiguration.getBlogService();
+        UserService userService = ServiceConfiguration.getUserService();
+        for(CategoryDto category: categoryDtos)
+        {
+            BlogDto countBlog = new BlogDto();
+            countBlog.setStatus(1);
+            countBlog.addACategory(category);
+
+            category.setBlogsHaveCategory(blogService.countBlogs(countBlog));
+            category.setUser(userService.findOneById(category.getUserId()));
+        }
 
         request.setAttribute("list", categoryDtos);
         request.setAttribute("home", pageUrl.toString());
@@ -101,10 +172,10 @@
                                         <tr>
                                             <td>${loop.index + 1}</td>
                                             <td>${item.categoryId}</td>
-                                            <td>${item.name}</td>
+                                            <td> <a href="/?categorySearch=${item.categoryId}">${item.name}</a> </td>
                                             <td>${item.createdAt}</td>
-                                            <td>1</td>
-                                            <td>${item.userId}</td>
+                                            <td>${item.blogsHaveCategory}</td>
+                                            <td> <a href="/user/${item.userId}">${item.user.fullName}</a> </td>
                                             <td>
                                                 <c:if test="${item.status == 1}" >
                                                     <p class="blog-status-${loop.index} action" onclick="showOption(${loop.index})">Công khai</p>
@@ -116,10 +187,20 @@
                                                 <div class="menu-option">
                                                     <ul class="menu-list"  id="menu-${loop.index}">
                                                         <li>
-                                                            <a href="/views/admin/sendApi/category.jsp?id=${item.categoryId}&status=0">Ẩn thể loại</a>
+                                                            <form action="" method="post">
+                                                                <input type="hidden" name="editMethod" value="POST">
+                                                                <input type="hidden" name="id" value="${item.categoryId}">
+                                                                <input type="hidden" name="status" value="0">
+                                                                <button>Ẩn thể loại này</button>
+                                                            </form>
                                                         </li>
                                                         <li>
-                                                            <a href="/views/admin/sendApi/category.jsp?id=${item.categoryId}&status=1">Công khai thể loại này</a>
+                                                            <form action="" method="post">
+                                                                <input type="hidden" name="editMethod" value="PUT">
+                                                                <input type="hidden" name="id" value="${item.categoryId}">
+                                                                <input type="hidden" name="status" value="1">
+                                                                <button>Công khai thể loại này</button>
+                                                            </form>
                                                         </li>
                                                     </ul>
                                                 </div>

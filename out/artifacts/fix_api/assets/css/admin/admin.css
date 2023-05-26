@@ -332,11 +332,15 @@ ul{
 .menu-list > li{
     margin-bottom: 0.5rem;
 }
-.menu-list > li > a{
+.menu-list > li > form > button{
+    width: 100%;
+    border: none;
     color: #000;
     padding: 0.3rem;
+    background-color: #cab7b7;
+    cursor: pointer;
 }
-.menu-list > li > a:hover{
+.menu-list > li > form > button:hover{
     background-color: #eedddd;
 }
 .menu-option{

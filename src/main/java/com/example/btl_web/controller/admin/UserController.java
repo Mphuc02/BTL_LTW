@@ -17,4 +17,9 @@ public class UserController extends HttpServlet {
         RequestDispatcher rd = req.getRequestDispatcher(Admin.USERS_JSP);
         rd.forward(req,resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
+    }
 }

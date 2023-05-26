@@ -9,13 +9,14 @@ public class UserDto {
     private String passWord;
     private String re_password;
     private String email;
-    private String role;
+    private Integer role;
     private String address;
     private String phone;
     private String fullName;
     private String registeredAt;
     private Integer status;
     private Long lastAction;
+    private Long uploadedBlog;
     private List<BlogDto> blogs;
     private List<CommentDto> comments;
     private List<BlogDto> likedBlog;
@@ -73,11 +74,11 @@ public class UserDto {
         this.email = email;
     }
 
-    public String getRole() {
+    public Integer getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Integer role) {
         this.role = role;
     }
 
@@ -143,5 +144,13 @@ public class UserDto {
 
     public void setLastAction(Long lastAction) {
         this.lastAction = lastAction;
+    }
+
+    public Long getUploadedBlog() {
+        return uploadedBlog;
+    }
+
+    public void setUploadedBlog(Long uploadedBlog) {
+        this.uploadedBlog = uploadedBlog;
     }
 }
