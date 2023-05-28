@@ -75,7 +75,7 @@ public class UserServiceimpl implements UserService {
         userDto.setPassWord(encryptPassword); //Mã hoá password
         Date timeStamp = new Date();
         String sql = "INSERT INTO USERS (email, password, created_at, role, username, last_action, status, full_name) VALUES (?, ?, ?, ?, ?, ?, 1, ?)";
-        return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), "USER", userDto.getUserName(), timeStamp.getTime(), userDto.getFullName());
+        return userDao.saveUser(sql,userDto.getEmail(), userDto.getPassWord(), timeStamp.getTime(), 1 ,userDto.getUserName(), timeStamp.getTime(), userDto.getFullName());
     }
 
     @Override
