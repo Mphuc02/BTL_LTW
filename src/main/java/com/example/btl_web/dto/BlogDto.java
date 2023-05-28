@@ -19,9 +19,9 @@ public class BlogDto {
     private UserDto user;
     private Part imageTitleData;
     private Integer status;
-    List<CategoryDto> categories;
-    List<UserDto> likedUsers;
-    List<CommentDto> comments;
+    private List<CategoryDto> categories;
+    private List<UserDto> likedUsers;
+    private List<CommentDto> comments;
     //Thuộc tính dùng để tìm kiếm
     private String categorySearch;
     //Các hàm
@@ -173,5 +173,16 @@ public class BlogDto {
 
     public void setComments(List<CommentDto> comments) {
         this.comments = comments;
+    }
+    public boolean checkBlogHasCategory(CategoryDto category)
+    {
+        if(this.categories == null)
+            return false;
+        for(CategoryDto categoryDto: categories)
+        {
+            if(categoryDto.getCategoryId() == category.getCategoryId())
+                return true;
+        }
+        return false;
     }
 }

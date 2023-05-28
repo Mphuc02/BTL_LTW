@@ -5,6 +5,7 @@ import com.example.btl_web.constant.Constant;
 import com.example.btl_web.constant.Constant.*;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.UserDto;
+import com.example.btl_web.service.BlogService;
 import com.example.btl_web.service.UserBlogService;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.HttpUtils;
@@ -21,6 +22,7 @@ import java.io.IOException;
 public class LikeApi extends HttpServlet {
     private UserService userService = ServiceConfiguration.getUserService();
     private UserBlogService userBlogService = ServiceConfiguration.getUserBlogService();
+    private BlogService blogService = ServiceConfiguration.getBlogService();
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         solveApi(req, resp);
@@ -39,40 +41,49 @@ public class LikeApi extends HttpServlet {
         resp.setContentType("application/json");
 
         UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
+        BlogDto likedBlog = HttpUtils.of(req.getReader()).toModel(BlogDto.class);
 
-        String message = "";
-        ObjectMapper mapper = new ObjectMapper();
         String[] errors = new String[1];
-        String timevalid = userService.checkLastAction(user.getUserId());
-        if(timevalid == null)
+        ObjectMapper mapper = new ObjectMapper();
+
+        BlogDto checkStatusBlog = new BlogDto();
+        checkStatusBlog.setBlogId(likedBlog.getBlogId());
+        checkStatusBlog = blogService.getOne(checkStatusBlog);
+        if(checkStatusBlog.getStatus() == 0)
         {
-            BlogDto likedBlog = HttpUtils.of(req.getReader()).toModel(BlogDto.class);
-
-            boolean statusLiked = false;
-            if(method.equals(Request.POST_METHOD))
-            {
-                statusLiked = userBlogService.likeThisBlog(likedBlog.getBlogId(), user.getUserId());
-                message = "Bạn đã thích bài viết này";
-            }
-            else if(method.equals(Request.PUT_METHOD))
-            {
-                statusLiked = userBlogService.removeLikeThisBlog(likedBlog.getBlogId(), user.getUserId());
-                message = "Bạn đã bỏ thích bải viết này";
-            }
-
-            if(statusLiked)
-            {
-                mapper.writeValue(resp.getOutputStream(), message);
-                return;
-            }
-            else
-            {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                mapper.writeValue(resp.getOutputStream(), "Bạn phải đăng nhập thì mới có thể thích bài viết này");
-                return;
-            }
+            errors[0] = "Bài viết này không thể bày tỏ cảm xúc";
         }
-        errors[0] = timevalid;
+        else
+        {
+            String timevalid = userService.checkLastAction(user.getUserId());
+            if(timevalid == null)
+            {
+                boolean statusLiked = false;
+                if(method.equals(Request.POST_METHOD))
+                {
+                    statusLiked = userBlogService.likeThisBlog(likedBlog.getBlogId(), user.getUserId());
+                    errors[0] = "Bạn đã thích bài viết này";
+                }
+                else if(method.equals(Request.PUT_METHOD))
+                {
+                    statusLiked = userBlogService.removeLikeThisBlog(likedBlog.getBlogId(), user.getUserId());
+                    errors[0] = "Bạn đã bỏ thích bải viết này";
+                }
+
+                if(statusLiked)
+                {
+                    mapper.writeValue(resp.getOutputStream(), errors[0]);
+                    return;
+                }
+                else
+                {
+                    resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    mapper.writeValue(resp.getOutputStream(), "Bạn phải đăng nhập thì mới có thể thích bài viết này");
+                    return;
+                }
+            }
+            errors[0] = timevalid;
+        }
         resp.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
         mapper.writeValue(resp.getOutputStream(), errors);
     }

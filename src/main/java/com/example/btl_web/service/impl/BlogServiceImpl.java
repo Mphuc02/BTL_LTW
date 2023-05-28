@@ -106,7 +106,18 @@ public class BlogServiceImpl implements BlogService {
     public Long update(BlogDto blog) {
         StringBuilder sql = new StringBuilder("UPDATE BLOGS SET blog_id = " + blog.getBlogId());
         sql.append(addUpdateClause(blog));
-        return blogDao.save(sql.toString());
+
+        Long updateStatus = blogDao.save(sql.toString());
+        if(updateStatus != null && blog.getImageTitleData() != null)
+        {
+            BlogDto editImage = new BlogDto();
+            editImage.setBlogId(blog.getBlogId());
+            //Thay đổi ảnh
+            editImage.setImageTitle( FileUtils.saveImageToServer(blog.getImageTitleData(), blog.getBlogId()));
+
+            updateStatus = update(editImage);
+        }
+        return updateStatus;
     }
 
     @Override

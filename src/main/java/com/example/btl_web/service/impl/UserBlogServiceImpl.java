@@ -62,6 +62,7 @@ public class UserBlogServiceImpl implements UserBlogService {
     public boolean likeThisBlog(Long blogId, Long userId) {
         if(blogId == null || userId == null)
             return false;
+
         String sql = "Insert into Liked (user_id, blog_id) values (" + userId + ", " + blogId + ")";
         Long status = commentDao.update(sql);
 

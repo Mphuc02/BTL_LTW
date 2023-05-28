@@ -15,7 +15,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 
 import java.io.IOException;
-
+//Todo: Thực hiện chỉnh sửa các thể loại khi người dùng sử dụng
 @WebServlet(urlPatterns = Admin.BLOGS_API)
 public class BlogApi extends HttpServlet {
     private BlogService blogService = ServiceConfiguration.getBlogService();

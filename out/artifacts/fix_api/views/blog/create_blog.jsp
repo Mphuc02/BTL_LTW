@@ -41,9 +41,10 @@
 
             <label>Chọn ảnh cho tiêu đề</label>
             <p class="alert">${bug_2}</p>
-            <img id="image" src="">
+            <img id="image" src="${blog.imageTitle}">
             <input type="file" id="imageTitleFile" name="imageTitleData" onchange="chooseFile(this)"> <br>
                 <script>
+                    //Thực hiện hiển thị ảnh khi người dùng đăng 1 ảnh lên
                     function chooseFile(fileInput) {
                         if (fileInput.files && fileInput.files[0]) {
                             var reader = new FileReader();
@@ -59,8 +60,12 @@
             <p class="alert">${bug_3}</p>
             <label>Chọn thể loại:</label>
             <c:forEach var="category" items="${categories}" varStatus="loop">
+                <c:set var="isSelected" value=""/>
+                <c:if test="${blog.checkBlogHasCategory(category)}">
+                    <c:set var="isSelected" value="checked"/>
+                </c:if>
                 <label>${category.name}</label>
-                <input type="checkbox" name="category" id="category-${loop.index}" value="${category.categoryId}">
+                <input type="checkbox" name="category" id="category-${loop.index}" value="${category.categoryId}" ${isSelected}>
                 <br>
             </c:forEach>
 

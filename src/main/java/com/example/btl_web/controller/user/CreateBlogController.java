@@ -45,11 +45,19 @@ public class CreateBlogController extends HttpServlet {
             {
                 String blogIdStr = url.split("/")[2];
                 blogDto.setBlogId(Long.parseLong(blogIdStr));
-                blogDto = blogService.getOne(blogDto);
-                //Xoá các thẻ <p> ở mỗi dòng
-                blogService.removePTagContent(blogDto);
-                if(blogDto == null)
+                if(checkUserOfThisBlog(blogDto.getBlogId(), user.getUserId()))
+                {
+                    if(blogDto == null)
                     resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    blogDto = blogService.getOne(blogDto);
+                    //Xoá các thẻ <p> ở mỗi dòng
+                    blogService.removePTagContent(blogDto);
+                }
+                else
+                {
+                    resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                    return;
+                }
             }
 
             List<CategoryDto> categories = categoryService.findAll(null, null);
@@ -73,6 +81,13 @@ public class CreateBlogController extends HttpServlet {
 
         BlogDto createBlog = new BlogDto(req);
 
+        //Nếu người dùng không phải chủ bài viết thì không thay đổi
+        if(!checkUserOfThisBlog(createBlog.getBlogId(), user.getUserId()))
+        {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
         String requestMethod = req.getParameter("_method");
         boolean valid = false;
         if(requestMethod.equals(Request.POST_METHOD))
@@ -85,13 +100,25 @@ public class CreateBlogController extends HttpServlet {
 
         if(valid)
         {
-            Long blogId = blogService.save(createBlog);
+            String message = "";
+            Long blogId = null;
+
+            if(requestMethod.equals(Request.POST_METHOD))
+            {
+                blogId = blogService.save(createBlog);
+                message = "Tạo bài viết thành công, vui lòng đợi quản trị viên xét duyệt!";
+            }
+            else if(requestMethod.equals(Request.PUT_METHOD))
+            {
+                createBlog.setStatus(0);
+                blogId = blogService.update(createBlog);
+                message = "Chỉnh sửa bài viết thành công, vui lòng đợi quản trị viên xét duyệt";
+            }
             if(blogId != null)
             {
-                req.setAttribute("message", "Tạo bài viết thành công, vui lòng đợi quản trị viên xét duyệt!");
+                req.setAttribute("message", message);
                 req.setAttribute("status", "notice");
             }
-            //Todo: Thực hiện Dispatcher lại trang này và thông báo thành công
         }
         else
         {
@@ -99,10 +126,15 @@ public class CreateBlogController extends HttpServlet {
             req.setAttribute("blog", createBlog);
         }
 
-        List<CategoryDto> categories = categoryService.findAll(null, null);
-        req.setAttribute("categories", categories);
-        RequestDispatcher rd = req.getRequestDispatcher(User.CREATE_BLOG_JSP);
+        doGet(req, resp);
+    }
 
-        rd.forward(req, resp);
+    private boolean checkUserOfThisBlog(Long blogId, Long userId)
+    {
+        BlogDto checkUserOfBlog = new BlogDto();
+        checkUserOfBlog.setBlogId(blogId);
+        checkUserOfBlog = blogService.getOne(checkUserOfBlog);
+
+        return checkUserOfBlog.getUser().getUserId() == userId;
     }
 }

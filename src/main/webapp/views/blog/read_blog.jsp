@@ -17,6 +17,7 @@
 <%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
 <%@ page import="com.example.btl_web.dto.UserDto" %>
 <%@ page import="com.example.btl_web.constant.Constant" %>
+<%@ page import="com.example.btl_web.utils.SessionUtils" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var="api_url_like" value="/api-create-like" />
@@ -35,53 +36,60 @@
 </head>
 <body>
     <%
-        UserDto user = (UserDto) request.getAttribute(Constant.USER_MODEL);
+        UserDto user = (UserDto) SessionUtils.getInstance().getValue(request, Constant.USER_MODEL);
 
         //Gửi api để like hoặc bỏ like bài viết
         String likeMethod = request.getParameter("likeMethod");
-        if(likeMethod != null && user != null)
+        if(likeMethod != null)
         {
-            BlogDto editLike = new BlogDto();
-            String blogIdStr = request.getParameter("blog-id");
-            editLike.setBlogId(Long.parseLong(blogIdStr));
-
-            String cookieValue = CookieUtils.getInstance().getValue(request, "JSESSIONID", request.getSession().getId()).toString();
-            Gson gson = new Gson();
-            String blogJson = gson.toJson(editLike);
-
-            String url = "http://localhost:8080/api-create-like";
-            HttpClient httpClient = HttpClientBuilder.create().build();
-            StringEntity stringEntity = new StringEntity(blogJson, StandardCharsets.UTF_8);
-            HttpResponse responseApi = null;
-
-            if(likeMethod.equals(Request.POST_METHOD))
-            {
-                HttpPost sendApi = new HttpPost(url);
-                sendApi.addHeader("content-type", "application/json");
-                sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
-                sendApi.setEntity(stringEntity);
-
-                responseApi = httpClient.execute(sendApi);
-            }
-            else if(likeMethod.equals(Request.DELETE_METHOD))
-            {
-                HttpPut sendApi = new HttpPut(url);
-                sendApi.addHeader("content-type", "application/json");
-                sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
-                sendApi.setEntity(stringEntity);
-
-                responseApi = httpClient.execute(sendApi);
-            }
-            HttpEntity entity = responseApi.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
             String alert = "alert";
-            int statusCode = responseApi.getStatusLine().getStatusCode();
-            if(statusCode == 200)
+            if(user != null)
             {
-                alert = "notice";
+                BlogDto editLike = new BlogDto();
+                String blogIdStr = request.getParameter("blog-id");
+                editLike.setBlogId(Long.parseLong(blogIdStr));
+
+                String cookieValue = CookieUtils.getInstance().getValue(request, "JSESSIONID", request.getSession().getId()).toString();
+                Gson gson = new Gson();
+                String blogJson = gson.toJson(editLike);
+
+                String url = "http://localhost:8080/api-create-like";
+                HttpClient httpClient = HttpClientBuilder.create().build();
+                StringEntity stringEntity = new StringEntity(blogJson, StandardCharsets.UTF_8);
+                HttpResponse responseApi = null;
+
+                if(likeMethod.equals(Request.POST_METHOD))
+                {
+                    HttpPost sendApi = new HttpPost(url);
+                    sendApi.addHeader("content-type", "application/json");
+                    sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
+                    sendApi.setEntity(stringEntity);
+
+                    responseApi = httpClient.execute(sendApi);
+                }
+                else if(likeMethod.equals(Request.DELETE_METHOD))
+                {
+                    HttpPut sendApi = new HttpPut(url);
+                    sendApi.addHeader("content-type", "application/json");
+                    sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
+                    sendApi.setEntity(stringEntity);
+
+                    responseApi = httpClient.execute(sendApi);
+                }
+                HttpEntity entity = responseApi.getEntity();
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+                int statusCode = responseApi.getStatusLine().getStatusCode();
+                if(statusCode == 200)
+                {
+                    alert = "notice";
+                }
+                responseString = responseString.replaceAll("[\\[\\]\"]", "");
+                request.setAttribute("like_message", responseString);
             }
-            responseString = responseString.replaceAll("[\\[\\]\"]", "");
-            request.setAttribute("like_message", responseString);
+            else
+            {
+                request.setAttribute("like_message", "Bạn phải đăng nhập mới được thực hiện hành động này");
+            }
             request.setAttribute("like_status", alert);
         }
     %>
@@ -89,59 +97,66 @@
     <%
         //Xử lý api để gửi hoặc xóa comment
         String commentMethod = request.getParameter("edit_comment");
-        if(commentMethod != null && user != null)
+        if(commentMethod != null )
         {
-            String cookieValue = CookieUtils.getInstance().getValue(request, "JSESSIONID", request.getSession().getId()).toString();
-
-            CommentDto editComment = new CommentDto();
-            String commentId = request.getParameter("comment_id");
-            String blogId = request.getParameter("blog_id");
-            String content = request.getParameter("comment_content");
-            if(commentId != null && !commentId.isEmpty())
-                editComment.setCommentId(Long.parseLong(commentId));
-            if(blogId != null && !blogId.isEmpty())
-                editComment.setBlogComment(Long.parseLong(blogId));
-            if(content != null && !content.isEmpty())
-                editComment.setContent(content);
-
-            Gson gson = new Gson();
-            String commentJson = gson.toJson(editComment);
-
-            String url = "http://localhost:8080/api-create-comment";
-            HttpClient httpClient = HttpClientBuilder.create().build();
-            StringEntity stringEntity = new StringEntity(commentJson, StandardCharsets.UTF_8);
-            HttpResponse responseApi = null;
-
-            if(commentMethod.equals(Request.POST_METHOD))
-            {
-                HttpPost sendApi = new HttpPost(url);
-                sendApi.addHeader("content-type", "application/json");
-                sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
-                sendApi.setEntity(stringEntity);
-
-                responseApi = httpClient.execute(sendApi);
-            }
-            else if(commentMethod.equals(Request.DELETE_METHOD))
-            {
-                HttpPut sendApi = new HttpPut(url);
-                sendApi.addHeader("content-type", "application/json");
-                sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
-                sendApi.setEntity(stringEntity);
-
-                responseApi = httpClient.execute(sendApi);
-            }
-
-            HttpEntity entity = responseApi.getEntity();
-            String responseString = EntityUtils.toString(entity, "UTF-8");
             String alert = "alert";
-            int statusCode = responseApi.getStatusLine().getStatusCode();
-            if(statusCode == 200)
+            if(user != null)
             {
-                alert = "notice";
-            }
+                String cookieValue = CookieUtils.getInstance().getValue(request, "JSESSIONID", request.getSession().getId()).toString();
 
-            responseString = (new ObjectMapper()).readValue(responseString, String[].class)[0];
-            request.setAttribute("comment_message", responseString);
+                CommentDto editComment = new CommentDto();
+                String commentId = request.getParameter("comment_id");
+                String blogId = request.getParameter("blog_id");
+                String content = request.getParameter("comment_content");
+                if(commentId != null && !commentId.isEmpty())
+                    editComment.setCommentId(Long.parseLong(commentId));
+                if(blogId != null && !blogId.isEmpty())
+                    editComment.setBlogComment(Long.parseLong(blogId));
+                if(content != null && !content.isEmpty())
+                    editComment.setContent(content);
+
+                Gson gson = new Gson();
+                String commentJson = gson.toJson(editComment);
+
+                String url = "http://localhost:8080/api-create-comment";
+                HttpClient httpClient = HttpClientBuilder.create().build();
+                StringEntity stringEntity = new StringEntity(commentJson, StandardCharsets.UTF_8);
+                HttpResponse responseApi = null;
+
+                if(commentMethod.equals(Request.POST_METHOD))
+                {
+                    HttpPost sendApi = new HttpPost(url);
+                    sendApi.addHeader("content-type", "application/json");
+                    sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
+                    sendApi.setEntity(stringEntity);
+
+                    responseApi = httpClient.execute(sendApi);
+                }
+                else if(commentMethod.equals(Request.DELETE_METHOD))
+                {
+                    HttpPut sendApi = new HttpPut(url);
+                    sendApi.addHeader("content-type", "application/json");
+                    sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
+                    sendApi.setEntity(stringEntity);
+
+                    responseApi = httpClient.execute(sendApi);
+                }
+
+                HttpEntity entity = responseApi.getEntity();
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+                int statusCode = responseApi.getStatusLine().getStatusCode();
+                if(statusCode == 200)
+                {
+                    alert = "notice";
+                }
+
+                responseString = (new ObjectMapper()).readValue(responseString, String[].class)[0];
+                request.setAttribute("comment_message", responseString);
+            }
+            else
+            {
+                request.setAttribute("comment_message", "Bạn phải đăng nhập thì mới được comment");
+            }
             request.setAttribute("comment_status", alert);
         }
     %>
@@ -155,12 +170,16 @@
             Long id = Long.parseLong(idStr);
             BlogDto blogDto = new BlogDto();
             blogDto.setBlogId(id);
-            blogDto.setStatus(1);
 
             blogDto = blogService.getOne(blogDto);
 
             if(blogDto != null)
             {
+                if(blogDto.getStatus() == 0)
+                {
+                    if(user.getRole() < Role.MOD && user.getUserId() != blogDto.getUser().getUserId())
+                        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+                }
                 request.setAttribute("blog",blogDto);
             }
             else
@@ -187,7 +206,7 @@
                 <span><a href="/?categorySearch=${category.categoryId}">${category.name}</a></span>
             </c:forEach>
 
-            <c:if test="${not empty USER_MODEL}" >
+            <c:if test="${not empty USER_MODEL and blog.status == 1}" >
                 <form action="" method="post">
                     <input type="hidden" name="blog-id" value="${blog.blogId}">
                     <c:if test="${blog.checkUserLikedBlog(USER_MODEL.userId) == false}" >
@@ -223,7 +242,7 @@
         <div class="sidebar">
             <div class="sidebar-two">
                 <h1>${blog.comments.size()} bình luận</h1>
-                <c:if test="${not empty USER_MODEL}">
+                <c:if test="${not empty USER_MODEL and blog.status == 1}">
                     <!-- Form để thêm bình luận -->
                     <div class="comment-form">
                         <h3>Thêm bình luận</h3>
