@@ -10,10 +10,12 @@ import com.example.btl_web.service.CategoryService;
 import com.example.btl_web.utils.HttpUtils;
 import com.example.btl_web.utils.SessionUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 //Todo: Thực hiện chỉnh sửa các thể loại khi người dùng sử dụng
 @WebServlet(urlPatterns = Admin.BLOGS_API)

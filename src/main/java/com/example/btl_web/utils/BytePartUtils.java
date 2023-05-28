@@ -1,13 +1,14 @@
 package com.example.btl_web.utils;
 
-import jakarta.servlet.http.Part;
 
+import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 
-public class BytePartUtils implements Part {
+public class BytePartUtils implements Part
+{
     private final byte[] data;
     private final String name;
     private final String contentType;

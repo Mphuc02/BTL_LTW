@@ -1,9 +1,9 @@
 package com.example.btl_web.utils;
 
-import jakarta.servlet.http.Part;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.Map;
 
@@ -28,6 +28,8 @@ public class FileUtils {
                     "overwrite", true
             );
             byte[] imageBytes = filePart.getInputStream().readAllBytes();
+            if(imageBytes.length == 0)
+                return null;
 
             cloudinary.uploader().upload(imageBytes, params);
 

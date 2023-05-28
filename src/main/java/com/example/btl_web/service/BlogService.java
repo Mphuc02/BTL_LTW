@@ -3,8 +3,8 @@ package com.example.btl_web.service;
 import com.example.btl_web.dto.BlogDto;
 import com.example.btl_web.dto.UserDto;
 import com.example.btl_web.paging.Pageable;
-import jakarta.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface BlogService {

@@ -1,6 +1,6 @@
 package com.example.btl_web.utils;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 public class SessionUtils {
     private static SessionUtils sesstionUtils = null;

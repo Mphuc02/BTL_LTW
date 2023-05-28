@@ -2,10 +2,10 @@ package com.example.btl_web.dto;
 import com.example.btl_web.configuration.ServiceConfiguration;
 import com.example.btl_web.service.CategoryService;
 import com.example.btl_web.utils.BytePartUtils;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.Part;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.util.*;
 
@@ -37,7 +37,6 @@ public class BlogDto {
 
         this.title = req.getParameter("title");
         this.content = req.getParameter("content");
-        System.out.println(content);
         this.imageTitleData = req.getPart("imageTitleData");
 
         String[] categoryIdStr = req.getParameterValues("category");

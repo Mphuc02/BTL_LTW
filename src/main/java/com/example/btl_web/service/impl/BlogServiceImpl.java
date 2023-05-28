@@ -19,8 +19,8 @@ import com.example.btl_web.service.UserBlogService;
 import com.example.btl_web.service.UserService;
 import com.example.btl_web.utils.ConvertUtils;
 import com.example.btl_web.utils.FileUtils;
-import jakarta.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -108,15 +108,17 @@ public class BlogServiceImpl implements BlogService {
         sql.append(addUpdateClause(blog));
 
         Long updateStatus = blogDao.save(sql.toString());
-        if(updateStatus != null && blog.getImageTitleData() != null)
+
+        if(blog.getImageTitleData() != null)
         {
             BlogDto editImage = new BlogDto();
             editImage.setBlogId(blog.getBlogId());
             //Thay đổi ảnh
             editImage.setImageTitle( FileUtils.saveImageToServer(blog.getImageTitleData(), blog.getBlogId()));
-
-            updateStatus = update(editImage);
+            if(editImage.getImageTitle() != null)
+                updateStatus = update(editImage);
         }
+
         return updateStatus;
     }
 
