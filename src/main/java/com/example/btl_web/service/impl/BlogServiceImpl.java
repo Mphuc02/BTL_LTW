@@ -47,6 +47,53 @@ public class BlogServiceImpl implements BlogService {
 
         return dtos;
     }
+
+    @Override
+    public List<BlogDto> BlogsMaxLike(Pageable pageable, BlogDto dto) {
+        StringBuilder sql = new StringBuilder("SELECT b.*, likes.num_likes\n" +
+                "FROM blogs b\n" +
+                "LEFT JOIN (\n" +
+                "    SELECT blog_id, COUNT(user_id) AS num_likes\n" +
+                "    FROM liked\n" +
+                "    GROUP BY blog_id\n" +
+                ") likes ON b.blog_id = likes.blog_id\n" +
+                "ORDER BY likes.num_likes DESC LIMIT 5;");
+
+        sql.append(addAndClause(pageable, dto));
+        List<Blog> blogs = blogDao.findAll(sql.toString());
+        List<BlogDto> dtos = new ArrayList<>();
+
+        for(Blog blog: blogs)
+        {
+            dtos.add(ConvertUtils.convertEntityToDto(blog, BlogDto.class));
+        }
+
+        return dtos;
+    }
+
+    @Override
+    public List<BlogDto> BlogsMaxComment(Pageable pageable, BlogDto dto) {
+        StringBuilder sql = new StringBuilder("SELECT b.*, comments.num_comments\n" +
+                "FROM blogs b\n" +
+                "LEFT JOIN (\n" +
+                "    SELECT blog_id, COUNT(comment_id) AS num_comments\n" +
+                "    FROM comments\n" +
+                "    GROUP BY blog_id\n" +
+                ") comments ON b.blog_id = comments.blog_id\n" +
+                "ORDER BY comments.num_comments DESC LIMIT 5;");
+
+        sql.append(addAndClause(pageable, dto));
+        List<Blog> blogs = blogDao.findAll(sql.toString());
+        List<BlogDto> dtos = new ArrayList<>();
+
+        for(Blog blog: blogs)
+        {
+            dtos.add(ConvertUtils.convertEntityToDto(blog, BlogDto.class));
+        }
+
+        return dtos;
+    }
+
     @Override
     public BlogDto getOne(BlogDto searchBlog) {
         BlogDto result = new BlogDto();
