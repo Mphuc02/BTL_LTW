@@ -104,6 +104,9 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Long update(BlogDto blog) {
+        if(blog.getContent() != null)
+            addPTagContent(blog);
+
         StringBuilder sql = new StringBuilder("UPDATE BLOGS SET blog_id = " + blog.getBlogId());
         sql.append(addUpdateClause(blog));
 

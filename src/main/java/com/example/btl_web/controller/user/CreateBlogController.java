@@ -72,8 +72,6 @@ public class CreateBlogController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException
     {
-        req.setCharacterEncoding("UTF-8");
-
         UserDto user = (UserDto) SessionUtils.getInstance().getValue(req, Constant.USER_MODEL);
         if(user == null)
         {
@@ -84,7 +82,7 @@ public class CreateBlogController extends HttpServlet {
         BlogDto createBlog = new BlogDto(req);
 
         //Nếu người dùng không phải chủ bài viết thì không thay đổi
-        if(!checkUserOfThisBlog(createBlog.getBlogId(), user.getUserId()))
+        if(createBlog.getUser() != null && !checkUserOfThisBlog(createBlog.getBlogId(), user.getUserId()))
         {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;

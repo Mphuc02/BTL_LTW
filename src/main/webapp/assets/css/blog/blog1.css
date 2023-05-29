@@ -7,6 +7,11 @@ a {
     text-decoration: none;
     color: rgb(51, 51, 51);
 }
+
+.float-right
+{
+    float: right;
+}
 /* HEADER */
 .header {
     max-width: 100%;
@@ -121,7 +126,6 @@ a {
 /* CONTENT */
 .content {
     width: 70%;
-    min-height: 100%;
     padding: 40px;
     margin-top: 8px;
     box-sizing: border-box;
@@ -134,43 +138,12 @@ a {
 .content>p {
     font-size: large;
 }
-/* #comment {
-    margin: 8px 0;
-    width: 100%;
-    height: 200px;
-}
-
-#submit {
-    background-color: blueviolet;
-    color: white;
-    width: 50px;
-    height: 30px;
-    margin: 8px 0;
-}
-
-#cm-comment {
-    width: 100%;
-    height: 20px;
-}
-
-#cm {
-    padding-left: 0;
-    margin: auto 0;
-}
-
-#cm-one {
-    color: black;
-    list-style: none;
-    display: inline-block;
-    margin: 0 1px;
-} */
 
 /* SIDEBAR */
 
 /* SIDEBAR-ONE */
 .sidebar {
     width: 17%;
-    min-height: 500px;
     float: left;
     margin: 0 10px;
     box-sizing: border-box;
@@ -192,8 +165,8 @@ a {
 
 
 .sidebar-two {
+    margin-top: 9px;
     width: 100%;
-    min-height: 3580px;
     background-color: white;
     border: 1px solid #EAEFF3;
     border-radius: 8px;
@@ -205,7 +178,7 @@ a {
 }
 
 .comment {
-    margin-bottom: 20px;
+    margin: 10px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;

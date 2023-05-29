@@ -20,6 +20,7 @@ public class AuthorizationFilter implements Filter {
 
         UserDto user = (UserDto) SessionUtils.getInstance().getValue(request,Constant.USER_MODEL);
         request.setAttribute(Constant.USER_MODEL, user);
+        request.setCharacterEncoding("UTF-8");
 
         if(url.contains("admin"))
         {
