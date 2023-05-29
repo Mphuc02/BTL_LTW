@@ -18,6 +18,9 @@
 <%@ page import="com.example.btl_web.dto.UserDto" %>
 <%@ page import="com.example.btl_web.constant.Constant" %>
 <%@ page import="com.example.btl_web.utils.SessionUtils" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.example.btl_web.paging.Pageable" %>
+<%@ page import="com.example.btl_web.paging.PageRequest" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <c:set var="api_url_like" value="/api-create-like" />
@@ -177,10 +180,22 @@
             {
                 if(blogDto.getStatus() == 0)
                 {
-                    if(user.getRole() < Role.MOD && user.getUserId() != blogDto.getUser().getUserId())
+                    if(user == null || user.getRole() < Role.MOD && user.getUserId() != blogDto.getUser().getUserId())
                         response.sendError(HttpServletResponse.SC_NOT_FOUND);
                 }
                 request.setAttribute("blog",blogDto);
+
+                //Tạo pageable lấy 5 truyện
+                Pageable pageable = new PageRequest(request.getParameterMap(), 5L);
+
+                //Lấy ra 5 truyện cùng thể loại
+                BlogDto find5Blogs = new BlogDto();
+                find5Blogs.addACategory(blogDto.getCategories().get(0));
+                find5Blogs.setStatus(1);
+                List<BlogDto> suggestBlogs = blogService.getAllBlogs(pageable, find5Blogs);
+                request.setAttribute("suggestBlogs", suggestBlogs);
+
+                //Lấy ra 5 truyện cùng tác giả
             }
             else
             {
@@ -236,10 +251,20 @@
 
             <h4 style="display: flex; justify-content: center;">---End---</h4> <br>
 
-            <a href="/user/${blog.user.userId}">${blog.user.fullName}</a>
+            <a class="float-right" style="font-weight: bold" href="/user/${blog.user.userId}">${blog.user.fullName}</a>
         </div>
 
         <div class="sidebar">
+            <div class="sidebar-two">
+                <p style="font-weight: bold">Có thể bạn sẽ thích</p>
+                <c:forEach var="blog" items="${suggestBlogs}">
+                    <a href="/blogs/${blog.blogId}" class="comment">
+                        <p>${blog.title}</p>
+                        <img src="${blog.imageTitle}">
+                    </a>
+                </c:forEach>
+            </div>
+
             <div class="sidebar-two">
                 <h1>${blog.comments.size()} bình luận</h1>
                 <c:if test="${not empty USER_MODEL and blog.status == 1}">

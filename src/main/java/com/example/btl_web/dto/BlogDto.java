@@ -37,7 +37,10 @@ public class BlogDto {
 
         this.title = req.getParameter("title");
         this.content = req.getParameter("content");
-        this.imageTitleData = req.getPart("imageTitleData");
+
+        String imageUpload = req.getParameter("imageTitleData");
+        if(imageUpload != null)
+            this.imageTitleData = req.getPart("imageTitleData");
 
         String[] categoryIdStr = req.getParameterValues("category");
         if(categoryIdStr != null)

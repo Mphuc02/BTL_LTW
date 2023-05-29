@@ -22,6 +22,11 @@ public class CategoryApi extends HttpServlet {
     private CategoryService categoryService = ServiceConfiguration.getCategoryService();
 
     @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        solveApi(req, resp);
+    }
+
+    @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         solveApi(req, resp);
     }
@@ -60,7 +65,8 @@ public class CategoryApi extends HttpServlet {
             {
                 status = categoryService.update(category);
             }
-            if (status != null) {
+            if (status != null)
+            {
                 mapper.writeValue(resp.getOutputStream(), successMessage);
                 return;
             }
