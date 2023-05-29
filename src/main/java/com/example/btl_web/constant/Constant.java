@@ -8,6 +8,8 @@ public class Constant {
     public static final String REGISTRAION_JSP = "/views/registraion/registraion.jsp";
     public static final String USER_NAME = "username";
     public static final String PASS_WORD = "password";
+
+    public static final String STATISTICAL_JSP =  "/views/statistical/statistical.jsp";
     public static class User
     {
         public static final String ACTION = "action";
