@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface CategoryService {
     List<CategoryDto> findAll(Pageable pageable, CategoryDto dto);
+    List<CategoryDto> CategoryMaxBlogs(Pageable pageable, CategoryDto dto);
     List<CategoryDto> findAllCategoryOfBlog(Long blogId, Integer status);
     CategoryDto findOneBy(CategoryDto dto);
     long countCategories(CategoryDto category);

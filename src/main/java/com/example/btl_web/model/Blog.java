@@ -17,6 +17,10 @@ public class Blog implements Serializable {
     private Long createdAt;
     private UserDto user;
     private Integer status;
+
+    private Integer num_Like;
+
+    private Integer num_Comment;
     List<CategoryDto> categories;
     List<UserDto> likedUsers;
     List<CommentDto> comments;
@@ -119,5 +123,21 @@ public class Blog implements Serializable {
 
     public void setComments(List<CommentDto> comments) {
         this.comments = comments;
+    }
+
+    public Integer getNum_Like() {
+        return num_Like;
+    }
+
+    public void setNum_Like(Integer num_Like) {
+        this.num_Like = num_Like;
+    }
+
+    public Integer getNum_Comment() {
+        return num_Comment;
+    }
+
+    public void setNum_Comment(Integer num_Comment) {
+        this.num_Comment = num_Comment;
     }
 }

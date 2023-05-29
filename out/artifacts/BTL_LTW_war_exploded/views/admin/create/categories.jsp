@@ -41,7 +41,8 @@
             String name = request.getParameter("name");
 
             CategoryDto editCategory = new CategoryDto();
-            editCategory.setCategoryId(Long.parseLong(categoryIdStr));
+            if(categoryIdStr != null && !categoryIdStr.isEmpty())
+                editCategory.setCategoryId(Long.parseLong(categoryIdStr));
             editCategory.setName(name);
             Gson gson = new Gson();
             String categoryJson = gson.toJson(editCategory);

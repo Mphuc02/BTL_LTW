@@ -10,6 +10,7 @@ public class Constant {
     public static final String PASS_WORD = "password";
 
     public static final String STATISTICAL_JSP =  "/views/statistical/statistical.jsp";
+    public static final String STATISTICAL_PAGE = "/statistical";
     public static class User
     {
         public static final String ACTION = "action";

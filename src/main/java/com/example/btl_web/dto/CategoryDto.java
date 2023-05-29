@@ -8,6 +8,8 @@ public class CategoryDto {
     private Long blogsHaveCategory;
     private String createdAt;
     private Integer status;
+
+    private Integer num_blog;
     public CategoryDto()
     {}
     public Long getCategoryId() {
@@ -57,5 +59,13 @@ public class CategoryDto {
 
     public void setUser(UserDto user) {
         this.user = user;
+    }
+
+    public Integer getNum_blog() {
+        return num_blog;
+    }
+
+    public void setNum_blog(Integer num_blog) {
+        this.num_blog = num_blog;
     }
 }

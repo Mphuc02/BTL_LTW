@@ -10,6 +10,7 @@ public class Category implements Serializable {
     private Long userId;
     private Long createdAt;
     private Integer status;
+    private Integer num_blog;
     private Set<Blog> blogs = new HashSet<>();
     public Category(){
         
@@ -60,5 +61,13 @@ public class Category implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getNum_blog() {
+        return num_blog;
+    }
+
+    public void setNum_blog(Integer num_blog) {
+        this.num_blog = num_blog;
     }
 }
