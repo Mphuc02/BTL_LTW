@@ -23,6 +23,11 @@
                 </div>
             </c:if>
             <div>
+                <a class="tieude__nut--icon" href="/statistical">
+                    <i class="search-icon ti-bar-chart-alt"></i>
+                    Thống kê</a>
+            </div>
+            <div>
                 <a class="tieude__nut--icon" href="">
                     <i class="search-icon ti-announcement"></i>
                     Thông báo</a>
