@@ -34,6 +34,31 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategoryDto> CategoryMaxBlogs(Pageable pageable, CategoryDto dto) {
+        StringBuilder sql = new StringBuilder("SELECT c.*, blogs.num_blogs\n" +
+                "FROM categories c\n" +
+                "LEFT JOIN (\n" +
+                "    SELECT category_id, COUNT(blog_id) AS num_blogs\n" +
+                "    FROM blogs_categories\n" +
+                "    GROUP BY category_id\n" +
+                ") blogs ON c.category_id = blogs.category_id\n" +
+                "WHERE blogs.num_blogs >= 1\n" +
+                "ORDER BY blogs.num_blogs DESC\n" +
+                "LIMIT 5;");
+
+        sql.append(addAndClause(pageable, dto));
+
+        List<Category> categories = categoryDao.select(sql.toString());
+        List<CategoryDto> dtos = new ArrayList<>();
+        for(Category category: categories)
+        {
+            dtos.add(ConvertUtils.convertEntityToDto(category, CategoryDto.class));
+        }
+
+        return dtos;
+    }
+
+    @Override
     public List<CategoryDto> findAllCategoryOfBlog(Long blogCategoryId, Integer status) {
         StringBuilder sql = new StringBuilder("Select c.category_id, c.name from categories c, blogs_categories b_c, blogs b where " +
                                               "b.blog_id = ? and " +

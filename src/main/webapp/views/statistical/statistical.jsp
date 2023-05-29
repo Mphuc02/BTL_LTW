@@ -29,15 +29,16 @@
           <h3>Tên truyện</h3>
           <h3 class="soluong">Số lượng</h3>
         </li>
-        <li class="phanTu">
-          <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-            <p class="truyen__icon">
-              Gửi bạn tôi
-              <i>yujhvhjgvfhcyvgvgc</i>
-            </p>
-
-          </a>
-        </li>
+        <c:forEach items="${Like}" var = "o">
+          <li class="phanTu">
+            <a href="#" class="truyenmoinhat__duongdan">
+              <p class="truyen__icon">
+                ${o.title}
+                <i>${o.num_Like}</i>
+              </p>
+            </a>
+          </li>
+        </c:forEach>
       </ul>
     </div>
 
@@ -50,18 +51,17 @@
           <h3>Tên truyện</h3>
           <h3 class="soluong">Số lượng</h3>
         </li>
-        <li class="phanTu">
-          <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-            <p class="truyen__icon">
-              Gửi bạn tôi
-              <i>yujhvhjgvfhcyvgvgc</i>
-            </p>
-
-          </a>
-        </li>
+        <c:forEach items="${Cmt}" var="o">
+          <li class="phanTu">
+            <a href="#" class="truyenmoinhat__duongdan">
+              <p class="truyen__icon">
+                ${o.title}
+                <i>${o.num_Comment}</i>
+              </p>
+            </a>
+          </li>
+        </c:forEach>
       </ul>
-
-
     </div>
 
     <div class="truyen__moinhat">
@@ -70,18 +70,19 @@
       </h2>
       <ul class="truyen__moinhat-ds">
         <li class="deMuc">
-          <h3>Tên truyện</h3>
+          <h3>Tên thể loại</h3>
           <h3 class="soluong">Số lượng</h3>
         </li>
-        <li class="phanTu">
-          <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-            <p class="truyen__icon">
-              Gửi bạn tôi
-              <i>yujhvhjgvfhcyvgvgc</i>
-            </p>
-
-          </a>
-        </li>
+        <c:forEach items="${Cate}" var="o">
+          <li class="phanTu">
+            <a href="#" class="truyenmoinhat__duongdan">
+              <p class="truyen__icon">
+                ${o.name}
+                <i>${o.num_blog}</i>
+              </p>
+            </a>
+          </li>
+        </c:forEach>
       </ul>
     </div>
 
@@ -90,24 +91,16 @@
         Truyện mới nhất
       </h2>
       <ul class="truyen__moinhat-ds">
-        <li class="phanTu">
-          <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-            <p class="truyen__icon">
-              Gửi bạn từng thân của tôi
-              <i class="ti-angle-right"></i>
-            </p>
-
-          </a>
-        </li>
-        <li class="phanTu">
-          <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-            <p class="truyen__icon">
-              Gửi bạn tôi
-              <i class="ti-angle-right"></i>
-            </p>
-
-          </a>
-        </li>
+        <c:forEach items="${New}" var="o">
+          <li class="phanTu">
+            <a href="#" class="truyenmoinhat__duongdan">
+              <p class="truyen__icon">
+                ${o.title}
+                <i class="ti-angle-right"></i>
+              </p>
+            </a>
+          </li>
+        </c:forEach>
       </ul>
     </div>
 

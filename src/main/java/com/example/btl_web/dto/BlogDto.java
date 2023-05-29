@@ -24,6 +24,10 @@ public class BlogDto {
     private List<CommentDto> comments;
     //Thuộc tính dùng để tìm kiếm
     private String categorySearch;
+    private Integer num_Like;
+    private Integer num_Comment;
+
+
     //Các hàm
     public BlogDto()
     {
@@ -101,6 +105,21 @@ public class BlogDto {
 
     public void setUser(UserDto user) {
         this.user = user;
+    }
+    public Integer getNum_Like() {
+        return num_Like;
+    }
+
+    public void setNum_Like(Integer num_Like) {
+        this.num_Like = num_Like;
+    }
+
+    public Integer getNum_Comment() {
+        return num_Comment;
+    }
+
+    public void setNum_Comment(Integer num_Comment) {
+        this.num_Comment = num_Comment;
     }
 
     public void setCategories(String[] categoryIds) {

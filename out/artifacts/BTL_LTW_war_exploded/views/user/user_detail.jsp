@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-4">
                             <div class="avatar-wrapper mt-4">
-                                <img src="./default-avatar.jpg" alt="avatar" class="avatar">
+                                <img src="https://tse3.mm.bing.net/th?id=OIP.2qeEPUZpvbhuqtsQ_XVRKwHaJN&pid=Api&P=0" alt="avatar" class="avatar">
                             </div>
                         </div>
                         <div class="col-8">
@@ -60,14 +60,6 @@
                 </div>
             </div>
             <div class="container mt-5">
-                <div class="row mb-5">
-
-
-                    <div class="col">
-                        <a href="/admin/users/viewPost/abcxyz" class="btn btn-primary mr-3">Truyện đã đăng</a>
-                        <a href="/admin/users/viewLike/abcxyz" class="btn btn-primary mr-3">Truyện đã thích</a>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col">
                         <div class="mb-5">
