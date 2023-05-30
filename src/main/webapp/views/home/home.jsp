@@ -99,23 +99,16 @@
                     Truyện mới nhất
                 </h2>
                 <ul class="truyen__moinhat-ds">
-                    <li class="phanTu">
-                        <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-                            <p class="truyen__icon">
-                                Gửi bạn từng thân của tôi
-                                <i class="ti-angle-right"></i>
-                            </p>
-
-                        </a>
-                    </li>
-                    <li class="phanTu">
-                        <a href="/blog/view/28" class="truyenmoinhat__duongdan">
-                            <p class="truyen__icon">
-                                Gửi bạn tôi
-                                <i class="ti-angle-right"></i>
-                            </p>
-                        </a>
-                    </li>
+                    <c:forEach items="${New}" var="o">
+                        <li class="phanTu">
+                            <a href="/blogs/${o.blogId}" class="truyenmoinhat__duongdan">
+                                <p class="truyen__icon">
+                                        ${o.title}
+                                    <i class="ti-angle-right"></i>
+                                </p>
+                            </a>
+                        </li>
+                    </c:forEach>
                 </ul>
             </div>
         </div>

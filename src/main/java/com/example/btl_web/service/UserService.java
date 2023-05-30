@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UserService{
     List<UserDto> findAll(Pageable pageable, UserDto dto);
+    List<UserDto> countBlog();
+
     List<UserDto> findAllInclude(Pageable pageable, UserDto dto);
     UserDto findOneById(Long userId);
     long countUsers(UserDto countDto);
