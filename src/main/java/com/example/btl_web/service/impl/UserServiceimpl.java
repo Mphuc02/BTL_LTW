@@ -34,6 +34,27 @@ public class UserServiceimpl implements UserService {
     }
 
     @Override
+    public List<UserDto> countBlog() {
+        StringBuilder sql = new StringBuilder("SELECT u.*, blogs.num_blogs\n" +
+                "FROM users u\n" +
+                "JOIN (\n" +
+                "    SELECT user_id, COUNT(blog_id) AS num_blogs\n" +
+                "    FROM blogs\n" +
+                "    GROUP BY user_id\n" +
+                ") blogs ON u.user_id = blogs.user_id\n" +
+                "ORDER BY blogs.num_blogs DESC LIMIT 5;");
+
+        List<User> users = userDao.findAll(sql.toString());
+        List<UserDto> dtos = new ArrayList<>();
+
+        for(User user: users)
+        {
+            dtos.add(ConvertUtils.convertEntityToDto(user, UserDto.class));
+        }
+        return dtos;
+    }
+
+    @Override
     public List<UserDto> findAllInclude(Pageable pageable, UserDto dto) {
         StringBuilder sql = new StringBuilder("SELECT * FROM USERS WHERE ( 1 = 1)");
         sql.append(addAndClause(pageable, dto));

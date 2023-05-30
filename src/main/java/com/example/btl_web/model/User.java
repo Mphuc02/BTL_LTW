@@ -18,6 +18,7 @@ public class User implements Serializable {
     private List<Blog> blogs;
     private List<Comment> comments;
     private List<Blog> likedBlog;
+    private Integer countBlog;
     public User(){
 
     }
@@ -132,5 +133,13 @@ public class User implements Serializable {
 
     public void setLikedBlog(List<Blog> likedBlog) {
         this.likedBlog = likedBlog;
+    }
+
+    public Integer getCountBlog() {
+        return countBlog;
+    }
+
+    public void setCountBlog(Integer countBlog) {
+        this.countBlog = countBlog;
     }
 }

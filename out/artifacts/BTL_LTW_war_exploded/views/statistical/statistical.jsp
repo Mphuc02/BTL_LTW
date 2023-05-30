@@ -31,7 +31,7 @@
         </li>
         <c:forEach items="${Like}" var = "o">
           <li class="phanTu">
-            <a href="#" class="truyenmoinhat__duongdan">
+            <a href="/blogs/${o.blogId}" class="truyenmoinhat__duongdan">
               <p class="truyen__icon">
                 ${o.title}
                 <i>${o.num_Like}</i>
@@ -53,7 +53,7 @@
         </li>
         <c:forEach items="${Cmt}" var="o">
           <li class="phanTu">
-            <a href="#" class="truyenmoinhat__duongdan">
+            <a href="/blogs/${o.blogId}" class="truyenmoinhat__duongdan">
               <p class="truyen__icon">
                 ${o.title}
                 <i>${o.num_Comment}</i>
@@ -71,7 +71,7 @@
       <ul class="truyen__moinhat-ds">
         <li class="deMuc">
           <h3>Tên thể loại</h3>
-          <h3 class="soluong">Số lượng</h3>
+          <h3 class="soluong">Số lượng truyện</h3>
         </li>
         <c:forEach items="${Cate}" var="o">
           <li class="phanTu">
@@ -88,15 +88,19 @@
 
     <div class="truyen__moinhat">
       <h2 class="truyen__tieuDe">
-        Truyện mới nhất
+        Tác giả viết nhiều truyện nhất
       </h2>
       <ul class="truyen__moinhat-ds">
-        <c:forEach items="${New}" var="o">
+        <li class="deMuc">
+          <h3>Tên tác giả</h3>
+          <h3 class="soluong">Số lượng</h3>
+        </li>
+        <c:forEach items="${cntBlog}" var="o">
           <li class="phanTu">
             <a href="#" class="truyenmoinhat__duongdan">
               <p class="truyen__icon">
-                ${o.title}
-                <i class="ti-angle-right"></i>
+                  ${o.fullName}
+                <i>${o.countBlog}</i>
               </p>
             </a>
           </li>

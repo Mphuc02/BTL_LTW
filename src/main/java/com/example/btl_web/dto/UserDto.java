@@ -17,6 +17,8 @@ public class UserDto {
     private Integer status;
     private Long lastAction;
     private Long uploadedBlog;
+
+    private Integer countBlog;
     private List<BlogDto> blogs;
     private List<CommentDto> comments;
     private List<BlogDto> likedBlog;
@@ -152,5 +154,13 @@ public class UserDto {
 
     public void setUploadedBlog(Long uploadedBlog) {
         this.uploadedBlog = uploadedBlog;
+    }
+
+    public Integer getCountBlog() {
+        return countBlog;
+    }
+
+    public void setCountBlog(Integer countBlog) {
+        this.countBlog = countBlog;
     }
 }

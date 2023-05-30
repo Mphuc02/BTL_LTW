@@ -43,6 +43,7 @@ public class HomeController extends HttpServlet {
 
         List<BlogDto> blogDtos = blogService.getAllBlogs(pageable,blogApproved);
         List<CategoryDto> categoryDtos = categoryService.findAll(null, null);
+        List<BlogDto> blogNew = blogService.BlogsNew(null,null);
 
         StringBuilder homeUrl = new StringBuilder(User.HOME_PAGE + "?" );
         if(categorySearch != null)
@@ -57,6 +58,7 @@ public class HomeController extends HttpServlet {
         request.setAttribute("home", homeUrl.toString());
         request.setAttribute("categories", categoryDtos);
         request.setAttribute("category_search", dto);
+        request.setAttribute("New",blogNew);
 
         request.getRequestDispatcher(User.HOME_JSP).forward(request, response);
     }
