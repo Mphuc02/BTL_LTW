@@ -99,6 +99,7 @@ public class BlogServiceImpl implements BlogService {
     public List<BlogDto> BlogsNew(Pageable pageable, BlogDto dto) {
         StringBuilder sql = new StringBuilder("SELECT * \n" +
                 "FROM blogs\n" +
+                "WHERE STATUS = 1\n" +
                 "ORDER BY created_at DESC\n" +
                 "LIMIT 5;\n");
 

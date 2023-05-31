@@ -37,8 +37,6 @@
             newUser.setRe_password(rePassWord);
             newUser.setEmail(email);
 
-           // String cookieValue = CookieUtils.getInstance().getValue(request, "JSESSIONID", request.getSession().getId()).toString();
-
             Gson gson = new Gson();
             String userJson = gson.toJson(newUser);
 
@@ -47,7 +45,6 @@
             HttpPost sendApi = new HttpPost(url);
             StringEntity params = new StringEntity(userJson, StandardCharsets.UTF_8);
             sendApi.addHeader("content-type", "application/json");
-            //sendApi.setHeader("Cookie", "JSESSIONID=" + cookieValue);
             sendApi.setEntity(params);
 
             //Nhận phản hồi
