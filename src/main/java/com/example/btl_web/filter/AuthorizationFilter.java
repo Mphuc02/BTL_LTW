@@ -36,7 +36,7 @@ public class AuthorizationFilter implements Filter {
                 }
                 else
                 {
-                    response.sendRedirect(request.getContextPath() + "/login?action=not_permission");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
                 }
             }
         }
@@ -50,7 +50,7 @@ public class AuthorizationFilter implements Filter {
             {
                 if(user == null)
                 {
-                    response.sendRedirect(request.getContextPath() + "/login?action=not_login");
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 }
                 else
                 {

@@ -31,7 +31,6 @@ public class CreateUser extends HttpServlet {
         {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             mapper.writeValue(resp.getOutputStream(), errors);
-            mapper.writeValue(resp.getOutputStream(), errors);
         }
         else
         {
