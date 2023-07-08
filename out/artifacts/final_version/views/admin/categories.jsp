@@ -197,7 +197,7 @@
                                                         <c:if test="${item.status == 1}">
                                                             <li>
                                                                 <form action="" method="post">
-                                                                    <input type="hidden" name="editMethod" value="POST">
+                                                                    <input type="hidden" name="editMethod" value="PUT">
                                                                     <input type="hidden" name="id" value="${item.categoryId}">
                                                                     <input type="hidden" name="status" value="0">
                                                                     <button>Ẩn thể loại này</button>
